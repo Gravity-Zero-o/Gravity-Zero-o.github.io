@@ -19,11 +19,17 @@
 ]]></content>
   </entry>
   <entry>
-    <title></title>
-    <url>/2021/08/22/a/</url>
-    <content><![CDATA[<h1 id="Tutorial-Integrating-Products-with-OSLC-Buzilla-Adaptor-source-code"><a href="#Tutorial-Integrating-Products-with-OSLC-Buzilla-Adaptor-source-code" class="headerlink" title="Tutorial: Integrating Products with OSLC - Buzilla Adaptor source code."></a>Tutorial: Integrating Products with OSLC - Buzilla Adaptor source code.</h1><p><a href="https://github.com/eclipse/lyo"><img src="https://img.shields.io/badge/project-Eclipse%20Lyo-blue?color=418eeb"></a><br><a href="https://forum.open-services.net/"><img src="https://img.shields.io/discourse/users?color=28bd84&server=https://forum.open-services.net/" alt="Discourse users"></a></p>
-<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>The main folder of this repository (<em>lyo-rest-workshop</em> folder) contains the source code for the OSLC (<a href="http://open-services.net/">Open Services for Lifecycle Collaboration</a>) tutorials, which walks you through building an adapter that adds OSLC support to the popular Bugzilla defect-tracking software.</p>
-<p>Please follow the tutorials from the <a href="https://oslc.github.io/developing-oslc-applications/tutorials.html">OSLC Developer Guide</a>.</p>
+    <title>A page to test</title>
+    <url>/2021/08/23/test/</url>
+    <content><![CDATA[<h2 id="那么开始吧"><a href="#那么开始吧" class="headerlink" title="那么开始吧"></a>那么开始吧</h2><p>这算是什么呢？开始写第一篇文章来测试一下</p>
 ]]></content>
+      <categories>
+        <category>first</category>
+        <category>second</category>
+      </categories>
+      <tags>
+        <tag>oh</tag>
+        <tag>wa</tag>
+      </tags>
   </entry>
 </search>
