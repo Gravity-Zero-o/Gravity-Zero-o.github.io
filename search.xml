@@ -1,19 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>A page to test</title>
-    <url>/2021/08/23/test/</url>
-    <content><![CDATA[<h2 id="那么开始吧"><a href="#那么开始吧" class="headerlink" title="那么开始吧"></a>那么开始吧</h2><p>这算是什么呢？开始写第一篇文章来测试一下</p>
-]]></content>
-      <categories>
-        <category>first</category>
-      </categories>
-      <tags>
-        <tag>oh</tag>
-        <tag>wa</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>写在第一篇</title>
     <url>/2021/08/23/Hello/</url>
     <content><![CDATA[<hr>
@@ -28,6 +15,19 @@
       </categories>
       <tags>
         <tag>记录</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>A page to test</title>
+    <url>/2021/08/23/test/</url>
+    <content><![CDATA[<h2 id="那么开始吧"><a href="#那么开始吧" class="headerlink" title="那么开始吧"></a>那么开始吧</h2><p>这算是什么呢？开始写第一篇文章来测试一下</p>
+]]></content>
+      <categories>
+        <category>first</category>
+      </categories>
+      <tags>
+        <tag>oh</tag>
+        <tag>wa</tag>
       </tags>
   </entry>
 </search>
