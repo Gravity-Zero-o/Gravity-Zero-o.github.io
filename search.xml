@@ -1,19 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>A page to test</title>
-    <url>/2021/08/23/test/</url>
-    <content><![CDATA[<h2 id="那么开始吧"><a href="#那么开始吧" class="headerlink" title="那么开始吧"></a>那么开始吧</h2><p>这算是什么呢？开始写第一篇文章来测试一下</p>
-]]></content>
-      <categories>
-        <category>first</category>
-      </categories>
-      <tags>
-        <tag>oh</tag>
-        <tag>wa</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>写在第一篇</title>
     <url>/2021/08/23/Hello/</url>
     <content><![CDATA[<hr>
@@ -28,6 +15,60 @@
       </categories>
       <tags>
         <tag>记录</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OpenFOAM中的离散</title>
+    <url>/2021/08/27/OpenFOAM%E4%B8%AD%E7%9A%84%E7%A6%BB%E6%95%A3/</url>
+    <content><![CDATA[<h3 id="1-计算域离散"><a href="#1-计算域离散" class="headerlink" title="1. 计算域离散"></a>1. 计算域离散</h3><p>计算域的离散</p>
+<ul>
+<li><p>空间离散——网格划分</p>
+</li>
+<li><p>时间离散——时间步</p>
+<p>空间离散之后网格信息储存在 **/constant/polyMesh **,可以从以下几个层次进行描述</p>
+<ul>
+<li>points ： 点，包含点的坐标向量信息的列表</li>
+<li>faces ：面，包含面信息的了表，由点的编号进行定义，即每个面由哪几个点组成 <ul>
+<li>boundary faces: 边界面，位于计算域边界的网格面</li>
+<li>internal faces : 内部面，除了边界面以外的网格面</li>
+</ul>
+</li>
+<li> cells ：网格单元，包含网格单元信息的列表，由于一个网格面可能同时作为2个组成面，因此将从属关系分为<strong>owner</strong> 和<strong>neighbor</strong> </li>
+<li>boundary ：包含边界信息的列表，包括<em>边界类型名</em> 、<em>组别组名</em> 、<em>网格面数量</em> 、<em>起始网格编号</em> </li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//这是名字为boundary的网格文件</span><br><span class="line">4   //表示4个</span><br><span class="line">(</span><br><span class="line">    rotor  //组别名</span><br><span class="line">    &#123;</span><br><span class="line">        type            wall;  //类型</span><br><span class="line">        inGroups        List&lt;word&gt; 1(wall);</span><br><span class="line">        nFaces          192;   //数量</span><br><span class="line">        startFace       5952;  //起始编号</span><br><span class="line">    &#125;</span><br><span class="line">    stator</span><br><span class="line">    &#123;</span><br><span class="line">        type            wall;</span><br><span class="line">        inGroups        List&lt;word&gt; 1(wall);</span><br><span class="line">        nFaces          192;</span><br><span class="line">        startFace       6144;   //5952+192=6144</span><br><span class="line">    &#125;</span><br><span class="line">    front</span><br><span class="line">    &#123;</span><br><span class="line">        type            empty;</span><br><span class="line">        inGroups        List&lt;word&gt; 1(empty);</span><br><span class="line">        nFaces          3072;</span><br><span class="line">        startFace       6336;   //6144+192=6336</span><br><span class="line">    &#125;</span><br><span class="line">    back</span><br><span class="line">    &#123;</span><br><span class="line">        type            empty;</span><br><span class="line">        inGroups        List&lt;word&gt; 1(empty);</span><br><span class="line">        nFaces          3072;</span><br><span class="line">        startFace       9408;</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<ul>
+<li><p><strong>polyMesh</strong> 包含了网格的基本信息，openFOAM存储网格不同类型的数据，提供了 <strong>Field</strong> 类，常用的标量 <strong>scalarField</strong> 、矢量 <strong>vectorField</strong> 、张量<strong>tensorField</strong> 和 对称张量<strong>symmTensorField</strong> </p>
+</li>
+<li><p>在polyMesh基础上，建立了fvMesh类，存储有限体积离散所需要的数据，由此产生了两类：<strong>surface&lt;Field类&gt;</strong> 和 <strong>vol&lt;Field类&gt;</strong> </p>
+</li>
+<li><p>为了将流场数据存储至网格，openFOAM提供了<strong>geometricField</strong> 类模板</p>
+<ul>
+<li><p>vol&lt;Field类&gt; ：存储于网格单元中心，在求解器中应用较多</p>
+</li>
+<li><p>surface&lt;Field类&gt; ：存储于网格面，在边界条件中应用较为广泛</p>
+</li>
+<li><p>point&lt;Field类&gt; ：存储于网格节点</p>
+<hr>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-方程的空间离散"><a href="#2-方程的空间离散" class="headerlink" title="2. 方程的空间离散"></a>2. 方程的空间离散</h3><pre><code>   #####  在上一节中讨论了离散的第一步——计算域的离散，包括时间和空间的离散，揭示了数据的储存问题，本节对方程的离散进行解析
+</code></pre>
+<p>没怎么看明白 2021 8 26</p>
+]]></content>
+      <categories>
+        <category>CFD</category>
+      </categories>
+      <tags>
+        <tag>OpenFOAM</tag>
       </tags>
   </entry>
 </search>

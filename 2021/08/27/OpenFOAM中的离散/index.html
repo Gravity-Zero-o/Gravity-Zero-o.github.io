@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OpenFOAM中的离散 - Kowlski&#39;s Coffee</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="1. 计算域离散计算域的离散
+
+空间离散——网格划分
+
+时间离散——时间步
+空间离散之后网格信息储存在 **/constant/polyMesh **,可以从以下几个层次进行描述
+
+points ：,"> 
+    <meta name="author" content="Gravitykole"> 
+    <link rel="alternative" href="atom.xml" title="Kowlski&#39;s Coffee" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon_1.png"> 
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Kowlski&#39;s Coffee</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://example.com"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">OpenFOAM中的离散</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">OpenFOAM中的离散</h1>
+        <div class="stuff">
+            <span>八月 27, 2021</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/OpenFOAM/" rel="tag">OpenFOAM</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h3 id="1-计算域离散"><a href="#1-计算域离散" class="headerlink" title="1. 计算域离散"></a>1. 计算域离散</h3><p>计算域的离散</p>
+<ul>
+<li><p>空间离散——网格划分</p>
+</li>
+<li><p>时间离散——时间步</p>
+<p>空间离散之后网格信息储存在 **/constant/polyMesh **,可以从以下几个层次进行描述</p>
+<ul>
+<li>points ： 点，包含点的坐标向量信息的列表</li>
+<li>faces ：面，包含面信息的了表，由点的编号进行定义，即每个面由哪几个点组成 <ul>
+<li>boundary faces: 边界面，位于计算域边界的网格面</li>
+<li>internal faces : 内部面，除了边界面以外的网格面</li>
+</ul>
+</li>
+<li> cells ：网格单元，包含网格单元信息的列表，由于一个网格面可能同时作为2个组成面，因此将从属关系分为<strong>owner</strong> 和<strong>neighbor</strong> </li>
+<li>boundary ：包含边界信息的列表，包括<em>边界类型名</em> 、<em>组别组名</em> 、<em>网格面数量</em> 、<em>起始网格编号</em> </li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">//这是名字为boundary的网格文件</span><br><span class="line">4   //表示4个</span><br><span class="line">(</span><br><span class="line">    rotor  //组别名</span><br><span class="line">    &#123;</span><br><span class="line">        type            wall;  //类型</span><br><span class="line">        inGroups        List&lt;word&gt; 1(wall);</span><br><span class="line">        nFaces          192;   //数量</span><br><span class="line">        startFace       5952;  //起始编号</span><br><span class="line">    &#125;</span><br><span class="line">    stator</span><br><span class="line">    &#123;</span><br><span class="line">        type            wall;</span><br><span class="line">        inGroups        List&lt;word&gt; 1(wall);</span><br><span class="line">        nFaces          192;</span><br><span class="line">        startFace       6144;   //5952+192=6144</span><br><span class="line">    &#125;</span><br><span class="line">    front</span><br><span class="line">    &#123;</span><br><span class="line">        type            empty;</span><br><span class="line">        inGroups        List&lt;word&gt; 1(empty);</span><br><span class="line">        nFaces          3072;</span><br><span class="line">        startFace       6336;   //6144+192=6336</span><br><span class="line">    &#125;</span><br><span class="line">    back</span><br><span class="line">    &#123;</span><br><span class="line">        type            empty;</span><br><span class="line">        inGroups        List&lt;word&gt; 1(empty);</span><br><span class="line">        nFaces          3072;</span><br><span class="line">        startFace       9408;</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<ul>
+<li><p><strong>polyMesh</strong> 包含了网格的基本信息，openFOAM存储网格不同类型的数据，提供了 <strong>Field</strong> 类，常用的标量 <strong>scalarField</strong> 、矢量 <strong>vectorField</strong> 、张量<strong>tensorField</strong> 和 对称张量<strong>symmTensorField</strong> </p>
+</li>
+<li><p>在polyMesh基础上，建立了fvMesh类，存储有限体积离散所需要的数据，由此产生了两类：<strong>surface&lt;Field类&gt;</strong> 和 <strong>vol&lt;Field类&gt;</strong> </p>
+</li>
+<li><p>为了将流场数据存储至网格，openFOAM提供了<strong>geometricField</strong> 类模板</p>
+<ul>
+<li><p>vol&lt;Field类&gt; ：存储于网格单元中心，在求解器中应用较多</p>
+</li>
+<li><p>surface&lt;Field类&gt; ：存储于网格面，在边界条件中应用较为广泛</p>
+</li>
+<li><p>point&lt;Field类&gt; ：存储于网格节点</p>
+<hr>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-方程的空间离散"><a href="#2-方程的空间离散" class="headerlink" title="2. 方程的空间离散"></a>2. 方程的空间离散</h3><pre><code>   #####  在上一节中讨论了离散的第一步——计算域的离散，包括时间和空间的离散，揭示了数据的储存问题，本节对方程的离散进行解析
+</code></pre>
+<p>没怎么看明白 2021 8 26</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://link.hhtjim.com/163/425570952.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://link.hhtjim.com/163/425570952.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o='Gravity-Zero-o'
+        data-a='Gravity-Zero-o'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</html>
