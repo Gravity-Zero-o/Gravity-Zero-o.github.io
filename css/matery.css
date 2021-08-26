@@ -3,6 +3,8 @@
 @media only screen and (max-width: 601px) {
     .container {
         width: 95%;
+    }header .brand-logo .logo-img{
+        display: none;
     }
 }
 
