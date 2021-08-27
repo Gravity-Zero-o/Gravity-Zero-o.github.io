@@ -38,7 +38,38 @@
 </ul>
 </li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//这是名字为boundary的网格文件</span><br><span class="line">4   //表示4个</span><br><span class="line">(</span><br><span class="line">    rotor  //组别名</span><br><span class="line">    &#123;</span><br><span class="line">        type            wall;  //类型</span><br><span class="line">        inGroups        List&lt;word&gt; 1(wall);</span><br><span class="line">        nFaces          192;   //数量</span><br><span class="line">        startFace       5952;  //起始编号</span><br><span class="line">    &#125;</span><br><span class="line">    stator</span><br><span class="line">    &#123;</span><br><span class="line">        type            wall;</span><br><span class="line">        inGroups        List&lt;word&gt; 1(wall);</span><br><span class="line">        nFaces          192;</span><br><span class="line">        startFace       6144;   //5952+192=6144</span><br><span class="line">    &#125;</span><br><span class="line">    front</span><br><span class="line">    &#123;</span><br><span class="line">        type            empty;</span><br><span class="line">        inGroups        List&lt;word&gt; 1(empty);</span><br><span class="line">        nFaces          3072;</span><br><span class="line">        startFace       6336;   //6144+192=6336</span><br><span class="line">    &#125;</span><br><span class="line">    back</span><br><span class="line">    &#123;</span><br><span class="line">        type            empty;</span><br><span class="line">        inGroups        List&lt;word&gt; 1(empty);</span><br><span class="line">        nFaces          3072;</span><br><span class="line">        startFace       9408;</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">//这是名字为boundary的网格文件
+4   //表示4个
+(
+    rotor  //组别名
+    {
+        type            wall;  //类型
+        inGroups        List&lt;word&gt; 1(wall);
+        nFaces          192;   //数量
+        startFace       5952;  //起始编号
+    }
+    stator
+    {
+        type            wall;
+        inGroups        List&lt;word&gt; 1(wall);
+        nFaces          192;
+        startFace       6144;   //5952+192=6144
+    }
+    front
+    {
+        type            empty;
+        inGroups        List&lt;word&gt; 1(empty);
+        nFaces          3072;
+        startFace       6336;   //6144+192=6336
+    }
+    back
+    {
+        type            empty;
+        inGroups        List&lt;word&gt; 1(empty);
+        nFaces          3072;
+        startFace       9408;
+    }
+)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 
 
