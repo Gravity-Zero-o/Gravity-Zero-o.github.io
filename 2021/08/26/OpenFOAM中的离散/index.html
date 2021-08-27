@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="OpenFOAM中的离散, Kowlski&#39;s Coffee">
+    <meta name="keywords" content="Kowlski&#39;s Coffee">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>OpenFOAM中的离散 | Kowlski&#39;s Coffee</title>
+    <title>Kowlski&#39;s Coffee</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -310,12 +310,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">OpenFOAM中的离散</h1>
+                    <h1 class="description center-align post-title"></h1>
                 </div>
             </div>
         </div>
@@ -429,25 +429,12 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                    <div class="article-tag">
-                        
-                            <a href="/tags/OpenFOAM/">
-                                <span class="chip bg-color">OpenFOAM</span>
-                            </a>
-                        
-                    </div>
+                          <div class="article-tag">
+                            <span class="chip bg-color">No tag</span>
+                          </div>
                     
                 </div>
                 <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/CFD/" class="post-category">
-                                CFD
-                            </a>
-                        
-                    </div>
                     
                 </div>
             </div>
@@ -477,7 +464,9 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="1-计算域离散"><a href="#1-计算域离散" class="headerlink" title="1. 计算域离散"></a>1. 计算域离散</h3><p>计算域的离散</p>
+                <hr>
+<p>title: OpenFOAM中的离散<br>date: 2021-8-26 18:38:45<br>categories:<br>    - CFD<br>tags:<br>    - OpenFOAM</p>
+<h2 id="cover-https-p1-ssl-qhmsg-com-dr-270-500-t01e707370f467d8b78-png"><a href="#cover-https-p1-ssl-qhmsg-com-dr-270-500-t01e707370f467d8b78-png" class="headerlink" title="cover: https://p1.ssl.qhmsg.com/dr/270_500_/t01e707370f467d8b78.png"></a>cover: <a target="_blank" rel="noopener" href="https://p1.ssl.qhmsg.com/dr/270_500_/t01e707370f467d8b78.png">https://p1.ssl.qhmsg.com/dr/270_500_/t01e707370f467d8b78.png</a></h2><h3 id="1-计算域离散"><a href="#1-计算域离散" class="headerlink" title="1. 计算域离散"></a>1. 计算域离散</h3><p>计算域的离散</p>
 <ul>
 <li><p>空间离散——网格划分</p>
 </li>
@@ -517,9 +506,12 @@
 </ul>
 </li>
 </ul>
-<h3 id="2-方程的空间离散"><a href="#2-方程的空间离散" class="headerlink" title="2. 方程的空间离散"></a>2. 方程的空间离散</h3><pre><code>   #####  在上一节中讨论了离散的第一步——计算域的离散，包括时间和空间的离散，揭示了数据的储存问题，本节对方程的离散进行解析
-</code></pre>
-<p>没怎么看明白 2021 8 26</p>
+<h3 id="2-方程的空间离散"><a href="#2-方程的空间离散" class="headerlink" title="2. 方程的空间离散"></a>2. 方程的空间离散</h3><h4 id="在上一节中讨论了离散的第一步——计算域的离散，包括时间和空间的离散，揭示了数据的储存问题，本节对方程的离散进行解析"><a href="#在上一节中讨论了离散的第一步——计算域的离散，包括时间和空间的离散，揭示了数据的储存问题，本节对方程的离散进行解析" class="headerlink" title="在上一节中讨论了离散的第一步——计算域的离散，包括时间和空间的离散，揭示了数据的储存问题，本节对方程的离散进行解析"></a>在上一节中讨论了离散的第一步——计算域的离散，包括时间和空间的离散，揭示了数据的储存问题，本节对方程的离散进行解析</h4><p>在CFD中，控制方程的通用形式可写为<br>$$<br>\frac{\part \rho\phi}{\part t}+\nabla\cdot(\rho U \phi)-\nabla\cdot(\rho\Gamma_\phi\nabla\phi)=Y_\phi(\phi)<br>$$<br>式中： </p>
+<p>在离散时，通常将偏微分方程组离散为如下的代数方程组<br>$$<br>AX=b<br>$$<br>式中：<strong>A</strong>为储存代数方程的系数，采用 fvMatrix 类模板；<strong>x</strong>为变量组成的列向量，<strong>b</strong>为源向量，均采用geometricField类模板。</p>
+<p>偏微分方程的每一项均有 <strong>fvm</strong> (<em>finiteVolumeMethod</em>) 以及 <strong>fvc</strong> (<em>finiteVolumeCalculus</em>) 两种离散方式，其中 fvm 隐式计算，返回系数矩阵 fvMatrix 类，而 fvc 显式计算，返回geometricField 类，偏微分方程各项均可用 fvm 或 fvc 的形式进行离散，其格式为“ fvm::”和“ fvc::”</p>
+<p><em>张量运算和不同项的代码表示方法在《openFOAM编程指南》第一章有详细的介绍</em></p>
+<hr>
+<p>有限体积法将计算域划分为网格单元，即控制体。在单个控制体内，等式两边同时对控制体体积和时间进行积分<br>$$<br>\int_t^{t+\Delta t}[\frac{\partial}{\partial t}\int_V\rho\phi dV+\int_V\nabla\cdot(\rho U\phi)dV-\int_V\nabla\cdot(\rho\Gamma_\phi\nabla\phi)dV]dt=\int_t^{t+\Delta t}(\int_VY_\phi(\phi)dV)dt<br>$$</p>
 
                 
             </div>
@@ -546,7 +538,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://example.com/2021/08/27/OpenFOAM%E4%B8%AD%E7%9A%84%E7%A6%BB%E6%95%A3/">http://example.com/2021/08/27/OpenFOAM%E4%B8%AD%E7%9A%84%E7%A6%BB%E6%95%A3/</a>
+                    <a href="http://example.com/2021/08/26/OpenFOAM%E4%B8%AD%E7%9A%84%E7%A6%BB%E6%95%A3/">http://example.com/2021/08/26/OpenFOAM%E4%B8%AD%E7%9A%84%E7%A6%BB%E6%95%A3/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -583,11 +575,7 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            
-                                <a href="/tags/OpenFOAM/">
-                                    <span class="chip bg-color">OpenFOAM</span>
-                                </a>
-                            
+                            <span class="chip bg-color">No tag</span>
                         </div>
                     
                 </div>
@@ -762,13 +750,13 @@
                 <i class="far fa-dot-circle"></i>&nbsp;Current
             </div>
             <div class="card">
-                <a href="/2021/08/27/OpenFOAM%E4%B8%AD%E7%9A%84%E7%A6%BB%E6%95%A3/">
+                <a href="/2021/08/26/OpenFOAM%E4%B8%AD%E7%9A%84%E7%A6%BB%E6%95%A3/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="OpenFOAM中的离散">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">OpenFOAM中的离散</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -783,25 +771,13 @@
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/CFD/" class="post-category">
-                                    CFD
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Gravitykole
                             
                         </span>
                     </div>
                 </div>
 
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/OpenFOAM/">
-                        <span class="chip bg-color">OpenFOAM</span>
-                    </a>
-                    
-                </div>
                 
             </div>
         </div>
