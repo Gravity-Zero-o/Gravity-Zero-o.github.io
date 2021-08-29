@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>OSLC适配器开发（踩坑）指南</title>
+    <url>/2021/08/29/OSLC%E9%80%82%E9%85%8D%E5%99%A8%E5%BC%80%E5%8F%91%EF%BC%88%E8%B8%A9%E5%9D%91%EF%BC%89%E6%8C%87%E5%8D%97/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>Technology</category>
+      </categories>
+      <tags>
+        <tag>OSLC</tag>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>2021数模国赛记录</title>
     <url>/2021/08/29/2021%E6%95%B0%E6%A8%A1%E5%9B%BD%E8%B5%9B%E8%AE%B0%E5%BD%95/</url>
     <content><![CDATA[<p>报名了2021年9月份的数学建模国赛，不过由于疫情原因，延迟了开学，于是就在线上和大家交流</p>
@@ -29,18 +41,6 @@
       <tags>
         <tag>Typora</tag>
         <tag>Markdown</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>OSLC适配器开发（踩坑）指南</title>
-    <url>/2021/08/29/OSLC%E9%80%82%E9%85%8D%E5%99%A8%E5%BC%80%E5%8F%91%EF%BC%88%E8%B8%A9%E5%9D%91%EF%BC%89%E6%8C%87%E5%8D%97/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>Technology</category>
-      </categories>
-      <tags>
-        <tag>OSLC</tag>
-        <tag>JAVA</tag>
       </tags>
   </entry>
   <entry>

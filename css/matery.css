@@ -2145,3 +2145,9 @@ p.search-result-summary{
     padding: 0;
     margin: 0;
 }
+
+.reprint__type{
+      display: inline-block;
+      width: 100%;
+      overflow: hidden;
+   }
