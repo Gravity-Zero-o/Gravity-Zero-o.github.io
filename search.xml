@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>写在第一篇</title>
-    <url>/project/2021/08/27/Hello/</url>
+    <url>/2021/08/27/Hello/</url>
     <content><![CDATA[<hr>
 <p>​                这是我的第一篇文章，其实也不算是第一篇了，在大一下学期时候，那个寒假连接着暑假的一百多天里，接触到了一些关于网络安全、博客、安卓等方面的内容，也算是刚刚开始，那个时候就在 <em>github+hexo</em> 的模式下写了一个 <em>blog</em>，不过当时感觉没什么可以写的，后来就一直荒废了。</p>
 <p>​                但是我又开始了，看到《工程流体力学》的老师自我介绍时候说大家可以去访问他的个人主页，这是一个自己搭建的，感觉很不错，所以我也想，应该把丢下的 <em>blog</em> 捡起来。正好前几个月一直在用 <em>markdown</em> 来写东西，记录金工实习和志愿者等一些事情。</p>
@@ -20,7 +20,7 @@
   </entry>
   <entry>
     <title>OpenFOAM中的离散</title>
-    <url>/project/2021/08/27/OpenFOAM%E4%B8%AD%E7%9A%84%E7%A6%BB%E6%95%A3/</url>
+    <url>/2021/08/27/OpenFOAM%E4%B8%AD%E7%9A%84%E7%A6%BB%E6%95%A3/</url>
     <content><![CDATA[<h3 id="1-计算域离散"><a href="#1-计算域离散" class="headerlink" title="1. 计算域离散"></a>1. 计算域离散</h3><p>计算域的离散</p>
 <ul>
 <li><p>空间离散——网格划分</p>
