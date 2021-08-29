@@ -343,7 +343,7 @@
                     var typed = new Typed("#subtitle", {
                         strings: [ 
                             
-                                "Tout le monde est le bienvenu",
+                                "You have to believe in yourself. That&#39;s the secret of success.",
                             
                                 "Willkommen Freunde zum Spielen",
                             
@@ -593,7 +593,7 @@
                 type: 'pie',
                 radius: '50%',
                 color: ['#6772e5', '#ff9e0f', '#fa755a', '#3ecf8e', '#82d3f4', '#ab47bc', '#525f7f', '#f51c47', '#26A69A'],
-                data: [{"name":"Markdown","value":1},{"name":"CFD","value":1}],
+                data: [{"name":"CFD","value":1},{"name":"Markdown","value":1}],
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
@@ -617,7 +617,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: ["Typora","Markdown","OpenFOAM"]
+                data: ["OpenFOAM","Typora","Markdown"]
             }
         ],
         yAxis: [
@@ -789,6 +789,12 @@
         <div class="tag-chips center-align">
             
             
+            <a href="/project/tags/OpenFOAM/">
+                <span class="chip center-align waves-effect waves-light chip-default">OpenFOAM</span>
+            </a>
+            
+            
+            
             <a href="/project/tags/Typora/">
                 <span class="chip center-align waves-effect waves-light chip-default">Typora</span>
             </a>
@@ -797,12 +803,6 @@
             
             <a href="/project/tags/Markdown/">
                 <span class="chip center-align waves-effect waves-light chip-default">Markdown</span>
-            </a>
-            
-            
-            
-            <a href="/project/tags/OpenFOAM/">
-                <span class="chip center-align waves-effect waves-light chip-default">OpenFOAM</span>
             </a>
             
             
@@ -878,8 +878,6 @@
             
             
             
-                
-            
             
                 <span id="busuanzi_container_site_pv">
                 &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;Total visits:&nbsp;
@@ -899,7 +897,7 @@
             <br>
             
         </div>
-        <div class="col s12 m4 l4 social-link social-statis">
+        <div class="col s12 m4 l4 social-link ">
     <a href="https://github.com/Gravity-Zero-o" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
@@ -1070,8 +1068,6 @@ $(function () {
     <script src="/project/libs/others/clicklove.js" async="async"></script>
     
     
-    <script async src="/project/libs/others/busuanzi.pure.mini.js"></script>
-    
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
         integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
@@ -1090,6 +1086,10 @@ $(function () {
     
     
 
+    
+    
+    <script type="text/javascript" size="150" alpha='0.6'
+        zIndex="-1" src="/project/libs/background/ribbon.min.js" async="async"></script>
     
 
     
