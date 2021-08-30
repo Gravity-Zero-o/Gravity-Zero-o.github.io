@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>写在第一篇</title>
+    <url>/2021/08/27/Hello/</url>
+    <content><![CDATA[<hr>
+<p>​                这是我的第一篇文章，其实也不算是第一篇了，在大一下学期时候，那个寒假连接着暑假的一百多天里，接触到了一些关于网络安全、博客、安卓等方面的内容，也算是刚刚开始，那个时候就在 <em>github+hexo</em> 的模式下写了一个 <em>blog</em>，不过当时感觉没什么可以写的，后来就一直荒废了。</p>
+<p>​                但是我又开始了，看到《工程流体力学》的老师自我介绍时候说大家可以去访问他的个人主页，这是一个自己搭建的，感觉很不错，所以我也想，应该把丢下的 <em>blog</em> 捡起来。正好前几个月一直在用 <em>markdown</em> 来写东西，记录金工实习和志愿者等一些事情。</p>
+<p>​                嗯，写一些什么呢？</p>
+<hr>
+<p>​                快开学了，从长空学院离开，写一些回忆录？不过这里市公共网络，不合适吧，但确实要写一下回忆录，记录一下。另外，空气动力学应该写一些，关于小安德森教授写的 <em>《空气动力学基础》</em> 的笔记？也许吧</p>
+]]></content>
+      <categories>
+        <category>Markdown</category>
+      </categories>
+      <tags>
+        <tag>Typora</tag>
+        <tag>Markdown</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>2021数模国赛记录</title>
     <url>/2021/08/29/2021%E6%95%B0%E6%A8%A1%E5%9B%BD%E8%B5%9B%E8%AE%B0%E5%BD%95/</url>
     <content><![CDATA[<p>报名了2021年9月份的数学建模国赛，不过由于疫情原因，延迟了开学，于是就在线上和大家交流</p>
@@ -11,52 +29,6 @@
       <tags>
         <tag>Math</tag>
         <tag>Matlab</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>OSLC开发（踩坑）指南</title>
-    <url>/2021/08/29/OSLC%E9%80%82%E9%85%8D%E5%99%A8%E5%BC%80%E5%8F%91%EF%BC%88%E8%B8%A9%E5%9D%91%EF%BC%89%E6%8C%87%E5%8D%97/</url>
-    <content><![CDATA[<h3 id="模型转换"><a href="#模型转换" class="headerlink" title="模型转换"></a>模型转换</h3><p>计划是开发CAD和CAE插件，从而使得模型可以转化为 RDF 文件，三元组来描述模型的特征。目前还没有选择软件，也没有研究明白怎么转换，也没看懂怎么展示rdf。</p>
-<p>但我们看到了 Simulink 的模型转化的代码。（<em>Simulink是<a href="https://baike.baidu.com/item/%E7%BE%8E%E5%9B%BD/125486">美国</a><a href="https://baike.baidu.com/item/Mathworks/5887044">Mathworks</a>公司推出的<a href="https://baike.baidu.com/item/MATLAB/263035">MATLAB</a>中的一种可视化仿真工具。Simulink是一个模块图环境，用于多域<a href="https://baike.baidu.com/item/%E4%BB%BF%E7%9C%9F/4330029">仿真</a>以及基于模型的设计</em>）</p>
-<p>Simulink 的模型后缀名是 “**.slx<strong>”，我们使用 Matlab 的函数来将这些 .slx 文件转化为以</strong>XML**格式存储的文件中。函数文件很多，但理解起来并不难。主要是各个函数的调用。其核心思想是读取 .slx 结尾的文件内容，将相应的内容通过文件输入输出流写入xml标准文件中并储存。</p>
-<hr>
-<h3 id="数据上传"><a href="#数据上传" class="headerlink" title="数据上传"></a>数据上传</h3><p>数据上传使用 <strong>Subversion</strong> ，Apache Subversion 通常被缩写成 SVN，是一个开放源代码的版本控制系统。SVN 相对于的 RCS、CVS，采用了分支管理系统，它的设计目标就是取代 CVS 。互联网上免费的版本控制服务多基于Subversion。</p>
-<p>在这里我们使用了 <strong>Subversion Edge</strong>，图形化的操作界面，在浏览器上普通的交互就可以进行版本控制和仓库的操作。其使用也很简单，总的来说是将这个svn Edge 安装在远程的服务器上，然后配置连接的代理和端口，就可以将本地文件上传到服务器的仓库中。</p>
-<blockquote>
-<p><em>The default administrator login is:</em></p>
-<p><em>Address: <a href="http://localhost:3343/csvn">http://localhost:3343/csvn</a></em></p>
-<p><em>Username: admin</em></p>
-<p><em>Password: admin</em></p>
-</blockquote>
-<p>添加项目库，在浏览器中打开<a href="http://localhost:3343/csvn">http://localhost:3343/csvn</a> （如果是服务端的话，请用服务器IP地址取代 localhost ），以 admin/admin登录。点击菜单栏 “Repositories”——“new Repository” ， 在 Name 中输入 code 项目库名，再点击右下角的 Create 按钮即可。</p>
-<pre class="line-numbers language-none"><code class="language-none">1、将文件checkout到本地目录
-svn checkout path（path是服务器上的目录）
-例如：svn checkout svn://192.168.168.159:18080/pro/domain
-简写：svn co 
-
-2、往版本库中添加新的文 件
-svn add file
-例如：svn add test.php(添加test.php)
-svn add *.php(添加当前目录下所有的php文件) 
-
-3、将改动的文件提交到版 本库
-svn commit -m "LogMessage" [-N] [--no-unlock] PATH(如果选择了保持锁，就使用--no-unlock开关)
-例如：svn commit -m "add test file for my test" test.php
-简写：svn ci <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<img src="C:\Users\lenovo\Desktop\adding.png" style="zoom:65%;">
-
-<hr>
-<h3 id="数据库储存"><a href="#数据库储存" class="headerlink" title="数据库储存"></a>数据库储存</h3><p>我们计划使用图形数据库<strong>Neo4j</strong>，相比于关系型数据库 SQL ，图像数据库更能满足数据之间复杂的联系。</p>
-<p>目前已经熟练掌握数据库的 <em>增查删改</em> 语句，也实现了数据库读取并储存 RDF 文件，不过目前还没实现如何理解数据库储存的数据以及如何从 SVN 仓库上传到数据库里。</p>
-<p>2021年8月29日，暂时写到这里…</p>
-]]></content>
-      <categories>
-        <category>Technology</category>
-      </categories>
-      <tags>
-        <tag>OSLC</tag>
-        <tag>JAVA</tag>
       </tags>
   </entry>
   <entry>
@@ -148,21 +120,49 @@ svn commit -m "LogMessage" [-N] [--no-unlock] PATH(如果选择了保持锁，�
       </tags>
   </entry>
   <entry>
-    <title>写在第一篇</title>
-    <url>/2021/08/27/Hello/</url>
-    <content><![CDATA[<hr>
-<p>​                这是我的第一篇文章，其实也不算是第一篇了，在大一下学期时候，那个寒假连接着暑假的一百多天里，接触到了一些关于网络安全、博客、安卓等方面的内容，也算是刚刚开始，那个时候就在 <em>github+hexo</em> 的模式下写了一个 <em>blog</em>，不过当时感觉没什么可以写的，后来就一直荒废了。</p>
-<p>​                但是我又开始了，看到《工程流体力学》的老师自我介绍时候说大家可以去访问他的个人主页，这是一个自己搭建的，感觉很不错，所以我也想，应该把丢下的 <em>blog</em> 捡起来。正好前几个月一直在用 <em>markdown</em> 来写东西，记录金工实习和志愿者等一些事情。</p>
-<p>​                嗯，写一些什么呢？</p>
+    <title>OSLC开发（踩坑）指南</title>
+    <url>/2021/08/29/OSLC%E9%80%82%E9%85%8D%E5%99%A8%E5%BC%80%E5%8F%91%EF%BC%88%E8%B8%A9%E5%9D%91%EF%BC%89%E6%8C%87%E5%8D%97/</url>
+    <content><![CDATA[<h3 id="模型转换"><a href="#模型转换" class="headerlink" title="模型转换"></a>模型转换</h3><p>计划是开发CAD和CAE插件，从而使得模型可以转化为 RDF 文件，三元组来描述模型的特征。目前还没有选择软件，也没有研究明白怎么转换，也没看懂怎么展示rdf。</p>
+<p>但我们看到了 Simulink 的模型转化的代码。（<em>Simulink是<a href="https://baike.baidu.com/item/%E7%BE%8E%E5%9B%BD/125486">美国</a><a href="https://baike.baidu.com/item/Mathworks/5887044">Mathworks</a>公司推出的<a href="https://baike.baidu.com/item/MATLAB/263035">MATLAB</a>中的一种可视化仿真工具。Simulink是一个模块图环境，用于多域<a href="https://baike.baidu.com/item/%E4%BB%BF%E7%9C%9F/4330029">仿真</a>以及基于模型的设计</em>）</p>
+<p>Simulink 的模型后缀名是 “ <strong>.slx</strong> ”，我们使用 Matlab 的函数来将这些 .slx 文件转化为以 <strong>XML</strong> 格式存储的文件中。函数文件很多，但理解起来并不难。主要是各个函数的调用。其核心思想是读取 .slx 结尾的文件内容，将相应的内容通过文件输入输出流写入xml标准文件中并储存。</p>
 <hr>
-<p>​                快开学了，从长空学院离开，写一些回忆录？不过这里市公共网络，不合适吧，但确实要写一下回忆录，记录一下。另外，空气动力学应该写一些，关于小安德森教授写的 <em>《空气动力学基础》</em> 的笔记？也许吧</p>
+<h3 id="数据上传"><a href="#数据上传" class="headerlink" title="数据上传"></a>数据上传</h3><p>数据上传使用 <strong>Subversion</strong> ，Apache Subversion 通常被缩写成 SVN，是一个开放源代码的版本控制系统。SVN 相对于的 RCS、CVS，采用了分支管理系统，它的设计目标就是取代 CVS 。互联网上免费的版本控制服务多基于Subversion。</p>
+<p>在这里我们使用了 <strong>Subversion Edge</strong>，图形化的操作界面，在浏览器上普通的交互就可以进行版本控制和仓库的操作。其使用也很简单，总的来说是将这个svn Edge 安装在远程的服务器上，然后配置连接的代理和端口，就可以将本地文件上传到服务器的仓库中。</p>
+<blockquote>
+<p><em>The default administrator login is:</em></p>
+<p><em>Address: <a href="http://localhost:3343/csvn">http://localhost:3343/csvn</a></em></p>
+<p><em>Username: admin</em></p>
+<p><em>Password: admin</em></p>
+</blockquote>
+<p>添加项目库，在浏览器中打开<a href="http://localhost:3343/csvn">http://localhost:3343/csvn</a> （如果是服务端的话，请用服务器IP地址取代 localhost ），以 admin/admin登录。点击菜单栏 “Repositories”——“new Repository” ， 在 Name 中输入 code 项目库名，再点击右下角的 Create 按钮即可。</p>
+<pre class="line-numbers language-none"><code class="language-none">1、将文件checkout到本地目录
+svn checkout path（path是服务器上的目录）
+例如：svn checkout svn://192.168.168.159:18080/pro/domain
+简写：svn co 
+
+2、往版本库中添加新的文 件
+svn add file
+例如：svn add test.php(添加test.php)
+svn add *.php(添加当前目录下所有的php文件) 
+
+3、将改动的文件提交到版 本库
+svn commit -m "LogMessage" [-N] [--no-unlock] PATH(如果选择了保持锁，就使用--no-unlock开关)
+例如：svn commit -m "add test file for my test" test.php
+简写：svn ci <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<hr>
+<h3 id="数据库储存"><a href="#数据库储存" class="headerlink" title="数据库储存"></a>数据库储存</h3><p>我们计划使用图形数据库<strong>Neo4j</strong>，相比于关系型数据库 SQL ，图像数据库更能满足数据之间复杂的联系。</p>
+<p>目前已经熟练掌握数据库的 <em>增查删改</em> 语句，也实现了数据库读取并储存 RDF 文件，不过目前还没实现如何理解数据库储存的数据以及如何从 SVN 仓库上传到数据库里。</p>
+<p>2021年8月29日，暂时写到这里…</p>
 ]]></content>
       <categories>
-        <category>Markdown</category>
+        <category>Technology</category>
       </categories>
       <tags>
-        <tag>Typora</tag>
-        <tag>Markdown</tag>
+        <tag>OSLC</tag>
+        <tag>JAVA</tag>
       </tags>
   </entry>
 </search>
