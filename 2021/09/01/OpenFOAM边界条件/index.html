@@ -496,7 +496,25 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h2 id="1-边界类型"><a href="#1-边界类型" class="headerlink" title="1.边界类型"></a>1.边界类型</h2><ul>
+<li><p><strong>patch</strong>：基本边界，不包含网格几何或拓扑信息，常用于进口、出口、自由表面</p>
+</li>
+<li><p><strong>wall</strong>：壁面边界</p>
+</li>
+<li><p><strong>empty</strong>：二维求解中设置为第三方向的</p>
+</li>
+<li><p><strong>wedge</strong>：楔形边界，仅用于二维轴对称流动的模拟</p>
+</li>
+<li><p><strong>cyclic</strong>：周期性边界，用于模拟旋转周期和平移周期</p>
+</li>
+<li><p><strong>processor</strong>：并行计算网格切分交界面</p>
+</li>
+<li><p><strong>cyclicAMI</strong>：任意边界，用于耦合两个完全不一样的边界</p>
+</li>
+<li><p><strong>symmetry</strong> 和 <strong>symmetryPlane</strong>：边界两侧的流场互为镜像，前者是曲面，后者是平面</p>
+</li>
+</ul>
+
                 
             </div>
             <hr/>
