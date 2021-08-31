@@ -474,7 +474,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>Update Date:&nbsp;&nbsp;
-                    2021-08-29
+                    2021-08-31
                 </div>
                 
 
@@ -567,12 +567,51 @@
 </ul>
 </li>
 </ul>
-<h3 id="2-方程的空间离散"><a href="#2-方程的空间离散" class="headerlink" title="2. 方程的空间离散"></a>2. 方程的空间离散</h3><h4 id="在上一节中讨论了离散的第一步——计算域的离散，包括时间和空间的离散，揭示了数据的储存问题，本节对方程的离散进行解析"><a href="#在上一节中讨论了离散的第一步——计算域的离散，包括时间和空间的离散，揭示了数据的储存问题，本节对方程的离散进行解析" class="headerlink" title="在上一节中讨论了离散的第一步——计算域的离散，包括时间和空间的离散，揭示了数据的储存问题，本节对方程的离散进行解析"></a>在上一节中讨论了离散的第一步——计算域的离散，包括时间和空间的离散，揭示了数据的储存问题，本节对方程的离散进行解析</h4><p>在CFD中，控制方程的通用形式可写为<br>$$<br>\frac{\partial \rho\phi}{\partial t}+\nabla\cdot(\rho U \phi)-\nabla\cdot(\rho\Gamma_\phi\nabla\phi)=Y_\phi(\phi)<br>$$<br>式中： </p>
-<p>在离散时，通常将偏微分方程组离散为如下的代数方程组<br>$$<br>AX=b<br>$$<br>式中：<strong>A</strong>为储存代数方程的系数，采用 fvMatrix 类模板；<strong>x</strong>为变量组成的列向量，<strong>b</strong>为源向量，均采用geometricField类模板。</p>
+<h3 id="2-方程的空间离散"><a href="#2-方程的空间离散" class="headerlink" title="2. 方程的空间离散"></a>2. 方程的空间离散</h3><p><em>在上一节中讨论了离散的第一步——计算域的离散，包括时间和空间的离散，揭示了数据的储存问题，本节对方程的离散进行解析</em></p>
+<p>在CFD中，控制方程的通用形式可写为<br>$$<br>\frac{\partial \rho\phi}{\partial t}+\nabla\cdot(\rho\boldsymbol U \phi)-\nabla\cdot(\rho\Gamma_\phi\nabla\phi)=\boldsymbol Y_\phi(\phi)<br>$$<br>在离散时，通常将偏微分方程组离散为如下的代数方程组<br>$$<br>\boldsymbol AX=\boldsymbol b<br>$$<br>式中：<strong>A</strong>为储存代数方程的系数，采用 fvMatrix 类模板；<strong>x</strong>为变量组成的列向量，<strong>b</strong>为源向量，均采用geometricField类模板。</p>
 <p>偏微分方程的每一项均有 <strong>fvm</strong> (<em>finiteVolumeMethod</em>) 以及 <strong>fvc</strong> (<em>finiteVolumeCalculus</em>) 两种离散方式，其中 fvm 隐式计算，返回系数矩阵 fvMatrix 类，而 fvc 显式计算，返回geometricField 类，偏微分方程各项均可用 fvm 或 fvc 的形式进行离散，其格式为“ fvm::”和“ fvc::”</p>
 <p><em>张量运算和不同项的代码表示方法在《openFOAM编程指南》第一章有详细的介绍</em></p>
 <hr>
-<p>有限体积法将计算域划分为网格单元，即控制体。在单个控制体内，等式两边同时对控制体体积和时间进行积分<br>$$<br>\int_t^{t+\Delta t}[\frac{\partial}{\partial t}\int_V\rho\phi dV+\int_V\nabla\cdot(\rho U\phi)dV-\int_V\nabla\cdot(\rho\Gamma_\phi\nabla\phi)dV]dt=\int_t^{t+\Delta t}(\int_VY_\phi(\phi)dV)dt<br>$$</p>
+<p>有限体积法将计算域划分为网格单元，即控制体。在单个控制体内，等式两边同时对控制体体积和时间进行积分<br>$$<br>\int_t^{t+\Delta t}[\frac{\partial}{\partial t}\int_V\rho\phi dV+\int_V\nabla\cdot(\rho U\phi)dV-\int_V\nabla\cdot(\rho\Gamma_\phi\nabla\phi)dV]dt=\int_t^{t+\Delta t}(\int_V\boldsymbol Y_\phi(\phi)dV)dt<br>$$</p>
+<p>对数值计算而言，体积分是很难处理的，通常运用高斯定理将其转换为面积分<br>$$<br>\int_V \nabla\cdot \boldsymbol adV=\oint_{S_V}d \boldsymbol S_f\cdot\boldsymbol a<br>$$</p>
+<p>$$<br>\int_V\nabla\phi dV=\oint_{S_V}d\boldsymbol S_f\phi<br>$$</p>
+<p>$$<br>\int_V\nabla\boldsymbol a dV=\oint_{S_V}d\boldsymbol S_f\boldsymbol a<br>$$</p>
+<hr>
+<p>我们打开搅拌器算例，在 /system/fvSchemes 文件中可以看到</p>
+<ul>
+<li><strong>ddtSchemes</strong> 表示时间离散格式， <strong>gradSchemes</strong> 表示梯度项离散格式， <strong>laplacianSchemes</strong> 表示拉普拉斯项离散格式</li>
+<li><strong>interpolationSchemes</strong> 表示插值格式，由网格中心按照所选格式进行插值</li>
+<li><strong>divSchemes</strong> 是对流项和散度项的离散格式，只需要将网格中心的量插值到网格面上即可</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">格式名称</th>
+<th align="center">特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Gauss linear</td>
+<td align="center">二阶精度，无界</td>
+</tr>
+<tr>
+<td align="center">Gauss upwind</td>
+<td align="center">一阶精度，有界</td>
+</tr>
+<tr>
+<td align="center">Gauss linearUpwind</td>
+<td align="center">二阶精度，无界</td>
+</tr>
+<tr>
+<td align="center">Gauss QUICK</td>
+<td align="center">一或二，有界</td>
+</tr>
+<tr>
+<td align="center">Gauss TVD/NVD</td>
+<td align="center">一或二，有界</td>
+</tr>
+</tbody></table>
+<p><em>注：有界无界是数学的定义，表征函数或变量是否有最大及最下值限制，一般而言，无界格式易出现数值振荡</em></p>
 
                 
             </div>
@@ -688,19 +727,19 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2021/08/29/OSLC%E9%80%82%E9%85%8D%E5%99%A8%E5%BC%80%E5%8F%91%EF%BC%88%E8%B8%A9%E5%9D%91%EF%BC%89%E6%8C%87%E5%8D%97/">
+                <a href="/2021/08/29/2021%E6%95%B0%E6%A8%A1%E5%9B%BD%E8%B5%9B%E8%AE%B0%E5%BD%95/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="OSLC开发（踩坑）指南">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="2021数模国赛记录">
                         
-                        <span class="card-title">OSLC开发（踩坑）指南</span>
+                        <span class="card-title">2021数模国赛记录</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            参加OSLC大创的事情
+                            参加数模国赛
                         
                     </div>
                     <div class="publish-info">
@@ -711,8 +750,8 @@
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Technology/" class="post-category">
-                                    Technology
+                            <a href="/categories/Story/" class="post-category">
+                                    Story
                                 </a>
                             
                             
@@ -722,12 +761,12 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/OSLC/">
-                        <span class="chip bg-color">OSLC</span>
+                    <a href="/tags/Math/">
+                        <span class="chip bg-color">Math</span>
                     </a>
                     
-                    <a href="/tags/JAVA/">
-                        <span class="chip bg-color">JAVA</span>
+                    <a href="/tags/Matlab/">
+                        <span class="chip bg-color">Matlab</span>
                     </a>
                     
                 </div>
