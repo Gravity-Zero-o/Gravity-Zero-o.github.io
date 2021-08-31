@@ -61,6 +61,17 @@ svn commit -m "LogMessage" [-N] [--no-unlock] PATH(如果选择了保持锁，�
       </tags>
   </entry>
   <entry>
+    <title>OpenFOAM边界条件</title>
+    <url>/2021/09/01/OpenFOAM%E8%BE%B9%E7%95%8C%E6%9D%A1%E4%BB%B6/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>CFD</category>
+      </categories>
+      <tags>
+        <tag>OpenFOAM</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>OpenFOAM中的离散</title>
     <url>/2021/08/27/OpenFOAM%E4%B8%AD%E7%9A%84%E7%A6%BB%E6%95%A3/</url>
     <content><![CDATA[<h3 id="1-计算域离散"><a href="#1-计算域离散" class="headerlink" title="1. 计算域离散"></a>1. 计算域离散</h3><p>计算域的离散</p>
@@ -180,17 +191,6 @@ svn commit -m "LogMessage" [-N] [--no-unlock] PATH(如果选择了保持锁，�
 </tbody></table>
 <p><em>注：有界无界是数学的定义，表征函数或变量是否有最大及最下值限制，一般而言，无界格式易出现数值振荡</em></p>
 ]]></content>
-      <categories>
-        <category>CFD</category>
-      </categories>
-      <tags>
-        <tag>OpenFOAM</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>OpenFOAM边界条件</title>
-    <url>/2021/09/01/OpenFOAM%E8%BE%B9%E7%95%8C%E6%9D%A1%E4%BB%B6/</url>
-    <content><![CDATA[]]></content>
       <categories>
         <category>CFD</category>
       </categories>
