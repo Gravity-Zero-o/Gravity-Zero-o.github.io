@@ -555,21 +555,21 @@
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 <li><p>flowRateInletVelocity</p>
 <p>流量边界，用于给定进口或出口的质量流量或体积流量</p>
-<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">//1. 给定质量流量
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">//1. 给定质量流量</span>
 边界名                                            
-{
-    type	             flowRateInletVelocity;    
-    massFlowRate         0.2;         //质量流量，单位kg/s,流入为正
-    rho                  rho;		  //密度场名称，一般为rho
-    rhoInlet             1.0;         //初始密度，用于计算开始时未给定密度初始值的情况
-}
-//2. 给定体积流量
+<span class="token punctuation">{</span>
+    type	             flowRateInletVelocity<span class="token punctuation">;</span>    
+    massFlowRate         <span class="token number">0.2</span><span class="token punctuation">;</span>         <span class="token comment">//质量流量，单位kg/s,流入为正</span>
+    rho                  rho<span class="token punctuation">;</span>		  <span class="token comment">//密度场名称，一般为rho</span>
+    rhoInlet             <span class="token number">1.0</span><span class="token punctuation">;</span>         <span class="token comment">//初始密度，用于计算开始时未给定密度初始值的情况</span>
+<span class="token punctuation">}</span>
+<span class="token comment">//2. 给定体积流量</span>
 边界名
-{
-    type                 flowRateInletVelocity;
-    vloumetricFlowRate   0.2;          //体积流量 单位立方米每秒
-    value                uniform(0 0 0);//占位符，无意义
-}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<span class="token punctuation">{</span>
+    type                 flowRateInletVelocity<span class="token punctuation">;</span>
+    vloumetricFlowRate   <span class="token number">0.2</span><span class="token punctuation">;</span>          <span class="token comment">//体积流量 单位立方米每秒</span>
+    value                <span class="token function">uniform</span><span class="token punctuation">(</span><span class="token number">0</span> <span class="token number">0</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//占位符，无意义</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 <li><p>inletOutlet和outletInlet</p>
 <p>出口边界 / 进口边界 ，可以控制回流</p>
 <pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名

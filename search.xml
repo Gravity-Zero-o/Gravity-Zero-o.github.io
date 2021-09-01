@@ -32,148 +32,6 @@
       </tags>
   </entry>
   <entry>
-    <title>OSLC开发（踩坑）指南</title>
-    <url>/2021/08/29/OSLC%E9%80%82%E9%85%8D%E5%99%A8%E5%BC%80%E5%8F%91%EF%BC%88%E8%B8%A9%E5%9D%91%EF%BC%89%E6%8C%87%E5%8D%97/</url>
-    <content><![CDATA[<h3 id="模型转换"><a href="#模型转换" class="headerlink" title="模型转换"></a>模型转换</h3><p>计划是开发CAD和CAE插件，从而使得模型可以转化为 RDF 文件，三元组来描述模型的特征。目前还没有选择软件，也没有研究明白怎么转换，也没看懂怎么展示rdf。</p>
-<p>但我们看到了 Simulink 的模型转化的代码。（<em>Simulink是<a href="https://baike.baidu.com/item/%E7%BE%8E%E5%9B%BD/125486">美国</a><a href="https://baike.baidu.com/item/Mathworks/5887044">Mathworks</a>公司推出的<a href="https://baike.baidu.com/item/MATLAB/263035">MATLAB</a>中的一种可视化仿真工具。Simulink是一个模块图环境，用于多域<a href="https://baike.baidu.com/item/%E4%BB%BF%E7%9C%9F/4330029">仿真</a>以及基于模型的设计</em>）</p>
-<p>Simulink 的模型后缀名是 “  <strong>.slx</strong>  ”，我们使用 Matlab 的函数来将这些 .slx 文件转化为以 <strong>XML</strong> 格式存储的文件中。函数文件很多，但理解起来并不难。主要是各个函数的调用。其核心思想是读取 .slx 结尾的文件内容，将相应的内容通过文件输入输出流写入xml标准文件中并储存。</p>
-<p>最开始我们参考的 <em>Matlab</em> 函数是放在 <em>\edu.gatech.mbsec.adapter.simulink\matlab</em> 里，有“添加模块”、“添加信号线”、“将指定模型或模块对象上的参数设置为指定的值”、“打开模型”、“转化文件”、”确定文件目录“、”判断是否为空“这些函数。</p>
-<hr>
-<h3 id="数据上传"><a href="#数据上传" class="headerlink" title="数据上传"></a>数据上传</h3><p>数据上传使用 <strong>Subversion</strong> ，Apache Subversion 通常被缩写成 SVN，是一个开放源代码的版本控制系统。SVN 相对于的 RCS、CVS，采用了分支管理系统，它的设计目标就是取代 CVS 。互联网上免费的版本控制服务多基于Subversion。</p>
-<p>在这里我们使用了 <strong>Subversion Edge</strong>，图形化的操作界面，在浏览器上普通的交互就可以进行版本控制和仓库的操作。其使用也很简单，总的来说是将这个svn Edge 安装在远程的服务器上，然后配置连接的代理和端口，就可以将本地文件上传到服务器的仓库中。</p>
-<blockquote>
-<p><em>The default administrator login is:</em></p>
-<p><em>Address: <a href="http://localhost:3343/csvn">http://localhost:3343/csvn</a></em></p>
-<p><em>Username: admin</em></p>
-<p><em>Password: admin</em></p>
-</blockquote>
-<p>添加项目库，在浏览器中打开<a href="http://localhost:3343/csvn">http://localhost:3343/csvn</a> （如果是服务端的话，请用服务器IP地址取代 localhost ），以 admin/admin登录。点击菜单栏 “Repositories”——“new Repository” ， 在 Name 中输入 code 项目库名，再点击右下角的 Create 按钮即可。</p>
-<pre class="line-numbers language-none"><code class="language-none">1、将文件checkout到本地目录
-svn checkout path（path是服务器上的目录）
-例如：svn checkout svn://192.168.168.159:18080/pro/domain
-简写：svn co 
-
-2、往版本库中添加新的文 件
-svn add file
-例如：svn add test.php(添加test.php)
-svn add *.php(添加当前目录下所有的php文件) 
-
-3、将改动的文件提交到版 本库
-svn commit -m "LogMessage" [-N] [--no-unlock] PATH(如果选择了保持锁，就使用--no-unlock开关)
-例如：svn commit -m "add test file for my test" test.php
-简写：svn ci <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-
-
-<hr>
-<h3 id="数据库储存"><a href="#数据库储存" class="headerlink" title="数据库储存"></a>数据库储存</h3><p>我们计划使用图形数据库<strong>Neo4j</strong>，相比于关系型数据库 SQL ，图像数据库更能满足数据之间复杂的联系。</p>
-<p>目前已经熟练掌握数据库的 <em>增查删改</em> 语句，也实现了（<em>方法来源网络</em>）数据库读取并储存 RDF 文件，不过目前还没实现如何理解数据库储存的数据以及如何从 SVN 仓库上传到数据库里。</p>
-<p>2021年8月29日，暂时写到这里…</p>
-]]></content>
-      <categories>
-        <category>Technology</category>
-      </categories>
-      <tags>
-        <tag>OSLC</tag>
-        <tag>JAVA</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>OpenFOAM边界条件</title>
-    <url>/2021/09/01/OpenFOAM%E8%BE%B9%E7%95%8C%E6%9D%A1%E4%BB%B6/</url>
-    <content><![CDATA[<h2 id="1-边界类型"><a href="#1-边界类型" class="headerlink" title="1.边界类型"></a>1.边界类型</h2><p><strong>patch</strong>：基本边界，不包含网格几何或拓扑信息，常用于进口、出口、自由表面</p>
-<ul>
-<li><strong>wall</strong>：壁面边界</li>
-<li><strong>empty</strong>：二维求解中设置为第三方向的</li>
-<li><strong>wedge</strong>：楔形边界，仅用于二维轴对称流动的模拟</li>
-<li><strong>cyclic</strong>：周期性边界，用于模拟旋转周期和平移周期</li>
-<li><strong>processor</strong>：并行计算网格切分交界面</li>
-<li><strong>cyclicAMI</strong>：任意边界，用于耦合两个完全不一样的边界</li>
-<li><strong>symmetry</strong> 和 <strong>symmetryPlane</strong>：边界两侧的流场互为镜像，前者是曲面，后者是平面</li>
-</ul>
-<h2 id="2-边界条件类型"><a href="#2-边界条件类型" class="headerlink" title="2.边界条件类型"></a>2.边界条件类型</h2><p>边界条件在CFD中分两大类：<strong>Dirichlet <strong>边界和 <strong>Neumann</strong> 边界。其中，</strong>Dirichlet</strong> （迪利克雷）是定值边界条件，即边界上的物理量是固定值；而 <strong>Neumann</strong> （诺伊曼）是定梯度边界条件，即边界上的物理量的梯度是固定值。在OpenFOAM中，有很多边界条件，除壁面函数以外均位于 <em>/src/finiteVolume/fields/fvPatchFields</em> 以下是一些常用的边界条件。</p>
-<ul>
-<li><p>fixedValue</p>
-<p>Dirichlet边界条件是应用最广的边界条件之一，用于设定进出口速度、压力以及壁面速度等</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
-<span class="token punctuation">{</span>
-	type     fixedValue<span class="token punctuation">;</span>
-	value    uniform <span class="token number">0</span><span class="token punctuation">;</span>   <span class="token comment">//uniform 表示均匀分布，0表示物理量的值，若为矢量，则（0 0 0）等形式</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>zeroGradient</p>
-<p>Neumann 边界条件，表示边界的梯度为 0 ，常用于壁面处压力以及其余标量场如 nut 、epsilon 等的设置</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
-<span class="token punctuation">{</span>
-    type       zeroGradient<span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>壁面函数</p>
-<p>在网格不足以近似求解近壁面区流动时，需采用壁面函数建立近壁区流场。此时，针对涡粘系数（nut）、湍流能（k）、湍流能耗散率（epsilon）与湍流能比耗散率（omega）均应设置相应的壁面函数，目前还没看懂这些函数，先不写了。</p>
-</li>
-<li><p>slip</p>
-<p>滑移边界，对于变量，该边界等同于 zeroGradient ；对于矢量，则垂直于边界方向为 fixedValue ，且为 0 ，而平行于边界方向为 zeroGradient</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
-<span class="token punctuation">{</span>
-    type       slip<span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>movingWallVelocity</p>
-<p>运动壁面条件，用于设定壁面的速度</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
-<span class="token punctuation">{</span>
-    type	  movingWallVelocity<span class="token punctuation">;</span>
-    value     <span class="token function">uniform</span><span class="token punctuation">(</span><span class="token number">0</span> <span class="token number">0</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>*使用 MRF 模拟旋转流场时，必须将旋转域内壁面设置为movingWallVelocity，且速度值设为相对运动速度，对于一般的叶轮机械，由于叶片随转子旋转，此时壁面的相对运动速度为0</p>
-</li>
-<li><p>totalPressure</p>
-<p>用于给定边界的总压，常用于进口和出口</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
-<span class="token punctuation">{</span>
-    type	 totalPressure<span class="token punctuation">;</span>
-    U        U<span class="token punctuation">;</span>         <span class="token comment">//U为速度场名称，一般设置为U ，在某些使用相对速度Urel</span>
-    phi      phi<span class="token punctuation">;</span>       <span class="token comment">//通量场名称，一般为 phi</span>
-    rho      none<span class="token punctuation">;</span>      <span class="token comment">//密度场名称，不可流动为none,可流动为rho</span>
-    psi      none<span class="token punctuation">;</span>      <span class="token comment">//可压缩流场名称，亚音速可压缩流体以及不可压流体不考虑可压缩性对总压的影响，为none，其他为psi</span>
-    gamma    <span class="token number">1</span><span class="token punctuation">;</span>         <span class="token comment">//绝热常数，若求解不考虑传热，则该参数不生效</span>
-    value    uniform <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">//总压的值</span>
-        
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>flowRateInletVelocity</p>
-<p>流量边界，用于给定进口或出口的质量流量或体积流量</p>
-<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">//1. 给定质量流量
-边界名                                            
-{
-    type	             flowRateInletVelocity;    
-    massFlowRate         0.2;         //质量流量，单位kg/s,流入为正
-    rho                  rho;		  //密度场名称，一般为rho
-    rhoInlet             1.0;         //初始密度，用于计算开始时未给定密度初始值的情况
-}
-//2. 给定体积流量
-边界名
-{
-    type                 flowRateInletVelocity;
-    vloumetricFlowRate   0.2;          //体积流量 单位立方米每秒
-    value                uniform(0 0 0);//占位符，无意义
-}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>inletOutlet和outletInlet</p>
-<p>出口边界 / 进口边界 ，可以控制回流</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
-<span class="token punctuation">{</span>
-    type                 inletOutlet<span class="token punctuation">;</span>   <span class="token comment">//inletOutlet或outletInlet</span>
-    phi                  phi<span class="token punctuation">;</span>			<span class="token comment">//通量名称，判断流动方向，一般为phi</span>
-    inletValue           uniform <span class="token number">0</span><span class="token punctuation">;</span>		<span class="token comment">//出现回流时流动参数值</span>
-    value                uniform <span class="token number">0</span><span class="token punctuation">;</span>     <span class="token comment">//边界初始值</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-</ul>
-]]></content>
-      <categories>
-        <category>CFD</category>
-      </categories>
-      <tags>
-        <tag>OpenFOAM</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>OpenFOAM中的离散</title>
     <url>/2021/08/27/OpenFOAM%E4%B8%AD%E7%9A%84%E7%A6%BB%E6%95%A3/</url>
     <content><![CDATA[<h3 id="1-计算域离散"><a href="#1-计算域离散" class="headerlink" title="1. 计算域离散"></a>1. 计算域离散</h3><p>计算域的离散</p>
@@ -292,6 +150,148 @@ svn commit -m "LogMessage" [-N] [--no-unlock] PATH(如果选择了保持锁，�
 </tr>
 </tbody></table>
 <p><em>注：有界无界是数学的定义，表征函数或变量是否有最大及最下值限制，一般而言，无界格式易出现数值振荡</em></p>
+]]></content>
+      <categories>
+        <category>CFD</category>
+      </categories>
+      <tags>
+        <tag>OpenFOAM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OSLC开发（踩坑）指南</title>
+    <url>/2021/08/29/OSLC%E9%80%82%E9%85%8D%E5%99%A8%E5%BC%80%E5%8F%91%EF%BC%88%E8%B8%A9%E5%9D%91%EF%BC%89%E6%8C%87%E5%8D%97/</url>
+    <content><![CDATA[<h3 id="模型转换"><a href="#模型转换" class="headerlink" title="模型转换"></a>模型转换</h3><p>计划是开发CAD和CAE插件，从而使得模型可以转化为 RDF 文件，三元组来描述模型的特征。目前还没有选择软件，也没有研究明白怎么转换，也没看懂怎么展示rdf。</p>
+<p>但我们看到了 Simulink 的模型转化的代码。（<em>Simulink是<a href="https://baike.baidu.com/item/%E7%BE%8E%E5%9B%BD/125486">美国</a><a href="https://baike.baidu.com/item/Mathworks/5887044">Mathworks</a>公司推出的<a href="https://baike.baidu.com/item/MATLAB/263035">MATLAB</a>中的一种可视化仿真工具。Simulink是一个模块图环境，用于多域<a href="https://baike.baidu.com/item/%E4%BB%BF%E7%9C%9F/4330029">仿真</a>以及基于模型的设计</em>）</p>
+<p>Simulink 的模型后缀名是 “  <strong>.slx</strong>  ”，我们使用 Matlab 的函数来将这些 .slx 文件转化为以 <strong>XML</strong> 格式存储的文件中。函数文件很多，但理解起来并不难。主要是各个函数的调用。其核心思想是读取 .slx 结尾的文件内容，将相应的内容通过文件输入输出流写入xml标准文件中并储存。</p>
+<p>最开始我们参考的 <em>Matlab</em> 函数是放在 <em>\edu.gatech.mbsec.adapter.simulink\matlab</em> 里，有“添加模块”、“添加信号线”、“将指定模型或模块对象上的参数设置为指定的值”、“打开模型”、“转化文件”、”确定文件目录“、”判断是否为空“这些函数。</p>
+<hr>
+<h3 id="数据上传"><a href="#数据上传" class="headerlink" title="数据上传"></a>数据上传</h3><p>数据上传使用 <strong>Subversion</strong> ，Apache Subversion 通常被缩写成 SVN，是一个开放源代码的版本控制系统。SVN 相对于的 RCS、CVS，采用了分支管理系统，它的设计目标就是取代 CVS 。互联网上免费的版本控制服务多基于Subversion。</p>
+<p>在这里我们使用了 <strong>Subversion Edge</strong>，图形化的操作界面，在浏览器上普通的交互就可以进行版本控制和仓库的操作。其使用也很简单，总的来说是将这个svn Edge 安装在远程的服务器上，然后配置连接的代理和端口，就可以将本地文件上传到服务器的仓库中。</p>
+<blockquote>
+<p><em>The default administrator login is:</em></p>
+<p><em>Address: <a href="http://localhost:3343/csvn">http://localhost:3343/csvn</a></em></p>
+<p><em>Username: admin</em></p>
+<p><em>Password: admin</em></p>
+</blockquote>
+<p>添加项目库，在浏览器中打开<a href="http://localhost:3343/csvn">http://localhost:3343/csvn</a> （如果是服务端的话，请用服务器IP地址取代 localhost ），以 admin/admin登录。点击菜单栏 “Repositories”——“new Repository” ， 在 Name 中输入 code 项目库名，再点击右下角的 Create 按钮即可。</p>
+<pre class="line-numbers language-none"><code class="language-none">1、将文件checkout到本地目录
+svn checkout path（path是服务器上的目录）
+例如：svn checkout svn://192.168.168.159:18080/pro/domain
+简写：svn co 
+
+2、往版本库中添加新的文 件
+svn add file
+例如：svn add test.php(添加test.php)
+svn add *.php(添加当前目录下所有的php文件) 
+
+3、将改动的文件提交到版 本库
+svn commit -m "LogMessage" [-N] [--no-unlock] PATH(如果选择了保持锁，就使用--no-unlock开关)
+例如：svn commit -m "add test file for my test" test.php
+简写：svn ci <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<hr>
+<h3 id="数据库储存"><a href="#数据库储存" class="headerlink" title="数据库储存"></a>数据库储存</h3><p>我们计划使用图形数据库<strong>Neo4j</strong>，相比于关系型数据库 SQL ，图像数据库更能满足数据之间复杂的联系。</p>
+<p>目前已经熟练掌握数据库的 <em>增查删改</em> 语句，也实现了（<em>方法来源网络</em>）数据库读取并储存 RDF 文件，不过目前还没实现如何理解数据库储存的数据以及如何从 SVN 仓库上传到数据库里。</p>
+<p>2021年8月29日，暂时写到这里…</p>
+]]></content>
+      <categories>
+        <category>Technology</category>
+      </categories>
+      <tags>
+        <tag>OSLC</tag>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OpenFOAM边界条件</title>
+    <url>/2021/09/01/OpenFOAM%E8%BE%B9%E7%95%8C%E6%9D%A1%E4%BB%B6/</url>
+    <content><![CDATA[<h2 id="1-边界类型"><a href="#1-边界类型" class="headerlink" title="1.边界类型"></a>1.边界类型</h2><p><strong>patch</strong>：基本边界，不包含网格几何或拓扑信息，常用于进口、出口、自由表面</p>
+<ul>
+<li><strong>wall</strong>：壁面边界</li>
+<li><strong>empty</strong>：二维求解中设置为第三方向的</li>
+<li><strong>wedge</strong>：楔形边界，仅用于二维轴对称流动的模拟</li>
+<li><strong>cyclic</strong>：周期性边界，用于模拟旋转周期和平移周期</li>
+<li><strong>processor</strong>：并行计算网格切分交界面</li>
+<li><strong>cyclicAMI</strong>：任意边界，用于耦合两个完全不一样的边界</li>
+<li><strong>symmetry</strong> 和 <strong>symmetryPlane</strong>：边界两侧的流场互为镜像，前者是曲面，后者是平面</li>
+</ul>
+<h2 id="2-边界条件类型"><a href="#2-边界条件类型" class="headerlink" title="2.边界条件类型"></a>2.边界条件类型</h2><p>边界条件在CFD中分两大类：<strong>Dirichlet <strong>边界和 <strong>Neumann</strong> 边界。其中，</strong>Dirichlet</strong> （迪利克雷）是定值边界条件，即边界上的物理量是固定值；而 <strong>Neumann</strong> （诺伊曼）是定梯度边界条件，即边界上的物理量的梯度是固定值。在OpenFOAM中，有很多边界条件，除壁面函数以外均位于 <em>/src/finiteVolume/fields/fvPatchFields</em> 以下是一些常用的边界条件。</p>
+<ul>
+<li><p>fixedValue</p>
+<p>Dirichlet边界条件是应用最广的边界条件之一，用于设定进出口速度、压力以及壁面速度等</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
+<span class="token punctuation">{</span>
+	type     fixedValue<span class="token punctuation">;</span>
+	value    uniform <span class="token number">0</span><span class="token punctuation">;</span>   <span class="token comment">//uniform 表示均匀分布，0表示物理量的值，若为矢量，则（0 0 0）等形式</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>zeroGradient</p>
+<p>Neumann 边界条件，表示边界的梯度为 0 ，常用于壁面处压力以及其余标量场如 nut 、epsilon 等的设置</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
+<span class="token punctuation">{</span>
+    type       zeroGradient<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>壁面函数</p>
+<p>在网格不足以近似求解近壁面区流动时，需采用壁面函数建立近壁区流场。此时，针对涡粘系数（nut）、湍流能（k）、湍流能耗散率（epsilon）与湍流能比耗散率（omega）均应设置相应的壁面函数，目前还没看懂这些函数，先不写了。</p>
+</li>
+<li><p>slip</p>
+<p>滑移边界，对于变量，该边界等同于 zeroGradient ；对于矢量，则垂直于边界方向为 fixedValue ，且为 0 ，而平行于边界方向为 zeroGradient</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
+<span class="token punctuation">{</span>
+    type       slip<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>movingWallVelocity</p>
+<p>运动壁面条件，用于设定壁面的速度</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
+<span class="token punctuation">{</span>
+    type	  movingWallVelocity<span class="token punctuation">;</span>
+    value     <span class="token function">uniform</span><span class="token punctuation">(</span><span class="token number">0</span> <span class="token number">0</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>*使用 MRF 模拟旋转流场时，必须将旋转域内壁面设置为movingWallVelocity，且速度值设为相对运动速度，对于一般的叶轮机械，由于叶片随转子旋转，此时壁面的相对运动速度为0</p>
+</li>
+<li><p>totalPressure</p>
+<p>用于给定边界的总压，常用于进口和出口</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
+<span class="token punctuation">{</span>
+    type	 totalPressure<span class="token punctuation">;</span>
+    U        U<span class="token punctuation">;</span>         <span class="token comment">//U为速度场名称，一般设置为U ，在某些使用相对速度Urel</span>
+    phi      phi<span class="token punctuation">;</span>       <span class="token comment">//通量场名称，一般为 phi</span>
+    rho      none<span class="token punctuation">;</span>      <span class="token comment">//密度场名称，不可流动为none,可流动为rho</span>
+    psi      none<span class="token punctuation">;</span>      <span class="token comment">//可压缩流场名称，亚音速可压缩流体以及不可压流体不考虑可压缩性对总压的影响，为none，其他为psi</span>
+    gamma    <span class="token number">1</span><span class="token punctuation">;</span>         <span class="token comment">//绝热常数，若求解不考虑传热，则该参数不生效</span>
+    value    uniform <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">//总压的值</span>
+        
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>flowRateInletVelocity</p>
+<p>流量边界，用于给定进口或出口的质量流量或体积流量</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">//1. 给定质量流量</span>
+边界名                                            
+<span class="token punctuation">{</span>
+    type	             flowRateInletVelocity<span class="token punctuation">;</span>    
+    massFlowRate         <span class="token number">0.2</span><span class="token punctuation">;</span>         <span class="token comment">//质量流量，单位kg/s,流入为正</span>
+    rho                  rho<span class="token punctuation">;</span>		  <span class="token comment">//密度场名称，一般为rho</span>
+    rhoInlet             <span class="token number">1.0</span><span class="token punctuation">;</span>         <span class="token comment">//初始密度，用于计算开始时未给定密度初始值的情况</span>
+<span class="token punctuation">}</span>
+<span class="token comment">//2. 给定体积流量</span>
+边界名
+<span class="token punctuation">{</span>
+    type                 flowRateInletVelocity<span class="token punctuation">;</span>
+    vloumetricFlowRate   <span class="token number">0.2</span><span class="token punctuation">;</span>          <span class="token comment">//体积流量 单位立方米每秒</span>
+    value                <span class="token function">uniform</span><span class="token punctuation">(</span><span class="token number">0</span> <span class="token number">0</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//占位符，无意义</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>inletOutlet和outletInlet</p>
+<p>出口边界 / 进口边界 ，可以控制回流</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
+<span class="token punctuation">{</span>
+    type                 inletOutlet<span class="token punctuation">;</span>   <span class="token comment">//inletOutlet或outletInlet</span>
+    phi                  phi<span class="token punctuation">;</span>			<span class="token comment">//通量名称，判断流动方向，一般为phi</span>
+    inletValue           uniform <span class="token number">0</span><span class="token punctuation">;</span>		<span class="token comment">//出现回流时流动参数值</span>
+    value                uniform <span class="token number">0</span><span class="token punctuation">;</span>     <span class="token comment">//边界初始值</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
 ]]></content>
       <categories>
         <category>CFD</category>
