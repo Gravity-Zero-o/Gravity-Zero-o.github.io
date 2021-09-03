@@ -14,6 +14,24 @@
       </tags>
   </entry>
   <entry>
+    <title>写在第一篇</title>
+    <url>/2021/08/27/Hello/</url>
+    <content><![CDATA[<hr>
+<p>​                这是我的第一篇文章，其实也不算是第一篇了，在大一下学期时候，那个寒假连接着暑假的一百多天里，接触到了一些关于网络安全、博客、安卓等方面的内容，也算是刚刚开始，那个时候就在 <em>github+hexo</em> 的模式下写了一个 <em>blog</em>，不过当时感觉没什么可以写的，后来就一直荒废了。</p>
+<p>​                但是我又开始了，看到《工程流体力学》的老师自我介绍时候说大家可以去访问他的个人主页，这是一个自己搭建的，感觉很不错，所以我也想，应该把丢下的 <em>blog</em> 捡起来。正好前几个月一直在用 <em>markdown</em> 来写东西，记录金工实习和志愿者等一些事情。</p>
+<p>​                嗯，写一些什么呢？</p>
+<hr>
+<p>​                快开学了，从长空学院离开，写一些回忆录？不过这里市公共网络，不合适吧，但确实要写一下回忆录，记录一下。另外，空气动力学应该写一些，关于小安德森教授写的 <em>《空气动力学基础》</em> 的笔记？也许吧</p>
+]]></content>
+      <categories>
+        <category>Markdown</category>
+      </categories>
+      <tags>
+        <tag>Typora</tag>
+        <tag>Markdown</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>OSLC开发（踩坑）指南</title>
     <url>/2021/08/29/OSLC%E9%80%82%E9%85%8D%E5%99%A8%E5%BC%80%E5%8F%91%EF%BC%88%E8%B8%A9%E5%9D%91%EF%BC%89%E6%8C%87%E5%8D%97/</url>
     <content><![CDATA[<h3 id="模型转换"><a href="#模型转换" class="headerlink" title="模型转换"></a>模型转换</h3><p>计划是开发CAD和CAE插件，从而使得模型可以转化为 RDF 文件，三元组来描述模型的特征。目前还没有选择软件，也没有研究明白怎么转换，也没看懂怎么展示rdf。</p>
@@ -58,24 +76,6 @@ svn commit -m "LogMessage" [-N] [--no-unlock] PATH(如果选择了保持锁，�
       <tags>
         <tag>OSLC</tag>
         <tag>JAVA</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>写在第一篇</title>
-    <url>/2021/08/27/Hello/</url>
-    <content><![CDATA[<hr>
-<p>​                这是我的第一篇文章，其实也不算是第一篇了，在大一下学期时候，那个寒假连接着暑假的一百多天里，接触到了一些关于网络安全、博客、安卓等方面的内容，也算是刚刚开始，那个时候就在 <em>github+hexo</em> 的模式下写了一个 <em>blog</em>，不过当时感觉没什么可以写的，后来就一直荒废了。</p>
-<p>​                但是我又开始了，看到《工程流体力学》的老师自我介绍时候说大家可以去访问他的个人主页，这是一个自己搭建的，感觉很不错，所以我也想，应该把丢下的 <em>blog</em> 捡起来。正好前几个月一直在用 <em>markdown</em> 来写东西，记录金工实习和志愿者等一些事情。</p>
-<p>​                嗯，写一些什么呢？</p>
-<hr>
-<p>​                快开学了，从长空学院离开，写一些回忆录？不过这里市公共网络，不合适吧，但确实要写一下回忆录，记录一下。另外，空气动力学应该写一些，关于小安德森教授写的 <em>《空气动力学基础》</em> 的笔记？也许吧</p>
-]]></content>
-      <categories>
-        <category>Markdown</category>
-      </categories>
-      <tags>
-        <tag>Typora</tag>
-        <tag>Markdown</tag>
       </tags>
   </entry>
   <entry>
@@ -314,8 +314,7 @@ svn commit -m "LogMessage" [-N] [--no-unlock] PATH(如果选择了保持锁，�
 <p>$$<br>\nabla\cdot U=0<br>$$</p>
 <p>大家很容易看出来，这些是动量方程、连续性方程、不可压缩流体物质导数为0。</p>
 <p>在Volume of fluid（VOF）方法中则定义了一个变量 $\alpha$ 来表示流体的相分数。考虑某一个网格单元的气液两相系统，如果此网格单元内充满了流体，则$\alpha=1$；如果此网格单元内充满了气体，则$\alpha=0$。如果的值介于 0 和 1 之间，则此网格单元内为气液混合。可见，CFD中VOF的界面是通过跟踪相分数来获得的，并不是直接算出来的，是通过计算每个网格内的相场值而后处理出来的。网格越密，VOF后处理出来的界面越薄。这个方面也做了一些测试，在网格量为1.5万、6万、12万分别进行计算，发现计算时间约和网格量成正比，并且后处理的图片经放大后，每一个网格相当于一个像素点，网格越密，计算显示越精确。</p>
-<p>在</p>
-<p>有详细的interFoam介绍，虽然我觉得他写的看起来不是很让人理解。</p>
+<p>在 [CFD中文网]（<a href="http://www.dyfluid.com/interFoam.html">interFoam解析 (dyfluid.com)</a>）有详细的interFoam介绍，虽然我觉得他写的看起来不是很让人理解。</p>
 <h2 id="2-计算"><a href="#2-计算" class="headerlink" title="2.计算"></a>2.计算</h2><p>计算方面其实很简单，只需要在终端输入几个命令就可以了，不过这样简单那我还写什么哈哈哈，来看一下算例的程序设置吧</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># !/bin/sh</span>
 <span class="token builtin class-name">cd</span> <span class="token variable">${0<span class="token operator">%</span><span class="token operator">/</span>*}</span><span class="token operator">||</span><span class="token builtin class-name">exit</span> <span class="token number">1</span>   <span class="token comment">#run from this directory</span>
