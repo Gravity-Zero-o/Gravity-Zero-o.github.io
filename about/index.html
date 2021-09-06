@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="About, Kowlski&#39;s Coffee">
-    <meta name="description" content="">
+    <meta name="keywords" content="About, Kowalski">
+    <meta name="description" content="Welcome">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -64,22 +64,27 @@
   
   <li class="hide-on-med-and-down nav-item">
     
-    <a href="/archives" class="waves-effect waves-light">
+    <a href="/" class="waves-effect waves-light">
       
-      <i class="fas fa-archive" style="zoom: 0.6;"></i>
-      
-      <span>Archives</span>
+      <span>主页</span>
     </a>
     
   </li>
   
   <li class="hide-on-med-and-down nav-item">
     
-    <a href="/about" class="waves-effect waves-light">
+    <a href="/tags" class="waves-effect waves-light">
       
-      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
       
-      <span>About</span>
+      <span>分类</span>
     </a>
     
   </li>
@@ -88,9 +93,25 @@
     
     <a href="/friends" class="waves-effect waves-light">
       
-      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      <span>工具</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
       
-      <span>Friends</span>
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <span>关于</span>
     </a>
     
   </li>
@@ -112,7 +133,7 @@
         <div class="logo-name">Kowlski&#39;s Coffee</div>
         <div class="logo-desc">
             
-            Never really desperate, only the lost of the soul.
+            Welcome
             
         </div>
     </div>
@@ -123,22 +144,33 @@
         
         <li class="m-nav-item">
 	  
-		<a href="/archives" class="waves-effect waves-light">
+		<a href="/" class="waves-effect waves-light">
 			
-			    <i class="fa-fw fas fa-archive"></i>
+				<i class="fas fa-fw fa-link"></i>
 			
-			Archives
+			主页
 		</a>
           
         </li>
         
         <li class="m-nav-item">
 	  
-		<a href="/about" class="waves-effect waves-light">
+		<a href="/tags" class="waves-effect waves-light">
 			
-			    <i class="fa-fw fas fa-user-circle"></i>
+				<i class="fas fa-fw fa-link"></i>
 			
-			About
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+				<i class="fas fa-fw fa-link"></i>
+			
+			分类
 		</a>
           
         </li>
@@ -147,9 +179,31 @@
 	  
 		<a href="/friends" class="waves-effect waves-light">
 			
-			    <i class="fa-fw fas fa-address-book"></i>
+				<i class="fas fa-fw fa-link"></i>
 			
-			Friends
+			工具
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+				<i class="fas fa-fw fa-link"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+				<i class="fas fa-fw fa-link"></i>
+			
+			关于
 		</a>
           
         </li>
@@ -505,7 +559,7 @@
                 type: 'pie',
                 radius: '50%',
                 color: ['#6772e5', '#ff9e0f', '#fa755a', '#3ecf8e', '#82d3f4', '#ab47bc', '#525f7f', '#f51c47', '#26A69A'],
-                data: [{"name":"Technology","value":1},{"name":"Markdown","value":1},{"name":"Story","value":1},{"name":"CFD","value":3}],
+                data: [{"name":"Markdown","value":1},{"name":"Technology","value":1},{"name":"Story","value":1},{"name":"CFD","value":3}],
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
@@ -529,7 +583,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: ["OpenFOAM","OSLC","JAVA","Typora","Markdown","Math","Matlab"]
+                data: ["OpenFOAM","Typora","Markdown","OSLC","JAVA","Math","Matlab"]
             }
         ],
         yAxis: [
@@ -649,18 +703,6 @@
         <div class="tag-chips center-align">
             
             
-            <a href="/tags/OSLC/">
-                <span class="chip center-align waves-effect waves-light chip-default">OSLC</span>
-            </a>
-            
-            
-            
-            <a href="/tags/JAVA/">
-                <span class="chip center-align waves-effect waves-light chip-default">JAVA</span>
-            </a>
-            
-            
-            
             <a href="/tags/Typora/">
                 <span class="chip center-align waves-effect waves-light chip-default">Typora</span>
             </a>
@@ -669,6 +711,18 @@
             
             <a href="/tags/Markdown/">
                 <span class="chip center-align waves-effect waves-light chip-default">Markdown</span>
+            </a>
+            
+            
+            
+            <a href="/tags/OSLC/">
+                <span class="chip center-align waves-effect waves-light chip-default">OSLC</span>
+            </a>
+            
+            
+            
+            <a href="/tags/JAVA/">
+                <span class="chip center-align waves-effect waves-light chip-default">JAVA</span>
             </a>
             
             
