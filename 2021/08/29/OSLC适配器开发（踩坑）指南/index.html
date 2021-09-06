@@ -444,7 +444,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>Update Date:&nbsp;&nbsp;
-                    2021-08-31
+                    2021-09-06
                 </div>
                 
 
@@ -500,7 +500,36 @@ svn commit -m "LogMessage" [-N] [--no-unlock] PATH(如果选择了保持锁，�
 <hr>
 <h3 id="数据库储存"><a href="#数据库储存" class="headerlink" title="数据库储存"></a>数据库储存</h3><p>我们计划使用图形数据库<strong>Neo4j</strong>，相比于关系型数据库 SQL ，图像数据库更能满足数据之间复杂的联系。</p>
 <p>目前已经熟练掌握数据库的 <em>增查删改</em> 语句，也实现了（<em>方法来源网络</em>）数据库读取并储存 RDF 文件，不过目前还没实现如何理解数据库储存的数据以及如何从 SVN 仓库上传到数据库里。</p>
-<p>2021年8月29日，暂时写到这里…</p>
+<p>先说说存储 XML 文件吧，我们使用 <strong>APOC</strong> 来提供帮助，我们现在已经安装好了 apoc </p>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token comment">&lt;!----- 这是随意生成的xml文件 ---&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>?xml</span> <span class="token attr-name">version</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1.0<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>earth</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>continent</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Africa<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>country</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Morocco<span class="token punctuation">"</span></span> <span class="token attr-name">money</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Dinar<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>continent</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>continent</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Europe<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>country</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>France<span class="token punctuation">"</span></span> <span class="token attr-name">money</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Euro<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>continent</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>continent</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Asia<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>country</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>China<span class="token punctuation">"</span></span> <span class="token attr-name">money</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Yuan<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>continent</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>earth</span><span class="token punctuation">&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>导入数据之前，线创建一些约束条件</p>
+<blockquote>
+<p>CREATE CONSTRAINT ON (c:Continent) ASSERT c.name IS UNIQUE</p>
+<p>CREATE CONSTRAINT ON (mo:Money) ASSERT mo.name IS UNIQUE</p>
+</blockquote>
+<p>这一段是什么意思？</p>
+<p>导入 XML 的原则是创建一个多重 Map，一个在内存中 Map 的 Map ,然后用 Cypher 语句去处理这些 Map</p>
+<blockquote>
+<p>WITH ‘ file : ///home/jerome/Tools/neo/neo4jcommunity- 3.2.0/import/countries. xml’  as url<br>CALL apoc.load.xml{url} YIELD value  as  earth<br>UNWIND earth.children  as  continent<br>MERGE (co:Continent {name : continent.name} )<br>WITH continent , co<br>UNWIND continent.children  as  cou<br>WITH continent , co , cou<br>MERGE (existingCountry : Country {name : cou . name} )<br>MERGE (money:Money {name : cou.money})<br>MERGE (existingCountry ) -［: INSIDE] -&gt; (co)<br>MERGE (existingCountry) - [ : HAS_CURRENCY ］ -&gt;(money)</p>
+</blockquote>
+<p>当然，我们根据自己的情况修改导入文件的路径就可以了。不幸的是，不像导入 JSON<br>时那样，这次需要给出完整的文件路径。<br>这里出现了一个新的 Cypher命令：四叫TIND，创建－个迭代器 ( iterator）并使用它。<br>或许想要 问＿children 是什么。它是 Map 的一个属性（ attribute ） ，在 XML 文件导入时就<br>被创建了。它包含了当前元素（ element ） 的所有子元素。 因为，可以想象 ， 每个国家创建时<br>就像下面这样带有子元素而不是简单的属性（ attribute）</p>
 
                 
             </div>
