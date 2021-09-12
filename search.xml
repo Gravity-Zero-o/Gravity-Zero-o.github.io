@@ -1,133 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>OpenFOAM中的离散</title>
-    <url>/2021/08/27/OpenFOAM%E4%B8%AD%E7%9A%84%E7%A6%BB%E6%95%A3/</url>
-    <content><![CDATA[<h3 id="1-计算域离散"><a href="#1-计算域离散" class="headerlink" title="1. 计算域离散"></a>1. 计算域离散</h3><p>计算域的离散</p>
-<ul>
-<li><p>空间离散——网格划分</p>
-</li>
-<li><p>时间离散——时间步</p>
-<p>空间离散之后网格信息储存在 <strong>/constant/polyMesh</strong>,可以从以下几个层次进行描述</p>
-<ul>
-<li>points ： 点，包含点的坐标向量信息的列表</li>
-<li>faces ：面，包含面信息的了表，由点的编号进行定义，即每个面由哪几个点组成 <ul>
-<li>boundary faces: 边界面，位于计算域边界的网格面</li>
-<li>internal faces : 内部面，除了边界面以外的网格面</li>
-</ul>
-</li>
-<li> cells ：网格单元，包含网格单元信息的列表，由于一个网格面可能同时作为2个组成面，因此将从属关系分为<strong>owner</strong> 和<strong>neighbor</strong> </li>
-<li>boundary ：包含边界信息的列表，包括<em>边界类型名</em> 、<em>组别组名</em> 、<em>网格面数量</em> 、<em>起始网格编号</em> </li>
-</ul>
-</li>
-</ul>
-<pre class="line-numbers language-none"><code class="language-none">//这是名字为boundary的网格文件
-4   //表示4个
-(
-    rotor  //组别名
-    {
-        type            wall;  //类型
-        inGroups        List&lt;word&gt; 1(wall);
-        nFaces          192;   //数量
-        startFace       5952;  //起始编号
-    }
-    stator
-    {
-        type            wall;
-        inGroups        List&lt;word&gt; 1(wall);
-        nFaces          192;
-        startFace       6144;   //5952+192=6144
-    }
-    front
-    {
-        type            empty;
-        inGroups        List&lt;word&gt; 1(empty);
-        nFaces          3072;
-        startFace       6336;   //6144+192=6336
-    }
-    back
-    {
-        type            empty;
-        inGroups        List&lt;word&gt; 1(empty);
-        nFaces          3072;
-        startFace       9408;
-    }
-)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-
-
-<hr>
-<ul>
-<li><p><strong>polyMesh</strong> 包含了网格的基本信息，openFOAM存储网格不同类型的数据，提供了 <strong>Field</strong> 类，常用的标量 <strong>scalarField</strong> 、矢量 <strong>vectorField</strong> 、张量<strong>tensorField</strong> 和 对称张量<strong>symmTensorField</strong> </p>
-</li>
-<li><p>在polyMesh基础上，建立了fvMesh类，存储有限体积离散所需要的数据，由此产生了两类：<strong>surface&lt;Field类&gt;</strong> 和 <strong>vol&lt;Field类&gt;</strong> </p>
-</li>
-<li><p>为了将流场数据存储至网格，openFOAM提供了<strong>geometricField</strong> 类模板</p>
-<ul>
-<li><p>vol&lt;Field类&gt; ：存储于网格单元中心，在求解器中应用较多</p>
-</li>
-<li><p>surface&lt;Field类&gt; ：存储于网格面，在边界条件中应用较为广泛</p>
-</li>
-<li><p>point&lt;Field类&gt; ：存储于网格节点</p>
-<hr>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="2-方程的空间离散"><a href="#2-方程的空间离散" class="headerlink" title="2. 方程的空间离散"></a>2. 方程的空间离散</h3><p><em>在上一节中讨论了离散的第一步——计算域的离散，包括时间和空间的离散，揭示了数据的储存问题，本节对方程的离散进行解析</em></p>
-<p>在CFD中，控制方程的通用形式可写为<br>$$<br>\frac{\partial \rho\phi}{\partial t}+\nabla\cdot(\rho\boldsymbol U \phi)-\nabla\cdot(\rho\Gamma_\phi\nabla\phi)=\boldsymbol Y_\phi(\phi)<br>$$<br>在离散时，通常将偏微分方程组离散为如下的代数方程组<br>$$<br>\boldsymbol AX=\boldsymbol b<br>$$<br>式中：<strong>A</strong>为储存代数方程的系数，采用 fvMatrix 类模板；<strong>x</strong>为变量组成的列向量，<strong>b</strong>为源向量，均采用geometricField类模板。</p>
-<p>偏微分方程的每一项均有 <strong>fvm</strong> (<em>finiteVolumeMethod</em>) 以及 <strong>fvc</strong> (<em>finiteVolumeCalculus</em>) 两种离散方式，其中 fvm 隐式计算，返回系数矩阵 fvMatrix 类，而 fvc 显式计算，返回geometricField 类，偏微分方程各项均可用 fvm 或 fvc 的形式进行离散，其格式为“ fvm::”和“ fvc::”</p>
-<p><em>张量运算和不同项的代码表示方法在《openFOAM编程指南》第一章有详细的介绍</em></p>
-<hr>
-<p>有限体积法将计算域划分为网格单元，即控制体。在单个控制体内，等式两边同时对控制体体积和时间进行积分<br>$$<br>\int_t^{t+\Delta t}[\frac{\partial}{\partial t}\int_V\rho\phi dV+\int_V\nabla\cdot(\rho U\phi)dV-\int_V\nabla\cdot(\rho\Gamma_\phi\nabla\phi)dV]dt=\int_t^{t+\Delta t}(\int_V\boldsymbol Y_\phi(\phi)dV)dt<br>$$</p>
-<p>对数值计算而言，体积分是很难处理的，通常运用高斯定理将其转换为面积分<br>$$<br>\int_V \nabla\cdot \boldsymbol adV=\oint_{S_V}d \boldsymbol S_f\cdot\boldsymbol a<br>$$</p>
-<p>$$<br>\int_V\nabla\phi dV=\oint_{S_V}d\boldsymbol S_f\phi<br>$$</p>
-<p>$$<br>\int_V\nabla\boldsymbol a dV=\oint_{S_V}d\boldsymbol S_f\boldsymbol a<br>$$</p>
-<hr>
-<p>我们打开搅拌器算例，在 /system/fvSchemes 文件中可以看到</p>
-<ul>
-<li><strong>ddtSchemes</strong> 表示时间离散格式， <strong>gradSchemes</strong> 表示梯度项离散格式， <strong>laplacianSchemes</strong> 表示拉普拉斯项离散格式</li>
-<li><strong>interpolationSchemes</strong> 表示插值格式，由网格中心按照所选格式进行插值</li>
-<li><strong>divSchemes</strong> 是对流项和散度项的离散格式，只需要将网格中心的量插值到网格面上即可</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="center">格式名称</th>
-<th align="center">特点</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">Gauss linear</td>
-<td align="center">二阶精度，无界</td>
-</tr>
-<tr>
-<td align="center">Gauss upwind</td>
-<td align="center">一阶精度，有界</td>
-</tr>
-<tr>
-<td align="center">Gauss linearUpwind</td>
-<td align="center">二阶精度，无界</td>
-</tr>
-<tr>
-<td align="center">Gauss QUICK</td>
-<td align="center">一或二，有界</td>
-</tr>
-<tr>
-<td align="center">Gauss TVD/NVD</td>
-<td align="center">一或二，有界</td>
-</tr>
-</tbody></table>
-<p><em>注：有界无界是数学的定义，表征函数或变量是否有最大及最下值限制，一般而言，无界格式易出现数值振荡</em></p>
-]]></content>
-      <categories>
-        <category>CFD</category>
-      </categories>
-      <tags>
-        <tag>OpenFOAM</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>写在第一篇</title>
     <url>/2021/08/27/Hello/</url>
     <content><![CDATA[<hr>
@@ -392,6 +265,133 @@ svn commit -m "LogMessage" [-N] [--no-unlock] PATH(如果选择了保持锁，�
     value                uniform <span class="token number">0</span><span class="token punctuation">;</span>     <span class="token comment">//边界初始值</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>
+]]></content>
+      <categories>
+        <category>CFD</category>
+      </categories>
+      <tags>
+        <tag>OpenFOAM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OpenFOAM中的离散</title>
+    <url>/2021/08/27/OpenFOAM%E4%B8%AD%E7%9A%84%E7%A6%BB%E6%95%A3/</url>
+    <content><![CDATA[<h3 id="1-计算域离散"><a href="#1-计算域离散" class="headerlink" title="1. 计算域离散"></a>1. 计算域离散</h3><p>计算域的离散</p>
+<ul>
+<li><p>空间离散——网格划分</p>
+</li>
+<li><p>时间离散——时间步</p>
+<p>空间离散之后网格信息储存在 <strong>/constant/polyMesh</strong>,可以从以下几个层次进行描述</p>
+<ul>
+<li>points ： 点，包含点的坐标向量信息的列表</li>
+<li>faces ：面，包含面信息的了表，由点的编号进行定义，即每个面由哪几个点组成 <ul>
+<li>boundary faces: 边界面，位于计算域边界的网格面</li>
+<li>internal faces : 内部面，除了边界面以外的网格面</li>
+</ul>
+</li>
+<li> cells ：网格单元，包含网格单元信息的列表，由于一个网格面可能同时作为2个组成面，因此将从属关系分为<strong>owner</strong> 和<strong>neighbor</strong> </li>
+<li>boundary ：包含边界信息的列表，包括<em>边界类型名</em> 、<em>组别组名</em> 、<em>网格面数量</em> 、<em>起始网格编号</em> </li>
+</ul>
+</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">//这是名字为boundary的网格文件
+4   //表示4个
+(
+    rotor  //组别名
+    {
+        type            wall;  //类型
+        inGroups        List&lt;word&gt; 1(wall);
+        nFaces          192;   //数量
+        startFace       5952;  //起始编号
+    }
+    stator
+    {
+        type            wall;
+        inGroups        List&lt;word&gt; 1(wall);
+        nFaces          192;
+        startFace       6144;   //5952+192=6144
+    }
+    front
+    {
+        type            empty;
+        inGroups        List&lt;word&gt; 1(empty);
+        nFaces          3072;
+        startFace       6336;   //6144+192=6336
+    }
+    back
+    {
+        type            empty;
+        inGroups        List&lt;word&gt; 1(empty);
+        nFaces          3072;
+        startFace       9408;
+    }
+)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<hr>
+<ul>
+<li><p><strong>polyMesh</strong> 包含了网格的基本信息，openFOAM存储网格不同类型的数据，提供了 <strong>Field</strong> 类，常用的标量 <strong>scalarField</strong> 、矢量 <strong>vectorField</strong> 、张量<strong>tensorField</strong> 和 对称张量<strong>symmTensorField</strong> </p>
+</li>
+<li><p>在polyMesh基础上，建立了fvMesh类，存储有限体积离散所需要的数据，由此产生了两类：<strong>surface&lt;Field类&gt;</strong> 和 <strong>vol&lt;Field类&gt;</strong> </p>
+</li>
+<li><p>为了将流场数据存储至网格，openFOAM提供了<strong>geometricField</strong> 类模板</p>
+<ul>
+<li><p>vol&lt;Field类&gt; ：存储于网格单元中心，在求解器中应用较多</p>
+</li>
+<li><p>surface&lt;Field类&gt; ：存储于网格面，在边界条件中应用较为广泛</p>
+</li>
+<li><p>point&lt;Field类&gt; ：存储于网格节点</p>
+<hr>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-方程的空间离散"><a href="#2-方程的空间离散" class="headerlink" title="2. 方程的空间离散"></a>2. 方程的空间离散</h3><p><em>在上一节中讨论了离散的第一步——计算域的离散，包括时间和空间的离散，揭示了数据的储存问题，本节对方程的离散进行解析</em></p>
+<p>在CFD中，控制方程的通用形式可写为<br>$$<br>\frac{\partial \rho\phi}{\partial t}+\nabla\cdot(\rho\boldsymbol U \phi)-\nabla\cdot(\rho\Gamma_\phi\nabla\phi)=\boldsymbol Y_\phi(\phi)<br>$$<br>在离散时，通常将偏微分方程组离散为如下的代数方程组<br>$$<br>\boldsymbol AX=\boldsymbol b<br>$$<br>式中：<strong>A</strong>为储存代数方程的系数，采用 fvMatrix 类模板；<strong>x</strong>为变量组成的列向量，<strong>b</strong>为源向量，均采用geometricField类模板。</p>
+<p>偏微分方程的每一项均有 <strong>fvm</strong> (<em>finiteVolumeMethod</em>) 以及 <strong>fvc</strong> (<em>finiteVolumeCalculus</em>) 两种离散方式，其中 fvm 隐式计算，返回系数矩阵 fvMatrix 类，而 fvc 显式计算，返回geometricField 类，偏微分方程各项均可用 fvm 或 fvc 的形式进行离散，其格式为“ fvm::”和“ fvc::”</p>
+<p><em>张量运算和不同项的代码表示方法在《openFOAM编程指南》第一章有详细的介绍</em></p>
+<hr>
+<p>有限体积法将计算域划分为网格单元，即控制体。在单个控制体内，等式两边同时对控制体体积和时间进行积分<br>$$<br>\int_t^{t+\Delta t}[\frac{\partial}{\partial t}\int_V\rho\phi dV+\int_V\nabla\cdot(\rho U\phi)dV-\int_V\nabla\cdot(\rho\Gamma_\phi\nabla\phi)dV]dt=\int_t^{t+\Delta t}(\int_V\boldsymbol Y_\phi(\phi)dV)dt<br>$$</p>
+<p>对数值计算而言，体积分是很难处理的，通常运用高斯定理将其转换为面积分<br>$$<br>\int_V \nabla\cdot \boldsymbol adV=\oint_{S_V}d \boldsymbol S_f\cdot\boldsymbol a<br>$$</p>
+<p>$$<br>\int_V\nabla\phi dV=\oint_{S_V}d\boldsymbol S_f\phi<br>$$</p>
+<p>$$<br>\int_V\nabla\boldsymbol a dV=\oint_{S_V}d\boldsymbol S_f\boldsymbol a<br>$$</p>
+<hr>
+<p>我们打开搅拌器算例，在 /system/fvSchemes 文件中可以看到</p>
+<ul>
+<li><strong>ddtSchemes</strong> 表示时间离散格式， <strong>gradSchemes</strong> 表示梯度项离散格式， <strong>laplacianSchemes</strong> 表示拉普拉斯项离散格式</li>
+<li><strong>interpolationSchemes</strong> 表示插值格式，由网格中心按照所选格式进行插值</li>
+<li><strong>divSchemes</strong> 是对流项和散度项的离散格式，只需要将网格中心的量插值到网格面上即可</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">格式名称</th>
+<th align="center">特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Gauss linear</td>
+<td align="center">二阶精度，无界</td>
+</tr>
+<tr>
+<td align="center">Gauss upwind</td>
+<td align="center">一阶精度，有界</td>
+</tr>
+<tr>
+<td align="center">Gauss linearUpwind</td>
+<td align="center">二阶精度，无界</td>
+</tr>
+<tr>
+<td align="center">Gauss QUICK</td>
+<td align="center">一或二，有界</td>
+</tr>
+<tr>
+<td align="center">Gauss TVD/NVD</td>
+<td align="center">一或二，有界</td>
+</tr>
+</tbody></table>
+<p><em>注：有界无界是数学的定义，表征函数或变量是否有最大及最下值限制，一般而言，无界格式易出现数值振荡</em></p>
 ]]></content>
       <categories>
         <category>CFD</category>
