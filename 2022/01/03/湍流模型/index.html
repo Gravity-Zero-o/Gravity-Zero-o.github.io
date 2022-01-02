@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="写在第一篇, Kowalski">
+    <meta name="keywords" content="湍流模型, Kowalski">
     <meta name="description" content="Welcome">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>写在第一篇 | Kowlski&#39;s Coffee</title>
+    <title>湍流模型 | Kowlski&#39;s Coffee</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -287,12 +287,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">写在第一篇</h1>
+                    <h1 class="description center-align post-title">湍流模型</h1>
                 </div>
             </div>
         </div>
@@ -408,12 +408,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Typora/">
-                                <span class="chip bg-color">Typora</span>
-                            </a>
-                        
-                            <a href="/tags/Markdown/">
-                                <span class="chip bg-color">Markdown</span>
+                            <a href="/tags/Trebulent/">
+                                <span class="chip bg-color">Trebulent</span>
                             </a>
                         
                     </div>
@@ -424,8 +420,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Markdown/" class="post-category">
-                                Markdown
+                            <a href="/categories/CFD/" class="post-category">
+                                CFD
                             </a>
                         
                     </div>
@@ -437,14 +433,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2021-08-26
+                    2022-01-02
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>Update Date:&nbsp;&nbsp;
-                    2021-08-31
+                    2022-01-02
                 </div>
                 
 
@@ -466,12 +462,30 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <hr>
-<p>​                这是我的第一篇文章，其实也不算是第一篇了，在大一下学期时候，那个寒假连接着暑假的一百多天里，接触到了一些关于网络安全、博客、安卓等方面的内容，也算是刚刚开始，那个时候就在 <em>github+hexo</em> 的模式下写了一个 <em>blog</em>，不过当时感觉没什么可以写的，后来就一直荒废了。</p>
-<p>​                但是我又开始了，看到《工程流体力学》的老师自我介绍时候说大家可以去访问他的个人主页，这是一个自己搭建的，感觉很不错，所以我也想，应该把丢下的 <em>blog</em> 捡起来。正好前几个月一直在用 <em>markdown</em> 来写东西，记录金工实习和志愿者等一些事情。</p>
-<p>​                嗯，写一些什么呢？</p>
-<hr>
-<p>​                快开学了，从长空学院离开，写一些回忆录？不过这里市公共网络，不合适吧，但确实要写一下回忆录，记录一下。另外，空气动力学应该写一些，关于小安德森教授写的 <em>《空气动力学基础》</em> 的笔记？也许吧</p>
+                <h1 id="0-写在前面"><a href="#0-写在前面" class="headerlink" title="0 写在前面"></a>0 写在前面</h1><p>去年有幸参加了一个学术论坛的答辩，我主要讲汇报计算流体力学和机翼气动响应分析的内容。讲的还可以，不过最后评委老师提问时候，有个问题没答上来，写在这里进行深度的学习</p>
+<ul>
+<li><p>老师问：你这个网格的湍流模型是哪一个？</p>
+</li>
+<li><p>我：…</p>
+<p>（我只记得一个二维网格，大概十几万的网格数，边界层厚度和设置的最大迭代次数…暑假（对，就是上次写Blog时候）看了湍流模型那一章节，不过觉得需要时候再查书就好了，没怎么记忆555</p>
+</li>
+</ul>
+<h1 id="1-湍流模型"><a href="#1-湍流模型" class="headerlink" title="1 湍流模型"></a>1 湍流模型</h1><p>这里先写一下FLUENT提供的湍流模型，关于这些模型是否在不同软件通用，这个后面再研究一下</p>
+<ul>
+<li>Spalart-Allmaras 模型</li>
+<li>$ k- \epsilon$ 模型 <ul>
+<li>标准$ k-\epsilon$ 模型</li>
+<li>重整化RNG $ k-\epsilon$ 模型</li>
+<li>可实现$ k-\epsilon$ 模型</li>
+</ul>
+</li>
+<li>$ k-\omega$ 模型<ul>
+<li>标准 $ k-\omega$ 模型</li>
+<li>剪切应力 SST $ k-\omega$ 模型</li>
+</ul>
+</li>
+<li>v2-f 模型</li>
+</ul>
 
                 
             </div>
@@ -498,7 +512,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://gravity-zero-o.github.io/2021/08/27/Hello/">https://gravity-zero-o.github.io/2021/08/27/Hello/</a>
+                    <a href="https://gravity-zero-o.github.io/2022/01/03/%E6%B9%8D%E6%B5%81%E6%A8%A1%E5%9E%8B/">https://gravity-zero-o.github.io/2022/01/03/%E6%B9%8D%E6%B5%81%E6%A8%A1%E5%9E%8B/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -536,12 +550,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Typora/">
-                                    <span class="chip bg-color">Typora</span>
-                                </a>
-                            
-                                <a href="/tags/Markdown/">
-                                    <span class="chip bg-color">Markdown</span>
+                                <a href="/tags/Trebulent/">
+                                    <span class="chip bg-color">Trebulent</span>
                                 </a>
                             
                         </div>
@@ -587,29 +597,80 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
-                <a href="/2021/08/27/OpenFOAM%E4%B8%AD%E7%9A%84%E7%A6%BB%E6%95%A3/">
+                <a href="/2022/01/03/%E6%B9%8D%E6%B5%81%E6%A8%A1%E5%9E%8B/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="OpenFOAM中的离散">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="湍流模型">
                         
-                        <span class="card-title">OpenFOAM中的离散</span>
+                        <span class="card-title">湍流模型</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            CFD的离散学习笔记
+                            CFD的程序学习笔记
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-08-26
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-01-02
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/CFD/" class="post-category">
+                                    CFD
+                                </a>
+                            
+                            
                         </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Trebulent/">
+                        <span class="chip bg-color">Trebulent</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2021/09/13/%E6%90%85%E6%8B%8C%E5%99%A8%E5%86%85%E6%B5%81%E5%9C%BA/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="搅拌器内流场分析">
+                        
+                        <span class="card-title">搅拌器内流场分析</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            simpleFoam 搅拌器
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-12
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -629,58 +690,12 @@
                         <span class="chip bg-color">OpenFOAM</span>
                     </a>
                     
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                Current&nbsp;<i class="far fa-dot-circle"></i>
-            </div>
-            <div class="card">
-                <a href="/2021/08/27/Hello/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="写在第一篇">
-                        
-                        <span class="card-title">写在第一篇</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            简单介绍吧
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-08-26
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/Markdown/" class="post-category">
-                                    Markdown
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Typora/">
-                        <span class="chip bg-color">Typora</span>
+                    <a href="/tags/simpleFoam/">
+                        <span class="chip bg-color">simpleFoam</span>
                     </a>
                     
-                    <a href="/tags/Markdown/">
-                        <span class="chip bg-color">Markdown</span>
+                    <a href="/tags/incompressible/">
+                        <span class="chip bg-color">incompressible</span>
                     </a>
                     
                 </div>
