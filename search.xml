@@ -1,6 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>写在第一篇</title>
+    <url>/2021/08/27/Hello/</url>
+    <content><![CDATA[<hr>
+<p>​                这是我的第一篇文章，其实也不算是第一篇了，在大一下学期时候，那个寒假连接着暑假的一百多天里，接触到了一些关于网络安全、博客、安卓等方面的内容，也算是刚刚开始，那个时候就在 <em>github+hexo</em> 的模式下写了一个 <em>blog</em>，不过当时感觉没什么可以写的，后来就一直荒废了。</p>
+<p>​                但是我又开始了，看到《工程流体力学》的老师自我介绍时候说大家可以去访问他的个人主页，这是一个自己搭建的，感觉很不错，所以我也想，应该把丢下的 <em>blog</em> 捡起来。正好前几个月一直在用 <em>markdown</em> 来写东西，记录金工实习和志愿者等一些事情。</p>
+<p>​                嗯，写一些什么呢？</p>
+<hr>
+<p>​                快开学了，从长空学院离开，写一些回忆录？不过这里市公共网络，不合适吧，但确实要写一下回忆录，记录一下。另外，空气动力学应该写一些，关于小安德森教授写的 <em>《空气动力学基础》</em> 的笔记？也许吧</p>
+]]></content>
+      <categories>
+        <category>Markdown</category>
+      </categories>
+      <tags>
+        <tag>Typora</tag>
+        <tag>Markdown</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OSLC开发（踩坑）指南</title>
+    <url>/2021/08/29/OSLC%E9%80%82%E9%85%8D%E5%99%A8%E5%BC%80%E5%8F%91%EF%BC%88%E8%B8%A9%E5%9D%91%EF%BC%89%E6%8C%87%E5%8D%97/</url>
+    <content><![CDATA[<h3 id="模型转换"><a href="#模型转换" class="headerlink" title="模型转换"></a>模型转换</h3><p>计划是开发CAD和CAE插件，从而使得模型可以转化为 RDF 文件，三元组来描述模型的特征。目前还没有选择软件，也没有研究明白怎么转换，也没看懂怎么展示rdf。</p>
+<p>但我们看到了 Simulink 的模型转化的代码。（<em>Simulink是<a href="https://baike.baidu.com/item/%E7%BE%8E%E5%9B%BD/125486">美国</a><a href="https://baike.baidu.com/item/Mathworks/5887044">Mathworks</a>公司推出的<a href="https://baike.baidu.com/item/MATLAB/263035">MATLAB</a>中的一种可视化仿真工具。Simulink是一个模块图环境，用于多域<a href="https://baike.baidu.com/item/%E4%BB%BF%E7%9C%9F/4330029">仿真</a>以及基于模型的设计</em>）</p>
+<p>Simulink 的模型后缀名是 “  <strong>.slx</strong>  ”，我们使用 Matlab 的函数来将这些 .slx 文件转化为以 <strong>XML</strong> 格式存储的文件中。函数文件很多，但理解起来并不难。主要是各个函数的调用。其核心思想是读取 .slx 结尾的文件内容，将相应的内容通过文件输入输出流写入xml标准文件中并储存。</p>
+<p>最开始我们参考的 <em>Matlab</em> 函数是放在 <em>\edu.gatech.mbsec.adapter.simulink\matlab</em> 里，有“添加模块”、“添加信号线”、“将指定模型或模块对象上的参数设置为指定的值”、“打开模型”、“转化文件”、”确定文件目录“、”判断是否为空“这些函数。</p>
+<hr>
+<h3 id="数据上传"><a href="#数据上传" class="headerlink" title="数据上传"></a>数据上传</h3><p>数据上传使用 <strong>Subversion</strong> ，Apache Subversion 通常被缩写成 SVN，是一个开放源代码的版本控制系统。SVN 相对于的 RCS、CVS，采用了分支管理系统，它的设计目标就是取代 CVS 。互联网上免费的版本控制服务多基于Subversion。</p>
+<p>在这里我们使用了 <strong>Subversion Edge</strong>，图形化的操作界面，在浏览器上普通的交互就可以进行版本控制和仓库的操作。其使用也很简单，总的来说是将这个svn Edge 安装在远程的服务器上，然后配置连接的代理和端口，就可以将本地文件上传到服务器的仓库中。</p>
+<blockquote>
+<p><em>The default administrator login is:</em></p>
+<p><em>Address: <a href="http://localhost:3343/csvn">http://localhost:3343/csvn</a></em></p>
+<p><em>Username: admin</em></p>
+<p><em>Password: admin</em></p>
+</blockquote>
+<p>添加项目库，在浏览器中打开<a href="http://localhost:3343/csvn">http://localhost:3343/csvn</a> （如果是服务端的话，请用服务器IP地址取代 localhost ），以 admin/admin登录。点击菜单栏 “Repositories”——“new Repository” ， 在 Name 中输入 code 项目库名，再点击右下角的 Create 按钮即可。</p>
+<pre class="line-numbers language-none"><code class="language-none">1、将文件checkout到本地目录
+svn checkout path（path是服务器上的目录）
+例如：svn checkout svn://192.168.168.159:18080/pro/domain
+简写：svn co 
+
+2、往版本库中添加新的文 件
+svn add file
+例如：svn add test.php(添加test.php)
+svn add *.php(添加当前目录下所有的php文件) 
+
+3、将改动的文件提交到版 本库
+svn commit -m "LogMessage" [-N] [--no-unlock] PATH(如果选择了保持锁，就使用--no-unlock开关)
+例如：svn commit -m "add test file for my test" test.php
+简写：svn ci <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<hr>
+<h3 id="数据库储存"><a href="#数据库储存" class="headerlink" title="数据库储存"></a>数据库储存</h3><p>我们计划使用图形数据库<strong>Neo4j</strong>，相比于关系型数据库 SQL ，图像数据库更能满足数据之间复杂的联系。</p>
+<p>目前已经熟练掌握数据库的 <em>增查删改</em> 语句，也实现了（<em>方法来源网络</em>）数据库读取并储存 RDF 文件，不过目前还没实现如何理解数据库储存的数据以及如何从 SVN 仓库上传到数据库里。</p>
+<p>先说说存储 XML 文件吧，我们使用 <strong>APOC</strong> 来提供帮助，我们现在已经安装好了 apoc </p>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token comment">&lt;!----- 这是随意生成的xml文件 ---&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>?xml</span> <span class="token attr-name">version</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1.0<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>earth</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>continent</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Africa<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>country</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Morocco<span class="token punctuation">"</span></span> <span class="token attr-name">money</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Dinar<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>continent</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>continent</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Europe<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>country</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>France<span class="token punctuation">"</span></span> <span class="token attr-name">money</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Euro<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>continent</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>continent</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Asia<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>country</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>China<span class="token punctuation">"</span></span> <span class="token attr-name">money</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Yuan<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>continent</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>earth</span><span class="token punctuation">&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>导入数据之前，线创建一些约束条件</p>
+<blockquote>
+<p>CREATE CONSTRAINT ON (c:Continent) ASSERT c.name IS UNIQUE</p>
+<p>CREATE CONSTRAINT ON (mo:Money) ASSERT mo.name IS UNIQUE</p>
+</blockquote>
+<p>这一段是什么意思？</p>
+<p>导入 XML 的原则是创建一个多重 Map，一个在内存中 Map 的 Map ,然后用 Cypher 语句去处理这些 Map</p>
+<blockquote>
+<p>WITH ‘ file : ///home/jerome/Tools/neo/neo4jcommunity- 3.2.0/import/countries. xml’  as url<br>CALL apoc.load.xml{url} YIELD value  as  earth<br>UNWIND earth.children  as  continent<br>MERGE (co:Continent {name : continent.name} )<br>WITH continent , co<br>UNWIND continent.children  as  cou<br>WITH continent , co , cou<br>MERGE (existingCountry : Country {name : cou . name} )<br>MERGE (money:Money {name : cou.money})<br>MERGE (existingCountry ) -［: INSIDE] -&gt; (co)<br>MERGE (existingCountry) - [ : HAS_CURRENCY ］ -&gt;(money)</p>
+</blockquote>
+<p>当然，我们根据自己的情况修改导入文件的路径就可以了。不幸的是，不像导入 JSON<br>时那样，这次需要给出完整的文件路径。<br>这里出现了一个新的 Cypher命令：四叫TIND，创建－个迭代器 ( iterator）并使用它。<br>或许想要 问＿children 是什么。它是 Map 的一个属性（ attribute ） ，在 XML 文件导入时就<br>被创建了。它包含了当前元素（ element ） 的所有子元素。 因为，可以想象 ， 每个国家创建时<br>就像下面这样带有子元素而不是简单的属性（ attribute）</p>
+]]></content>
+      <categories>
+        <category>Technology</category>
+      </categories>
+      <tags>
+        <tag>OSLC</tag>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>OpenFOAM中的离散</title>
     <url>/2021/08/27/OpenFOAM%E4%B8%AD%E7%9A%84%E7%A6%BB%E6%95%A3/</url>
     <content><![CDATA[<h3 id="1-计算域离散"><a href="#1-计算域离散" class="headerlink" title="1. 计算域离散"></a>1. 计算域离散</h3><p>计算域的离散</p>
@@ -125,100 +219,6 @@
       </categories>
       <tags>
         <tag>OpenFOAM</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>OSLC开发（踩坑）指南</title>
-    <url>/2021/08/29/OSLC%E9%80%82%E9%85%8D%E5%99%A8%E5%BC%80%E5%8F%91%EF%BC%88%E8%B8%A9%E5%9D%91%EF%BC%89%E6%8C%87%E5%8D%97/</url>
-    <content><![CDATA[<h3 id="模型转换"><a href="#模型转换" class="headerlink" title="模型转换"></a>模型转换</h3><p>计划是开发CAD和CAE插件，从而使得模型可以转化为 RDF 文件，三元组来描述模型的特征。目前还没有选择软件，也没有研究明白怎么转换，也没看懂怎么展示rdf。</p>
-<p>但我们看到了 Simulink 的模型转化的代码。（<em>Simulink是<a href="https://baike.baidu.com/item/%E7%BE%8E%E5%9B%BD/125486">美国</a><a href="https://baike.baidu.com/item/Mathworks/5887044">Mathworks</a>公司推出的<a href="https://baike.baidu.com/item/MATLAB/263035">MATLAB</a>中的一种可视化仿真工具。Simulink是一个模块图环境，用于多域<a href="https://baike.baidu.com/item/%E4%BB%BF%E7%9C%9F/4330029">仿真</a>以及基于模型的设计</em>）</p>
-<p>Simulink 的模型后缀名是 “  <strong>.slx</strong>  ”，我们使用 Matlab 的函数来将这些 .slx 文件转化为以 <strong>XML</strong> 格式存储的文件中。函数文件很多，但理解起来并不难。主要是各个函数的调用。其核心思想是读取 .slx 结尾的文件内容，将相应的内容通过文件输入输出流写入xml标准文件中并储存。</p>
-<p>最开始我们参考的 <em>Matlab</em> 函数是放在 <em>\edu.gatech.mbsec.adapter.simulink\matlab</em> 里，有“添加模块”、“添加信号线”、“将指定模型或模块对象上的参数设置为指定的值”、“打开模型”、“转化文件”、”确定文件目录“、”判断是否为空“这些函数。</p>
-<hr>
-<h3 id="数据上传"><a href="#数据上传" class="headerlink" title="数据上传"></a>数据上传</h3><p>数据上传使用 <strong>Subversion</strong> ，Apache Subversion 通常被缩写成 SVN，是一个开放源代码的版本控制系统。SVN 相对于的 RCS、CVS，采用了分支管理系统，它的设计目标就是取代 CVS 。互联网上免费的版本控制服务多基于Subversion。</p>
-<p>在这里我们使用了 <strong>Subversion Edge</strong>，图形化的操作界面，在浏览器上普通的交互就可以进行版本控制和仓库的操作。其使用也很简单，总的来说是将这个svn Edge 安装在远程的服务器上，然后配置连接的代理和端口，就可以将本地文件上传到服务器的仓库中。</p>
-<blockquote>
-<p><em>The default administrator login is:</em></p>
-<p><em>Address: <a href="http://localhost:3343/csvn">http://localhost:3343/csvn</a></em></p>
-<p><em>Username: admin</em></p>
-<p><em>Password: admin</em></p>
-</blockquote>
-<p>添加项目库，在浏览器中打开<a href="http://localhost:3343/csvn">http://localhost:3343/csvn</a> （如果是服务端的话，请用服务器IP地址取代 localhost ），以 admin/admin登录。点击菜单栏 “Repositories”——“new Repository” ， 在 Name 中输入 code 项目库名，再点击右下角的 Create 按钮即可。</p>
-<pre class="line-numbers language-none"><code class="language-none">1、将文件checkout到本地目录
-svn checkout path（path是服务器上的目录）
-例如：svn checkout svn://192.168.168.159:18080/pro/domain
-简写：svn co 
-
-2、往版本库中添加新的文 件
-svn add file
-例如：svn add test.php(添加test.php)
-svn add *.php(添加当前目录下所有的php文件) 
-
-3、将改动的文件提交到版 本库
-svn commit -m "LogMessage" [-N] [--no-unlock] PATH(如果选择了保持锁，就使用--no-unlock开关)
-例如：svn commit -m "add test file for my test" test.php
-简写：svn ci <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-
-
-<hr>
-<h3 id="数据库储存"><a href="#数据库储存" class="headerlink" title="数据库储存"></a>数据库储存</h3><p>我们计划使用图形数据库<strong>Neo4j</strong>，相比于关系型数据库 SQL ，图像数据库更能满足数据之间复杂的联系。</p>
-<p>目前已经熟练掌握数据库的 <em>增查删改</em> 语句，也实现了（<em>方法来源网络</em>）数据库读取并储存 RDF 文件，不过目前还没实现如何理解数据库储存的数据以及如何从 SVN 仓库上传到数据库里。</p>
-<p>先说说存储 XML 文件吧，我们使用 <strong>APOC</strong> 来提供帮助，我们现在已经安装好了 apoc </p>
-<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token comment">&lt;!----- 这是随意生成的xml文件 ---&gt;</span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>?xml</span> <span class="token attr-name">version</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1.0<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>earth</span><span class="token punctuation">&gt;</span></span>
-
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>continent</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Africa<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>country</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Morocco<span class="token punctuation">"</span></span> <span class="token attr-name">money</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Dinar<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>continent</span><span class="token punctuation">&gt;</span></span>
-
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>continent</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Europe<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>country</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>France<span class="token punctuation">"</span></span> <span class="token attr-name">money</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Euro<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>continent</span><span class="token punctuation">&gt;</span></span>
-
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>continent</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Asia<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>country</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>China<span class="token punctuation">"</span></span> <span class="token attr-name">money</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Yuan<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>continent</span><span class="token punctuation">&gt;</span></span>
-
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>earth</span><span class="token punctuation">&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>导入数据之前，线创建一些约束条件</p>
-<blockquote>
-<p>CREATE CONSTRAINT ON (c:Continent) ASSERT c.name IS UNIQUE</p>
-<p>CREATE CONSTRAINT ON (mo:Money) ASSERT mo.name IS UNIQUE</p>
-</blockquote>
-<p>这一段是什么意思？</p>
-<p>导入 XML 的原则是创建一个多重 Map，一个在内存中 Map 的 Map ,然后用 Cypher 语句去处理这些 Map</p>
-<blockquote>
-<p>WITH ‘ file : ///home/jerome/Tools/neo/neo4jcommunity- 3.2.0/import/countries. xml’  as url<br>CALL apoc.load.xml{url} YIELD value  as  earth<br>UNWIND earth.children  as  continent<br>MERGE (co:Continent {name : continent.name} )<br>WITH continent , co<br>UNWIND continent.children  as  cou<br>WITH continent , co , cou<br>MERGE (existingCountry : Country {name : cou . name} )<br>MERGE (money:Money {name : cou.money})<br>MERGE (existingCountry ) -［: INSIDE] -&gt; (co)<br>MERGE (existingCountry) - [ : HAS_CURRENCY ］ -&gt;(money)</p>
-</blockquote>
-<p>当然，我们根据自己的情况修改导入文件的路径就可以了。不幸的是，不像导入 JSON<br>时那样，这次需要给出完整的文件路径。<br>这里出现了一个新的 Cypher命令：四叫TIND，创建－个迭代器 ( iterator）并使用它。<br>或许想要 问＿children 是什么。它是 Map 的一个属性（ attribute ） ，在 XML 文件导入时就<br>被创建了。它包含了当前元素（ element ） 的所有子元素。 因为，可以想象 ， 每个国家创建时<br>就像下面这样带有子元素而不是简单的属性（ attribute）</p>
-]]></content>
-      <categories>
-        <category>Technology</category>
-      </categories>
-      <tags>
-        <tag>OSLC</tag>
-        <tag>JAVA</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>写在第一篇</title>
-    <url>/2021/08/27/Hello/</url>
-    <content><![CDATA[<hr>
-<p>​                这是我的第一篇文章，其实也不算是第一篇了，在大一下学期时候，那个寒假连接着暑假的一百多天里，接触到了一些关于网络安全、博客、安卓等方面的内容，也算是刚刚开始，那个时候就在 <em>github+hexo</em> 的模式下写了一个 <em>blog</em>，不过当时感觉没什么可以写的，后来就一直荒废了。</p>
-<p>​                但是我又开始了，看到《工程流体力学》的老师自我介绍时候说大家可以去访问他的个人主页，这是一个自己搭建的，感觉很不错，所以我也想，应该把丢下的 <em>blog</em> 捡起来。正好前几个月一直在用 <em>markdown</em> 来写东西，记录金工实习和志愿者等一些事情。</p>
-<p>​                嗯，写一些什么呢？</p>
-<hr>
-<p>​                快开学了，从长空学院离开，写一些回忆录？不过这里市公共网络，不合适吧，但确实要写一下回忆录，记录一下。另外，空气动力学应该写一些，关于小安德森教授写的 <em>《空气动力学基础》</em> 的笔记？也许吧</p>
-]]></content>
-      <categories>
-        <category>Markdown</category>
-      </categories>
-      <tags>
-        <tag>Typora</tag>
-        <tag>Markdown</tag>
       </tags>
   </entry>
   <entry>
@@ -403,7 +403,7 @@ OptimisationSwitches
   <entry>
     <title>湍流模型</title>
     <url>/2022/01/03/%E6%B9%8D%E6%B5%81%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<h1 id="0-写在前面"><a href="#0-写在前面" class="headerlink" title="0 写在前面"></a>0 写在前面</h1><p>去年有幸参加了一个学术论坛的答辩，我主要讲汇报计算流体力学和机翼气动响应分析的内容。讲的还可以，不过最后评委老师提问时候，有个问题没答上来，写在这里进行深度的学习</p>
+    <content><![CDATA[<h3 id="0-写在前面"><a href="#0-写在前面" class="headerlink" title="0 写在前面"></a>0 写在前面</h3><p>去年有幸参加了一个学术论坛的答辩，我主要讲汇报计算流体力学和机翼气动响应分析的内容。讲的还可以，不过最后评委老师提问时候，有个问题没答上来，写在这里进行深度的学习</p>
 <ul>
 <li><p>老师问：你这个网格的湍流模型是哪一个？</p>
 </li>
@@ -411,7 +411,8 @@ OptimisationSwitches
 <p>（我只记得一个二维网格，大概十几万的网格数，边界层厚度和设置的最大迭代次数…暑假（对，就是上次写Blog时候）看了湍流模型那一章节，不过觉得需要时候再查书就好了，没怎么记忆555</p>
 </li>
 </ul>
-<h1 id="1-湍流模型"><a href="#1-湍流模型" class="headerlink" title="1 湍流模型"></a>1 湍流模型</h1><p>这里先写一下FLUENT提供的湍流模型，关于这些模型是否在不同软件通用，这个后面再研究一下</p>
+<h3 id="1-湍流模型"><a href="#1-湍流模型" class="headerlink" title="1 湍流模型"></a>1 湍流模型</h3><p>湍流模型，是微分方程类型，常用的湍流模型可根据所采用的微分方程数进行分类为：零方程模型、一方程模型、两方程模型、四方程模型、七方程模型等</p>
+<p>这里先写一下FLUENT提供的湍流模型，关于这些模型是否在不同软件通用，这个后面再研究一下</p>
 <ul>
 <li>Spalart-Allmaras 模型</li>
 <li>$ k- \epsilon$ 模型 <ul>
@@ -426,7 +427,29 @@ OptimisationSwitches
 </ul>
 </li>
 <li>v2-f 模型</li>
+<li>转捩$k-kl-\omega$模型</li>
+<li>转捩$k-\omega$模型</li>
+<li>雷诺应力RSM 模型<ul>
+<li>x线性压力盈利 RSM 模型</li>
+<li>二次压力应力 RSM 模型</li>
+<li>低雷诺数应力$\omega$ RSM 模型</li>
 </ul>
+</li>
+<li>分离涡模型，大涡模型</li>
+</ul>
+<h3 id="2-具体介绍"><a href="#2-具体介绍" class="headerlink" title="2 具体介绍"></a>2 具体介绍</h3><p>这些模型的名字看起来好奇怪，各种 k 啊，$\omega$ 啊，先背下来吧，以后看文章看到名字了知道是在讲湍流模型，接下来具体介绍一下，有一个初步的了解</p>
+<h4 id="Spalart-Allmaras-模型"><a href="#Spalart-Allmaras-模型" class="headerlink" title="Spalart-Allmaras 模型"></a>Spalart-Allmaras 模型</h4><p><em>Spalart-Allmaras( SA )</em> 模型是用于空气动力学、流体机械等含有中度分离现象的场合，如接近音速和超音速的机翼绕流、边界层流动等，也用在壁面射流空气动力学问题、透平等问题。中心问题是怎样计算漩涡粘度。</p>
+<p>模型由[ Spalart 和 Allmaras 提出](<a href="https://marinecfd.xyz/post/spalart-allmaras/">Spalart Allmaras 模型 - OpenFOAM 之道 (marinecfd.xyz)</a>)，是一个一方程模型，设计初衷是用于航空领域的壁面流。有如下特点：</p>
+<ul>
+<li>只需求解一个输运方程，相比其他湍流模型计算速度快。</li>
+<li>对逆压梯度问题结果较好。</li>
+<li>无法准确模拟自由剪切流，如射流。</li>
+<li>无法准确模拟均匀衰减、各项同性湍流。</li>
+</ul>
+<p>SA 模型是相对简单的单方程模型，只需求解湍流粘性的输运方程，不需要求解当地剪切层厚度的长度尺度；由于没有考虑长度尺度的变化，这对一些流动尺度变换比较大的流动问题不太适合；比如平板射流问题，从有壁面影响流动突然变化到自由剪切流，流场尺度变化明显等问题。</p>
+<p>SA 模型中的输运变量在近壁处的梯度要比k-ε中的小，这使得该模型对网格粗糙带来数值误差不太敏感。</p>
+<h4 id="标准-k-omega-模型（Standard-k-ε-Model）"><a href="#标准-k-omega-模型（Standard-k-ε-Model）" class="headerlink" title="标准 $k-\omega$ 模型（Standard k-ε Model）"></a>标准 $k-\omega$ 模型（<em>Standard k-ε Model</em>）</h4><p><em>standard</em> 模型是基于湍流动能 $ K $ 及其耗散率$ \epsilon $的输运方程的模型。K的模型传输方程是从精确方程推导出来的，而ε的模型传输方程是通过物理推理得到的，与数学上的精确方程相似性很小。</p>
+<p>在模型的推导过程中，假设流动完全是湍流，分子粘度的影响可以忽略不计。因此，<em>standard</em> 模型只适用于完全湍流，而且由于方程包含不能再壁面计算的项，于是要使用壁面函数；对强分离、大曲率流动、强压强梯度流动的预测结果很弱。为了提高其性能，对其进行了一些改进：<em>RNG</em> 模型和 <em>relizable</em> 模型</p>
 ]]></content>
       <categories>
         <category>CFD</category>
