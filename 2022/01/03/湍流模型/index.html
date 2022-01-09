@@ -507,7 +507,7 @@
 </ul>
 <p>SA 模型是相对简单的单方程模型，只需求解湍流粘性的输运方程，不需要求解当地剪切层厚度的长度尺度；由于没有考虑长度尺度的变化，这对一些流动尺度变换比较大的流动问题不太适合；比如平板射流问题，从有壁面影响流动突然变化到自由剪切流，流场尺度变化明显等问题。</p>
 <p>SA 模型中的输运变量在近壁处的梯度要比k-ε中的小，这使得该模型对网格粗糙带来数值误差不太敏感。</p>
-<h4 id="（2）标准-k-epsilon-模型（Standard-k-ε-Model）"><a href="#（2）标准-k-epsilon-模型（Standard-k-ε-Model）" class="headerlink" title="（2）标准 $k-\epsilon$ 模型（Standard k-ε Model）"></a>（2）标准 $k-\epsilon$ 模型（<em>Standard k-ε Model</em>）</h4><p><em>standard</em> 模型是基于湍流动能 $ K $ 及其耗散率$ \epsilon $的输运方程的模型。K的模型传输方程是从精确方程推导出来的，而ε的模型传输方程是通过物理推理得到的，与数学上的精确方程相似性很小。<a target="_blank" rel="noopener" href="http://staff.ustc.edu.cn/~humaobin/course/cht/ppt/7.4.pdf">USTC的文档</a></p>
+<h4 id="（2）标准-k-epsilon-模型"><a href="#（2）标准-k-epsilon-模型" class="headerlink" title="（2）标准 $k-\epsilon$ 模型"></a>（2）标准 $k-\epsilon$ 模型</h4><p><em>Standard k-ε</em> 模型是基于湍流动能 $ K $ 及其耗散率$ \epsilon $的输运方程的模型。K的模型传输方程是从精确方程推导出来的，而ε的模型传输方程是通过物理推理得到的，与数学上的精确方程相似性很小。<a target="_blank" rel="noopener" href="http://staff.ustc.edu.cn/~humaobin/course/cht/ppt/7.4.pdf">USTC的文档</a></p>
 <p>在模型的推导过程中，假设流动完全是湍流，分子粘度的影响可以忽略不计。因此，<em>standard</em> 模型只适用于完全湍流，而且由于方程包含不能再壁面计算的项，于是要使用壁面函数；对强分离、大曲率流动、强压强梯度流动的预测结果很弱。为了提高其性能，对其进行了一些改进：<em>RNG</em> 模型和 <em>relizable</em> 模型</p>
 <p><strong><em>RNG</em>模型</strong>来源于严格的统计技术，与 <em>standard</em> 相比，考虑的湍流漩涡，从而有效地提高了精度，并且 <em>standard</em> 是高雷诺说模型，其主要是用户的经验常数，而 <em>RNG</em> 是提供了低雷诺数流动粘性解析公式，在复杂剪切流动、含高剪切率流动、旋流和流动分离场合中预测要好于 <em>standard</em> 模型</p>
 <p><strong><em>relizable</em> 模型</strong>，为流动粘性增加了一个公式，其优势在于预测平面和圆形射流扩散作用，对于旋流、强逆压梯度的边界层流动、流动分离和二次流也有很好表现（这段是照书上抄的，具体怎么好表现后面再看看）</p>
