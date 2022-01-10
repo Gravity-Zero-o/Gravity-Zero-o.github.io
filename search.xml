@@ -1,27 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>写在第一篇</title>
-    <url>/2021/08/27/Hello/</url>
-    <content><![CDATA[<hr>
-<p>这是我的第一篇文章，其实也不算是第一篇了，在大一下学期时候，那个寒假连接着暑假的一百多天里，接触到了一些关于网络安全、博客、安卓等方面的内容，也算是刚刚开始，那个时候就在 <em>github+hexo</em> 的模式下写了一个 <em>blog</em>，不过当时感觉没什么可以写的，后来就一直荒废了。</p>
-<p>但是我又开始了，看到《工程弹性力学》老师自我介绍时候说大家可以去访问他的个人主页，这是一个自己搭建的，感觉很不错，所以我也想，应该把丢下的 <em>blog</em> 捡起来。正好前几个月一直在用 <em>markdown</em> 来写东西，记录金工实习和志愿者等一些事情。</p>
-<p>嗯，写一些什么呢？</p>
-<hr>
-<h5 id="2021年8月"><a href="#2021年8月" class="headerlink" title="2021年8月"></a>2021年8月</h5><p>快开学了，从长空学院离开，写一些回忆录？不过这里市公共网络，不合适吧，但确实要写一下回忆录，记录一下。另外，空气动力学应该写一些，关于小安德森教授写的 <em>《空气动力学基础》</em> 的笔记？也许吧</p>
-<hr>
-<h5 id="2022年1月"><a href="#2022年1月" class="headerlink" title="2022年1月"></a>2022年1月</h5><p>由于疫情吧，寒假在1月1号就开始了，50天的假期，从图书馆捞了几本气动弹性力学和CFD的书，顺便写一些文章来记录一下这个假期的学习生活，希望能一直写下去</p>
-<p>去年12月份要写论文，学习了一下 <em>Latex</em> 排版，感觉语法和 <em>Markdown</em> 很相似</p>
-]]></content>
-      <categories>
-        <category>Markdown</category>
-      </categories>
-      <tags>
-        <tag>Typora</tag>
-        <tag>Markdown</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>OSLC开发（踩坑）指南</title>
     <url>/2021/08/29/OSLC%E9%80%82%E9%85%8D%E5%99%A8%E5%BC%80%E5%8F%91%EF%BC%88%E8%B8%A9%E5%9D%91%EF%BC%89%E6%8C%87%E5%8D%97/</url>
     <content><![CDATA[<h3 id="模型转换"><a href="#模型转换" class="headerlink" title="模型转换"></a>模型转换</h3><p>计划是开发CAD和CAE插件，从而使得模型可以转化为 RDF 文件，三元组来描述模型的特征。目前还没有选择软件，也没有研究明白怎么转换，也没看懂怎么展示rdf。</p>
@@ -95,6 +74,27 @@ svn commit -m "LogMessage" [-N] [--no-unlock] PATH(如果选择了保持锁，�
       <tags>
         <tag>OSLC</tag>
         <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>写在第一篇</title>
+    <url>/2021/08/27/Hello/</url>
+    <content><![CDATA[<hr>
+<p>这是我的第一篇文章，其实也不算是第一篇了，在大一下学期时候，那个寒假连接着暑假的一百多天里，接触到了一些关于网络安全、博客、安卓等方面的内容，也算是刚刚开始，那个时候就在 <em>github+hexo</em> 的模式下写了一个 <em>blog</em>，不过当时感觉没什么可以写的，后来就一直荒废了。</p>
+<p>但是我又开始了，看到《工程弹性力学》老师自我介绍时候说大家可以去访问他的个人主页，这是一个自己搭建的，感觉很不错，所以我也想，应该把丢下的 <em>blog</em> 捡起来。正好前几个月一直在用 <em>markdown</em> 来写东西，记录金工实习和志愿者等一些事情。</p>
+<p>嗯，写一些什么呢？</p>
+<hr>
+<h5 id="2021年8月"><a href="#2021年8月" class="headerlink" title="2021年8月"></a>2021年8月</h5><p>快开学了，从长空学院离开，写一些回忆录？不过这里市公共网络，不合适吧，但确实要写一下回忆录，记录一下。另外，空气动力学应该写一些，关于小安德森教授写的 <em>《空气动力学基础》</em> 的笔记？也许吧</p>
+<hr>
+<h5 id="2022年1月"><a href="#2022年1月" class="headerlink" title="2022年1月"></a>2022年1月</h5><p>由于疫情吧，寒假在1月1号就开始了，50天的假期，从图书馆捞了几本气动弹性力学和CFD的书，顺便写一些文章来记录一下这个假期的学习生活，希望能一直写下去</p>
+<p>去年12月份要写论文，学习了一下 <em>Latex</em> 排版，感觉语法和 <em>Markdown</em> 很相似</p>
+]]></content>
+      <categories>
+        <category>Markdown</category>
+      </categories>
+      <tags>
+        <tag>Typora</tag>
+        <tag>Markdown</tag>
       </tags>
   </entry>
   <entry>
@@ -225,101 +225,6 @@ svn commit -m "LogMessage" [-N] [--no-unlock] PATH(如果选择了保持锁，�
       </tags>
   </entry>
   <entry>
-    <title>OpenFOAM边界条件</title>
-    <url>/2021/09/01/OpenFOAM%E8%BE%B9%E7%95%8C%E6%9D%A1%E4%BB%B6/</url>
-    <content><![CDATA[<h2 id="1-边界类型"><a href="#1-边界类型" class="headerlink" title="1.边界类型"></a>1.边界类型</h2><p><strong>patch</strong>：基本边界，不包含网格几何或拓扑信息，常用于进口、出口、自由表面</p>
-<ul>
-<li><strong>wall</strong>：壁面边界</li>
-<li><strong>empty</strong>：二维求解中设置为第三方向的</li>
-<li><strong>wedge</strong>：楔形边界，仅用于二维轴对称流动的模拟</li>
-<li><strong>cyclic</strong>：周期性边界，用于模拟旋转周期和平移周期</li>
-<li><strong>processor</strong>：并行计算网格切分交界面</li>
-<li><strong>cyclicAMI</strong>：任意边界，用于耦合两个完全不一样的边界</li>
-<li><strong>symmetry</strong> 和 <strong>symmetryPlane</strong>：边界两侧的流场互为镜像，前者是曲面，后者是平面</li>
-</ul>
-<h2 id="2-边界条件类型"><a href="#2-边界条件类型" class="headerlink" title="2.边界条件类型"></a>2.边界条件类型</h2><p>边界条件在CFD中分两大类：<strong>Dirichlet <strong>边界和 <strong>Neumann</strong> 边界。其中，</strong>Dirichlet</strong> （迪利克雷）是定值边界条件，即边界上的物理量是固定值；而 <strong>Neumann</strong> （诺伊曼）是定梯度边界条件，即边界上的物理量的梯度是固定值。在OpenFOAM中，有很多边界条件，除壁面函数以外均位于 <em>/src/finiteVolume/fields/fvPatchFields</em> 以下是一些常用的边界条件。</p>
-<ul>
-<li><p>fixedValue</p>
-<p>Dirichlet边界条件是应用最广的边界条件之一，用于设定进出口速度、压力以及壁面速度等</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
-<span class="token punctuation">{</span>
-	type     fixedValue<span class="token punctuation">;</span>
-	value    uniform <span class="token number">0</span><span class="token punctuation">;</span>   <span class="token comment">//uniform 表示均匀分布，0表示物理量的值，若为矢量，则（0 0 0）等形式</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>zeroGradient</p>
-<p>Neumann 边界条件，表示边界的梯度为 0 ，常用于壁面处压力以及其余标量场如 nut 、epsilon 等的设置</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
-<span class="token punctuation">{</span>
-    type       zeroGradient<span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>壁面函数</p>
-<p>在网格不足以近似求解近壁面区流动时，需采用壁面函数建立近壁区流场。此时，针对涡粘系数（nut）、湍流能（k）、湍流能耗散率（epsilon）与湍流能比耗散率（omega）均应设置相应的壁面函数，目前还没看懂这些函数，先不写了。</p>
-</li>
-<li><p>slip</p>
-<p>滑移边界，对于变量，该边界等同于 zeroGradient ；对于矢量，则垂直于边界方向为 fixedValue ，且为 0 ，而平行于边界方向为 zeroGradient</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
-<span class="token punctuation">{</span>
-    type       slip<span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>movingWallVelocity</p>
-<p>运动壁面条件，用于设定壁面的速度</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
-<span class="token punctuation">{</span>
-    type	  movingWallVelocity<span class="token punctuation">;</span>
-    value     <span class="token function">uniform</span><span class="token punctuation">(</span><span class="token number">0</span> <span class="token number">0</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>*使用 MRF 模拟旋转流场时，必须将旋转域内壁面设置为movingWallVelocity，且速度值设为相对运动速度，对于一般的叶轮机械，由于叶片随转子旋转，此时壁面的相对运动速度为0</p>
-</li>
-<li><p>totalPressure</p>
-<p>用于给定边界的总压，常用于进口和出口</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
-<span class="token punctuation">{</span>
-    type	 totalPressure<span class="token punctuation">;</span>
-    U        U<span class="token punctuation">;</span>         <span class="token comment">//U为速度场名称，一般设置为U ，在某些使用相对速度Urel</span>
-    phi      phi<span class="token punctuation">;</span>       <span class="token comment">//通量场名称，一般为 phi</span>
-    rho      none<span class="token punctuation">;</span>      <span class="token comment">//密度场名称，不可流动为none,可流动为rho</span>
-    psi      none<span class="token punctuation">;</span>      <span class="token comment">//可压缩流场名称，亚音速可压缩流体以及不可压流体不考虑可压缩性对总压的影响，为none，其他为psi</span>
-    gamma    <span class="token number">1</span><span class="token punctuation">;</span>         <span class="token comment">//绝热常数，若求解不考虑传热，则该参数不生效</span>
-    value    uniform <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">//总压的值</span>
-        
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>flowRateInletVelocity</p>
-<p>流量边界，用于给定进口或出口的质量流量或体积流量</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">//1. 给定质量流量</span>
-边界名                                            
-<span class="token punctuation">{</span>
-    type	             flowRateInletVelocity<span class="token punctuation">;</span>    
-    massFlowRate         <span class="token number">0.2</span><span class="token punctuation">;</span>         <span class="token comment">//质量流量，单位kg/s,流入为正</span>
-    rho                  rho<span class="token punctuation">;</span>		  <span class="token comment">//密度场名称，一般为rho</span>
-    rhoInlet             <span class="token number">1.0</span><span class="token punctuation">;</span>         <span class="token comment">//初始密度，用于计算开始时未给定密度初始值的情况</span>
-<span class="token punctuation">}</span>
-<span class="token comment">//2. 给定体积流量</span>
-边界名
-<span class="token punctuation">{</span>
-    type                 flowRateInletVelocity<span class="token punctuation">;</span>
-    vloumetricFlowRate   <span class="token number">0.2</span><span class="token punctuation">;</span>          <span class="token comment">//体积流量 单位立方米每秒</span>
-    value                <span class="token function">uniform</span><span class="token punctuation">(</span><span class="token number">0</span> <span class="token number">0</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//占位符，无意义</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>inletOutlet和outletInlet</p>
-<p>出口边界 / 进口边界 ，可以控制回流</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
-<span class="token punctuation">{</span>
-    type                 inletOutlet<span class="token punctuation">;</span>   <span class="token comment">//inletOutlet或outletInlet</span>
-    phi                  phi<span class="token punctuation">;</span>			<span class="token comment">//通量名称，判断流动方向，一般为phi</span>
-    inletValue           uniform <span class="token number">0</span><span class="token punctuation">;</span>		<span class="token comment">//出现回流时流动参数值</span>
-    value                uniform <span class="token number">0</span><span class="token punctuation">;</span>     <span class="token comment">//边界初始值</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-</ul>
-]]></content>
-      <categories>
-        <category>CFD</category>
-      </categories>
-      <tags>
-        <tag>OpenFOAM</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>掉落液滴两相流</title>
     <url>/2021/09/02/%E4%B8%A4%E7%9B%B8%E6%B5%81/</url>
     <content><![CDATA[<h2 id="0-前言"><a href="#0-前言" class="headerlink" title="0. 前言"></a>0. 前言</h2><p>看到这个标题，就是两相流，简单明了。<strong>两相流</strong>是两相物质(至少一相为流体)所组成的流动<a href="https://baike.baidu.com/item/%E7%B3%BB%E7%BB%9F">系统</a>。若流动系统中物质的相态多于两个，则称为多相流。</p>
@@ -414,35 +319,44 @@ OptimisationSwitches
 <p>（我只记得一个二维网格，大概十几万的网格数，边界层厚度和设置的最大迭代次数…暑假（对，就是上次写Blog时候）看了湍流模型那一章节，不过觉得需要时候再查书就好了，没怎么记忆555</p>
 </li>
 </ul>
-<h3 id="1-湍流模型"><a href="#1-湍流模型" class="headerlink" title="1 湍流模型"></a>1 湍流模型</h3><p>湍流模型，是微分方程类型，常用的湍流模型可根据所采用的微分方程数进行分类为：零方程模型、一方程模型、两方程模型、四方程模型、七方程模型等</p>
+<h3 id="1-湍流模型"><a href="#1-湍流模型" class="headerlink" title="1 湍流模型"></a>1 湍流模型</h3><p>湍流模式理论或简称湍流模型，就是以雷诺平均运动方程与脉动运动方程为基础，依靠理论与经验的结合，引进一系列模型假设，而建立起的一组描写湍流平均量微分方程形式的封闭方程组。常用的湍流模型可根据所采用的微分方程数进行分类为：零方程模型、一方程模型、两方程模型、四方程模型、七方程模型等。</p>
 <p>这里先写一下FLUENT提供的湍流模型，关于这些模型是否在不同软件通用，这个后面再研究一下</p>
 <ul>
-<li>Spalart-Allmaras 模型</li>
-<li>$ k- \epsilon$ 模型 <ul>
+<li><p>Spalart-Allmaras （SA）模型</p>
+</li>
+<li><p>$ k- \epsilon$ 模型 </p>
+<ul>
 <li>标准 $ k-\epsilon$ 模型</li>
 <li>重整化RNG $ k-\epsilon$ 模型</li>
 <li>可实现 $ k-\epsilon$ 模型</li>
 </ul>
 </li>
-<li>$ k-\omega$ 模型<ul>
+<li><p>$ k-\omega$ 模型</p>
+<ul>
 <li>标准 $ k-\omega$ 模型</li>
 <li>剪切应力 SST $ k-\omega$ 模型</li>
 </ul>
 </li>
-<li>v2-f 模型</li>
-<li>转捩 $k-kl-\omega$ 模型</li>
-<li>转捩 $k-\omega$模型</li>
-<li>雷诺应力 RSM 模型<ul>
+<li><p>v2-f 模型</p>
+</li>
+<li><p>转捩 $k-kl-\omega$ 模型</p>
+</li>
+<li><p>转捩 $k-\omega$模型</p>
+</li>
+<li><p>雷诺应力 RSM 模型</p>
+<ul>
 <li>x线性压力应力 RSM 模型</li>
 <li>二次压力应力 RSM 模型</li>
 <li>低雷诺数应力 $\omega$ RSM 模型</li>
 </ul>
 </li>
-<li>分离涡模型，大涡模型</li>
+<li><p>分离涡模型，大涡（LES）模型</p>
+<p><a href="https://www.cfd-china.com/assets/uploads/files/1544074398130-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%B9%8D%E6%B5%81%E6%A8%A1%E5%9E%8B.pdf">点我查看模型微分方程 PDF</a></p>
+</li>
 </ul>
 <h3 id="2-具体介绍"><a href="#2-具体介绍" class="headerlink" title="2 具体介绍"></a>2 具体介绍</h3><p>这些模型的名字看起来好奇怪，各种 k 啊，$\omega$ 啊，先背下来吧，以后看文章看到名字了知道是在讲湍流模型，接下来具体介绍一下，有一个初步的了解</p>
 <h4 id="（1）Spalart-Allmaras-模型"><a href="#（1）Spalart-Allmaras-模型" class="headerlink" title="（1）Spalart-Allmaras 模型"></a>（1）Spalart-Allmaras 模型</h4><p><em>Spalart-Allmaras( SA )</em> 模型是用于空气动力学、流体机械等含有中度分离现象的场合，如接近音速和超音速的机翼绕流、边界层流动等，也用在壁面射流空气动力学问题、透平等问题。中心问题是怎样计算漩涡粘度。</p>
-<p>模型由[ Spalart 和 Allmaras 提出](<a href="https://marinecfd.xyz/post/spalart-allmaras/">Spalart Allmaras 模型 - OpenFOAM 之道 (marinecfd.xyz)</a>)，是一个一方程模型，设计初衷是用于航空领域的壁面流。有如下特点：</p>
+<p>模型由[ Spalart 和 Allmaras ](<a href="https://marinecfd.xyz/post/spalart-allmaras/">Spalart Allmaras 模型 - OpenFOAM 之道 (marinecfd.xyz)</a>)提出，是一个一方程模型，设计初衷是用于航空领域的壁面流。有如下特点：</p>
 <ul>
 <li>只需求解一个输运方程，相比其他湍流模型计算速度快。</li>
 <li>对逆压梯度问题结果较好。</li>
@@ -451,8 +365,8 @@ OptimisationSwitches
 </ul>
 <p>SA 模型是相对简单的单方程模型，只需求解湍流粘性的输运方程，不需要求解当地剪切层厚度的长度尺度；由于没有考虑长度尺度的变化，这对一些流动尺度变换比较大的流动问题不太适合；比如平板射流问题，从有壁面影响流动突然变化到自由剪切流，流场尺度变化明显等问题。</p>
 <p>SA 模型中的输运变量在近壁处的梯度要比k-ε中的小，这使得该模型对网格粗糙带来数值误差不太敏感。</p>
-<h4 id="（2）标准-k-epsilon-模型"><a href="#（2）标准-k-epsilon-模型" class="headerlink" title="（2）标准 $k-\epsilon$ 模型"></a>（2）标准 $k-\epsilon$ 模型</h4><p><em>Standard k-ε</em> 模型是基于湍流动能 $ K $ 及其耗散率$ \epsilon $的输运方程的模型。K的模型传输方程是从精确方程推导出来的，而ε的模型传输方程是通过物理推理得到的，与数学上的精确方程相似性很小。<a href="http://staff.ustc.edu.cn/~humaobin/course/cht/ppt/7.4.pdf">USTC的文档</a></p>
-<p>在模型的推导过程中，假设流动完全是湍流，分子粘度的影响可以忽略不计。因此，<em>standard</em> 模型只适用于完全湍流，而且由于方程包含不能再壁面计算的项，于是要使用壁面函数；对强分离、大曲率流动、强压强梯度流动的预测结果很弱。为了提高其性能，对其进行了一些改进：<em>RNG</em> 模型和 <em>relizable</em> 模型</p>
+<h4 id="（2）标准-k-epsilon-模型"><a href="#（2）标准-k-epsilon-模型" class="headerlink" title="（2）标准 $k-\epsilon$ 模型"></a>（2）标准 $k-\epsilon$ 模型</h4><p><em>Standard k-ε</em> 模型是基于湍流动能 $ k $ 及其耗散率$ \epsilon $的输运方程的模型。K的模型传输方程是从精确方程推导出来的，而ε的模型传输方程是通过物理推理得到的，与数学上的精确方程相似性很小。<a href="http://staff.ustc.edu.cn/~humaobin/course/cht/ppt/7.4.pdf">详细查看USTC的文档</a></p>
+<p>在模型的推导过程中，假设流动完全是湍流，分子粘度的影响可以忽略不计。因此，<em>standard</em> 模型只适用于完全湍流，而且由于方程包含不能再壁面计算的项，于是要使用壁面函数；对强分离、大曲率流动、强压强梯度流动的预测结果很弱。为了提高其性能，对其进行了一些改进：重整化 <em>RNG</em> 模型和可实现  <em>relizable</em> 模型</p>
 <p><strong><em>RNG</em>模型</strong>来源于严格的统计技术，与 <em>standard</em> 相比，考虑的湍流漩涡，从而有效地提高了精度，并且 <em>standard</em> 是高雷诺说模型，其主要是用户的经验常数，而 <em>RNG</em> 是提供了低雷诺数流动粘性解析公式，在复杂剪切流动、含高剪切率流动、旋流和流动分离场合中预测要好于 <em>standard</em> 模型</p>
 <p><strong><em>relizable</em> 模型</strong>，为流动粘性增加了一个公式，其优势在于预测平面和圆形射流扩散作用，对于旋流、强逆压梯度的边界层流动、流动分离和二次流也有很好表现（这段是照书上抄的，具体怎么好表现后面再看看）</p>
 <p><strong>v2-f 模型</strong>是 $k-\epsilon$ 模型的扩展，为具有强湍流各向异性的流动提供了高精度的解，可以用于水利旋流器</p>
@@ -462,12 +376,124 @@ OptimisationSwitches
 <p><em>RSM</em> 比单方程和双方程更严格考虑的流线型弯曲、漩涡、旋转和张力快速变化，适用于与雷诺应力有关的复杂流动。</p>
 <p>当考虑雷诺应力的方向性时，必须使用 <em>RSM</em> 模型，可以适用于飓风、燃烧室高速旋转流、管道二次流等。对于强旋流动，使用 <em>$k-\omega$</em> 或 <em>$k-\epsilon$</em> 都不能正确预测。</p>
 <h4 id="（5）大涡模型"><a href="#（5）大涡模型" class="headerlink" title="（5）大涡模型"></a>（5）大涡模型</h4><p>湍流流场起主导作用的是大尺度涡，而小尺度涡引起湍流动量扩散</p>
+<h3 id="3-湍流模型设定"><a href="#3-湍流模型设定" class="headerlink" title="3 湍流模型设定"></a>3 湍流模型设定</h3><ul>
+<li><p>在 FLUENT 中，可以在Viscous Model 对话框里选择需要的湍流模型，选中后就会出现所需要设置的参数</p>
+</li>
+<li><p>在 OpenFOAM 中，添加湍流模型参见<a href="http://www.cfluid.com/forum.php?mod=viewthread&amp;tid=57757">如何在OpenFoam里添加湍流模型 - OpenFOAM 流体中文网 - (cfluid.com)</a>讲解</p>
+<p>使用时候在constant文件夹下面turbulenceProperties文件进行设置，<a href="https://www.openfoam.com/documentation/guides/latest/doc/guide-fos-field-turbulenceFields.html">OpenFOAM: User Guide: turbulenceFields</a></p>
+<pre class="line-numbers language-C" data-language="C"><code class="language-C">simulationType RAS;//举例
+
+RAS
+{
+    RASModel        kOmegaSST;// 使用SST k-$\omega$
+
+    turbulence      on;
+
+    printCoeffs     on;
+}
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
 ]]></content>
       <categories>
         <category>CFD</category>
       </categories>
       <tags>
         <tag>Trebulent</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OpenFOAM边界条件</title>
+    <url>/2021/09/01/OpenFOAM%E8%BE%B9%E7%95%8C%E6%9D%A1%E4%BB%B6/</url>
+    <content><![CDATA[<h2 id="1-边界类型"><a href="#1-边界类型" class="headerlink" title="1.边界类型"></a>1.边界类型</h2><p><strong>patch</strong>：基本边界，不包含网格几何或拓扑信息，常用于进口、出口、自由表面</p>
+<ul>
+<li><strong>wall</strong>：壁面边界</li>
+<li><strong>empty</strong>：二维求解中设置为第三方向的</li>
+<li><strong>wedge</strong>：楔形边界，仅用于二维轴对称流动的模拟</li>
+<li><strong>cyclic</strong>：周期性边界，用于模拟旋转周期和平移周期</li>
+<li><strong>processor</strong>：并行计算网格切分交界面</li>
+<li><strong>cyclicAMI</strong>：任意边界，用于耦合两个完全不一样的边界</li>
+<li><strong>symmetry</strong> 和 <strong>symmetryPlane</strong>：边界两侧的流场互为镜像，前者是曲面，后者是平面</li>
+</ul>
+<h2 id="2-边界条件类型"><a href="#2-边界条件类型" class="headerlink" title="2.边界条件类型"></a>2.边界条件类型</h2><p>边界条件在CFD中分两大类：<strong>Dirichlet <strong>边界和 <strong>Neumann</strong> 边界。其中，</strong>Dirichlet</strong> （迪利克雷）是定值边界条件，即边界上的物理量是固定值；而 <strong>Neumann</strong> （诺伊曼）是定梯度边界条件，即边界上的物理量的梯度是固定值。在OpenFOAM中，有很多边界条件，除壁面函数以外均位于 <em>/src/finiteVolume/fields/fvPatchFields</em> 以下是一些常用的边界条件。</p>
+<ul>
+<li><p>fixedValue</p>
+<p>Dirichlet边界条件是应用最广的边界条件之一，用于设定进出口速度、压力以及壁面速度等</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
+<span class="token punctuation">{</span>
+	type     fixedValue<span class="token punctuation">;</span>
+	value    uniform <span class="token number">0</span><span class="token punctuation">;</span>   <span class="token comment">//uniform 表示均匀分布，0表示物理量的值，若为矢量，则（0 0 0）等形式</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>zeroGradient</p>
+<p>Neumann 边界条件，表示边界的梯度为 0 ，常用于壁面处压力以及其余标量场如 nut 、epsilon 等的设置</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
+<span class="token punctuation">{</span>
+    type       zeroGradient<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>壁面函数</p>
+<p>在网格不足以近似求解近壁面区流动时，需采用壁面函数建立近壁区流场。此时，针对涡粘系数（nut）、湍流能（k）、湍流能耗散率（epsilon）与湍流能比耗散率（omega）均应设置相应的壁面函数，目前还没看懂这些函数，先不写了。</p>
+</li>
+<li><p>slip</p>
+<p>滑移边界，对于变量，该边界等同于 zeroGradient ；对于矢量，则垂直于边界方向为 fixedValue ，且为 0 ，而平行于边界方向为 zeroGradient</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
+<span class="token punctuation">{</span>
+    type       slip<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>movingWallVelocity</p>
+<p>运动壁面条件，用于设定壁面的速度</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
+<span class="token punctuation">{</span>
+    type	  movingWallVelocity<span class="token punctuation">;</span>
+    value     <span class="token function">uniform</span><span class="token punctuation">(</span><span class="token number">0</span> <span class="token number">0</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>*使用 MRF 模拟旋转流场时，必须将旋转域内壁面设置为movingWallVelocity，且速度值设为相对运动速度，对于一般的叶轮机械，由于叶片随转子旋转，此时壁面的相对运动速度为0</p>
+</li>
+<li><p>totalPressure</p>
+<p>用于给定边界的总压，常用于进口和出口</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
+<span class="token punctuation">{</span>
+    type	 totalPressure<span class="token punctuation">;</span>
+    U        U<span class="token punctuation">;</span>         <span class="token comment">//U为速度场名称，一般设置为U ，在某些使用相对速度Urel</span>
+    phi      phi<span class="token punctuation">;</span>       <span class="token comment">//通量场名称，一般为 phi</span>
+    rho      none<span class="token punctuation">;</span>      <span class="token comment">//密度场名称，不可流动为none,可流动为rho</span>
+    psi      none<span class="token punctuation">;</span>      <span class="token comment">//可压缩流场名称，亚音速可压缩流体以及不可压流体不考虑可压缩性对总压的影响，为none，其他为psi</span>
+    gamma    <span class="token number">1</span><span class="token punctuation">;</span>         <span class="token comment">//绝热常数，若求解不考虑传热，则该参数不生效</span>
+    value    uniform <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">//总压的值</span>
+        
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>flowRateInletVelocity</p>
+<p>流量边界，用于给定进口或出口的质量流量或体积流量</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">//1. 给定质量流量</span>
+边界名                                            
+<span class="token punctuation">{</span>
+    type	             flowRateInletVelocity<span class="token punctuation">;</span>    
+    massFlowRate         <span class="token number">0.2</span><span class="token punctuation">;</span>         <span class="token comment">//质量流量，单位kg/s,流入为正</span>
+    rho                  rho<span class="token punctuation">;</span>		  <span class="token comment">//密度场名称，一般为rho</span>
+    rhoInlet             <span class="token number">1.0</span><span class="token punctuation">;</span>         <span class="token comment">//初始密度，用于计算开始时未给定密度初始值的情况</span>
+<span class="token punctuation">}</span>
+<span class="token comment">//2. 给定体积流量</span>
+边界名
+<span class="token punctuation">{</span>
+    type                 flowRateInletVelocity<span class="token punctuation">;</span>
+    vloumetricFlowRate   <span class="token number">0.2</span><span class="token punctuation">;</span>          <span class="token comment">//体积流量 单位立方米每秒</span>
+    value                <span class="token function">uniform</span><span class="token punctuation">(</span><span class="token number">0</span> <span class="token number">0</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//占位符，无意义</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>inletOutlet和outletInlet</p>
+<p>出口边界 / 进口边界 ，可以控制回流</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
+<span class="token punctuation">{</span>
+    type                 inletOutlet<span class="token punctuation">;</span>   <span class="token comment">//inletOutlet或outletInlet</span>
+    phi                  phi<span class="token punctuation">;</span>			<span class="token comment">//通量名称，判断流动方向，一般为phi</span>
+    inletValue           uniform <span class="token number">0</span><span class="token punctuation">;</span>		<span class="token comment">//出现回流时流动参数值</span>
+    value                uniform <span class="token number">0</span><span class="token punctuation">;</span>     <span class="token comment">//边界初始值</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+]]></content>
+      <categories>
+        <category>CFD</category>
+      </categories>
+      <tags>
+        <tag>OpenFOAM</tag>
       </tags>
   </entry>
 </search>
