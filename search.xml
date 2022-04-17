@@ -22,133 +22,6 @@
       </tags>
   </entry>
   <entry>
-    <title>OpenFOAM中的离散</title>
-    <url>/2021/08/27/OpenFOAM%E4%B8%AD%E7%9A%84%E7%A6%BB%E6%95%A3/</url>
-    <content><![CDATA[<h3 id="1-计算域离散"><a href="#1-计算域离散" class="headerlink" title="1. 计算域离散"></a>1. 计算域离散</h3><p>计算域的离散</p>
-<ul>
-<li><p>空间离散——网格划分</p>
-</li>
-<li><p>时间离散——时间步</p>
-<p>空间离散之后网格信息储存在 <strong>/constant/polyMesh</strong>,可以从以下几个层次进行描述</p>
-<ul>
-<li>points ： 点，包含点的坐标向量信息的列表</li>
-<li>faces ：面，包含面信息的了表，由点的编号进行定义，即每个面由哪几个点组成 <ul>
-<li>boundary faces: 边界面，位于计算域边界的网格面</li>
-<li>internal faces : 内部面，除了边界面以外的网格面</li>
-</ul>
-</li>
-<li> cells ：网格单元，包含网格单元信息的列表，由于一个网格面可能同时作为2个组成面，因此将从属关系分为<strong>owner</strong> 和<strong>neighbor</strong> </li>
-<li>boundary ：包含边界信息的列表，包括<em>边界类型名</em> 、<em>组别组名</em> 、<em>网格面数量</em> 、<em>起始网格编号</em> </li>
-</ul>
-</li>
-</ul>
-<pre class="line-numbers language-none"><code class="language-none">//这是名字为boundary的网格文件
-4   //表示4个
-(
-    rotor  //组别名
-    {
-        type            wall;  //类型
-        inGroups        List&lt;word&gt; 1(wall);
-        nFaces          192;   //数量
-        startFace       5952;  //起始编号
-    }
-    stator
-    {
-        type            wall;
-        inGroups        List&lt;word&gt; 1(wall);
-        nFaces          192;
-        startFace       6144;   //5952+192=6144
-    }
-    front
-    {
-        type            empty;
-        inGroups        List&lt;word&gt; 1(empty);
-        nFaces          3072;
-        startFace       6336;   //6144+192=6336
-    }
-    back
-    {
-        type            empty;
-        inGroups        List&lt;word&gt; 1(empty);
-        nFaces          3072;
-        startFace       9408;
-    }
-)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-
-
-<hr>
-<ul>
-<li><p><strong>polyMesh</strong> 包含了网格的基本信息，openFOAM存储网格不同类型的数据，提供了 <strong>Field</strong> 类，常用的标量 <strong>scalarField</strong> 、矢量 <strong>vectorField</strong> 、张量<strong>tensorField</strong> 和 对称张量<strong>symmTensorField</strong> </p>
-</li>
-<li><p>在polyMesh基础上，建立了fvMesh类，存储有限体积离散所需要的数据，由此产生了两类：<strong>surface&lt;Field类&gt;</strong> 和 <strong>vol&lt;Field类&gt;</strong> </p>
-</li>
-<li><p>为了将流场数据存储至网格，openFOAM提供了<strong>geometricField</strong> 类模板</p>
-<ul>
-<li><p>vol&lt;Field类&gt; ：存储于网格单元中心，在求解器中应用较多</p>
-</li>
-<li><p>surface&lt;Field类&gt; ：存储于网格面，在边界条件中应用较为广泛</p>
-</li>
-<li><p>point&lt;Field类&gt; ：存储于网格节点</p>
-<hr>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="2-方程的空间离散"><a href="#2-方程的空间离散" class="headerlink" title="2. 方程的空间离散"></a>2. 方程的空间离散</h3><p><em>在上一节中讨论了离散的第一步——计算域的离散，包括时间和空间的离散，揭示了数据的储存问题，本节对方程的离散进行解析</em></p>
-<p>在CFD中，控制方程的通用形式可写为<br>$$<br>\frac{\partial \rho\phi}{\partial t}+\nabla\cdot(\rho\boldsymbol U \phi)-\nabla\cdot(\rho\Gamma_\phi\nabla\phi)=\boldsymbol Y_\phi(\phi)<br>$$<br>在离散时，通常将偏微分方程组离散为如下的代数方程组<br>$$<br>\boldsymbol AX=\boldsymbol b<br>$$<br>式中：<strong>A</strong>为储存代数方程的系数，采用 fvMatrix 类模板；<strong>x</strong>为变量组成的列向量，<strong>b</strong>为源向量，均采用geometricField类模板。</p>
-<p>偏微分方程的每一项均有 <strong>fvm</strong> (<em>finiteVolumeMethod</em>) 以及 <strong>fvc</strong> (<em>finiteVolumeCalculus</em>) 两种离散方式，其中 fvm 隐式计算，返回系数矩阵 fvMatrix 类，而 fvc 显式计算，返回geometricField 类，偏微分方程各项均可用 fvm 或 fvc 的形式进行离散，其格式为“ fvm::”和“ fvc::”</p>
-<p><em>张量运算和不同项的代码表示方法在《openFOAM编程指南》第一章有详细的介绍</em></p>
-<hr>
-<p>有限体积法将计算域划分为网格单元，即控制体。在单个控制体内，等式两边同时对控制体体积和时间进行积分<br>$$<br>\int_t^{t+\Delta t}[\frac{\partial}{\partial t}\int_V\rho\phi dV+\int_V\nabla\cdot(\rho U\phi)dV-\int_V\nabla\cdot(\rho\Gamma_\phi\nabla\phi)dV]dt=\int_t^{t+\Delta t}(\int_V\boldsymbol Y_\phi(\phi)dV)dt<br>$$</p>
-<p>对数值计算而言，体积分是很难处理的，通常运用高斯定理将其转换为面积分<br>$$<br>\int_V \nabla\cdot \boldsymbol adV=\oint_{S_V}d \boldsymbol S_f\cdot\boldsymbol a<br>$$</p>
-<p>$$<br>\int_V\nabla\phi dV=\oint_{S_V}d\boldsymbol S_f\phi<br>$$</p>
-<p>$$<br>\int_V\nabla\boldsymbol a dV=\oint_{S_V}d\boldsymbol S_f\boldsymbol a<br>$$</p>
-<hr>
-<p>我们打开搅拌器算例，在 /system/fvSchemes 文件中可以看到</p>
-<ul>
-<li><strong>ddtSchemes</strong> 表示时间离散格式， <strong>gradSchemes</strong> 表示梯度项离散格式， <strong>laplacianSchemes</strong> 表示拉普拉斯项离散格式</li>
-<li><strong>interpolationSchemes</strong> 表示插值格式，由网格中心按照所选格式进行插值</li>
-<li><strong>divSchemes</strong> 是对流项和散度项的离散格式，只需要将网格中心的量插值到网格面上即可</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="center">格式名称</th>
-<th align="center">特点</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">Gauss linear</td>
-<td align="center">二阶精度，无界</td>
-</tr>
-<tr>
-<td align="center">Gauss upwind</td>
-<td align="center">一阶精度，有界</td>
-</tr>
-<tr>
-<td align="center">Gauss linearUpwind</td>
-<td align="center">二阶精度，无界</td>
-</tr>
-<tr>
-<td align="center">Gauss QUICK</td>
-<td align="center">一或二，有界</td>
-</tr>
-<tr>
-<td align="center">Gauss TVD/NVD</td>
-<td align="center">一或二，有界</td>
-</tr>
-</tbody></table>
-<p><em>注：有界无界是数学的定义，表征函数或变量是否有最大及最下值限制，一般而言，无界格式易出现数值振荡</em></p>
-]]></content>
-      <categories>
-        <category>CFD</category>
-      </categories>
-      <tags>
-        <tag>OpenFOAM</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>OSLC开发（踩坑）指南</title>
     <url>/2021/08/29/OSLC%E9%80%82%E9%85%8D%E5%99%A8%E5%BC%80%E5%8F%91%EF%BC%88%E8%B8%A9%E5%9D%91%EF%BC%89%E6%8C%87%E5%8D%97/</url>
     <content><![CDATA[<h3 id="模型转换"><a href="#模型转换" class="headerlink" title="模型转换"></a>模型转换</h3><p>计划是开发CAD和CAE插件，从而使得模型可以转化为 RDF 文件，三元组来描述模型的特征。目前还没有选择软件，也没有研究明白怎么转换，也没看懂怎么展示rdf。</p>
@@ -320,96 +193,130 @@ svn commit -m "LogMessage" [-N] [--no-unlock] PATH(如果选择了保持锁，�
       </tags>
   </entry>
   <entry>
-    <title>湍流模型</title>
-    <url>/2022/01/03/%E6%B9%8D%E6%B5%81%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<h3 id="0-写在前面"><a href="#0-写在前面" class="headerlink" title="0 写在前面"></a>0 写在前面</h3><p>去年有幸参加了一个学术论坛的答辩，我主要讲汇报计算流体力学和机翼气动响应分析的内容。讲的还可以，不过最后评委老师提问时候，有个问题没答上来，写在这里进行深度的学习</p>
+    <title>OpenFOAM中的离散</title>
+    <url>/2021/08/27/OpenFOAM%E4%B8%AD%E7%9A%84%E7%A6%BB%E6%95%A3/</url>
+    <content><![CDATA[<h3 id="1-计算域离散"><a href="#1-计算域离散" class="headerlink" title="1. 计算域离散"></a>1. 计算域离散</h3><p>计算域的离散</p>
 <ul>
-<li><p>老师问：你这个网格的湍流模型是哪一个？</p>
+<li><p>空间离散——网格划分</p>
 </li>
-<li><p>我：…</p>
-<p>（我只记得一个二维网格，大概十几万的网格数，边界层厚度和设置的最大迭代次数…暑假（对，就是上次写Blog时候）看了湍流模型那一章节，不过觉得需要时候再查书就好了，没怎么记忆 555</p>
-</li>
-</ul>
-<h3 id="1-湍流模型"><a href="#1-湍流模型" class="headerlink" title="1 湍流模型"></a>1 湍流模型</h3><p>湍流模式理论或简称湍流模型，就是以雷诺平均运动方程与脉动运动方程为基础，依靠理论与经验的结合，引进一系列模型假设，而建立起的一组描写湍流平均量微分方程形式的封闭方程组。常用的湍流模型可根据所采用的微分方程数进行分类为：零方程模型、一方程模型、两方程模型、四方程模型、七方程模型等。</p>
-<p>这里先写一下FLUENT提供的湍流模型，关于这些模型是否在不同软件通用，这个后面再研究一下</p>
+<li><p>时间离散——时间步</p>
+<p>空间离散之后网格信息储存在 <strong>/constant/polyMesh</strong>,可以从以下几个层次进行描述</p>
 <ul>
-<li><p>Spalart-Allmaras （SA）模型</p>
-</li>
-<li><p>$ k- \epsilon$ 模型 </p>
-<ul>
-<li>标准 $ k-\epsilon$ 模型</li>
-<li>重整化RNG $ k-\epsilon$ 模型</li>
-<li>可实现 $ k-\epsilon$ 模型</li>
+<li>points ： 点，包含点的坐标向量信息的列表</li>
+<li>faces ：面，包含面信息的了表，由点的编号进行定义，即每个面由哪几个点组成 <ul>
+<li>boundary faces: 边界面，位于计算域边界的网格面</li>
+<li>internal faces : 内部面，除了边界面以外的网格面</li>
 </ul>
 </li>
-<li><p>$ k-\omega$ 模型</p>
-<ul>
-<li>标准 $ k-\omega$ 模型</li>
-<li>剪切应力 SST $ k-\omega$ 模型</li>
+<li> cells ：网格单元，包含网格单元信息的列表，由于一个网格面可能同时作为2个组成面，因此将从属关系分为<strong>owner</strong> 和<strong>neighbor</strong> </li>
+<li>boundary ：包含边界信息的列表，包括<em>边界类型名</em> 、<em>组别组名</em> 、<em>网格面数量</em> 、<em>起始网格编号</em> </li>
 </ul>
 </li>
-<li><p>v2-f 模型</p>
-</li>
-<li><p>转捩 $k-kl-\omega$ 模型</p>
-</li>
-<li><p>转捩 $k-\omega$模型</p>
-</li>
-<li><p>雷诺应力 RSM 模型</p>
-<ul>
-<li>x线性压力应力 RSM 模型</li>
-<li>二次压力应力 RSM 模型</li>
-<li>低雷诺数应力 $\omega$ RSM 模型</li>
 </ul>
-</li>
-<li><p>分离涡模型，大涡（LES）模型</p>
-<p><a href="https://www.cfd-china.com/assets/uploads/files/1544074398130-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%B9%8D%E6%B5%81%E6%A8%A1%E5%9E%8B.pdf">点我查看模型微分方程 PDF</a></p>
-</li>
-</ul>
-<h3 id="2-具体介绍"><a href="#2-具体介绍" class="headerlink" title="2 具体介绍"></a>2 具体介绍</h3><p>这些模型的名字看起来好奇怪，各种 k 啊，$\omega$ 啊，先背下来吧，以后看文章看到名字了知道是在讲湍流模型，接下来具体介绍一下，有一个初步的了解</p>
-<h4 id="（1）Spalart-Allmaras-模型"><a href="#（1）Spalart-Allmaras-模型" class="headerlink" title="（1）Spalart-Allmaras 模型"></a>（1）Spalart-Allmaras 模型</h4><p><em>Spalart-Allmaras( SA )</em> 模型是用于空气动力学、流体机械等含有中度分离现象的场合，如接近音速和超音速的机翼绕流、边界层流动等，也用在壁面射流空气动力学问题、透平等问题。中心问题是怎样计算漩涡粘度。</p>
-<p>模型由<a href="https://marinecfd.xyz/post/spalart-allmaras/">Spalart 和 Allmaras</a>提出，是一个一方程模型，设计初衷是用于航空领域的壁面流。有如下特点：</p>
-<ul>
-<li>只需求解一个输运方程，相比其他湍流模型计算速度快。</li>
-<li>对逆压梯度问题结果较好。</li>
-<li>无法准确模拟自由剪切流，如射流。</li>
-<li>无法准确模拟均匀衰减、各项同性湍流。</li>
-</ul>
-<p>SA 模型是相对简单的单方程模型，只需求解湍流粘性的输运方程，不需要求解当地剪切层厚度的长度尺度；由于没有考虑长度尺度的变化，这对一些流动尺度变换比较大的流动问题不太适合；比如平板射流问题，从有壁面影响流动突然变化到自由剪切流，流场尺度变化明显等问题。</p>
-<p>SA 模型中的输运变量在近壁处的梯度要比k-ε中的小，这使得该模型对网格粗糙带来数值误差不太敏感。</p>
-<h4 id="（2）标准-k-epsilon-模型"><a href="#（2）标准-k-epsilon-模型" class="headerlink" title="（2）标准 $k-\epsilon$ 模型"></a>（2）标准 $k-\epsilon$ 模型</h4><p><em>Standard k-ε</em> 模型是基于湍流动能 $ k $ 及其耗散率$ \epsilon $的输运方程的模型。K的模型传输方程是从精确方程推导出来的，而ε的模型传输方程是通过物理推理得到的，与数学上的精确方程相似性很小。<a href="http://staff.ustc.edu.cn/~humaobin/course/cht/ppt/7.4.pdf">详细查看USTC的文档</a></p>
-<p>在模型的推导过程中，假设流动完全是湍流，分子粘度的影响可以忽略不计。因此，<em>standard</em> 模型只适用于完全湍流，而且由于方程包含不能再壁面计算的项，于是要使用壁面函数；对强分离、大曲率流动、强压强梯度流动的预测结果很弱。为了提高其性能，对其进行了一些改进：重整化 <em>RNG</em> 模型和可实现  <em>relizable</em> 模型</p>
-<p><strong><em>RNG</em>模型</strong>来源于严格的统计技术，与 <em>standard</em> 相比，考虑的湍流漩涡，从而有效地提高了精度，并且 <em>standard</em> 是高雷诺说模型，其主要是用户的经验常数，而 <em>RNG</em> 是提供了低雷诺数流动粘性解析公式，在复杂剪切流动、含高剪切率流动、旋流和流动分离场合中预测要好于 <em>standard</em> 模型</p>
-<p><strong><em>relizable</em> 模型</strong>，为流动粘性增加了一个公式，其优势在于预测平面和圆形射流扩散作用，对于旋流、强逆压梯度的边界层流动、流动分离和二次流也有很好表现（这段是照书上抄的，具体怎么好表现后面再看看）</p>
-<p><strong>v2-f 模型</strong>是 $k-\epsilon$ 模型的扩展，为具有强湍流各向异性的流动提供了高精度的解，可以用于水利旋流器</p>
-<h4 id="（3）标准-k-omega-模型"><a href="#（3）标准-k-omega-模型" class="headerlink" title="（3）标准 $k-\omega$ 模型"></a>（3）标准 $k-\omega$ 模型</h4><p>考虑低雷诺数、可压性、剪切流传播，如尾流、混合流动、平板绕流、圆柱绕流、放射状喷射等，是一个变形的 <em>SST k-\omega</em> 模型</p>
-<p><em>Shear stress transport (SST)</em> 模型在壁面网格精度很高情况下，对壁面的流固分离具有很高的计算精度</p>
-<h4 id="（4）雷诺应力模型"><a href="#（4）雷诺应力模型" class="headerlink" title="（4）雷诺应力模型"></a>（4）雷诺应力模型</h4><p><em>Reynolds stress model (RSM)</em> 在二维流动中加了4个方程，在三维流动加了7个方程，使雷诺时均方程封闭，解决了雷诺应力、耗散速率不封闭的问题</p>
-<p><em>RSM</em> 比单方程和双方程更严格考虑的流线型弯曲、漩涡、旋转和张力快速变化，适用于与雷诺应力有关的复杂流动。</p>
-<p>当考虑雷诺应力的方向性时，必须使用 <em>RSM</em> 模型，可以适用于飓风、燃烧室高速旋转流、管道二次流等。对于强旋流动，使用 <em>$k-\omega$</em> 或 <em>$k-\epsilon$</em> 都不能正确预测。</p>
-<h4 id="（5）大涡模型"><a href="#（5）大涡模型" class="headerlink" title="（5）大涡模型"></a>（5）大涡模型</h4><p>湍流流场起主导作用的是大尺度涡，而小尺度涡引起湍流动量扩散</p>
-<h3 id="3-湍流模型设定"><a href="#3-湍流模型设定" class="headerlink" title="3 湍流模型设定"></a>3 湍流模型设定</h3><ul>
-<li><p>在 FLUENT 中，可以在Viscous Model 对话框里选择需要的湍流模型，选中后就会出现所需要设置的参数</p>
-</li>
-<li><p>在 OpenFOAM 中，添加湍流模型参见<a href="http://www.cfluid.com/forum.php?mod=viewthread&amp;tid=57757">如何在OpenFoam里添加湍流模型 - OpenFOAM 流体中文网 - (cfluid.com)</a>讲解</p>
-<p>使用时候在constant文件夹下面turbulenceProperties文件进行设置，<a href="https://www.openfoam.com/documentation/guides/latest/doc/guide-fos-field-turbulenceFields.html">OpenFOAM: User Guide: turbulenceFields</a></p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">simulationType RAS;//举例
+<pre class="line-numbers language-none"><code class="language-none">//这是名字为boundary的网格文件
+4   //表示4个
+(
+    rotor  //组别名
+    {
+        type            wall;  //类型
+        inGroups        List&lt;word&gt; 1(wall);
+        nFaces          192;   //数量
+        startFace       5952;  //起始编号
+    }
+    stator
+    {
+        type            wall;
+        inGroups        List&lt;word&gt; 1(wall);
+        nFaces          192;
+        startFace       6144;   //5952+192=6144
+    }
+    front
+    {
+        type            empty;
+        inGroups        List&lt;word&gt; 1(empty);
+        nFaces          3072;
+        startFace       6336;   //6144+192=6336
+    }
+    back
+    {
+        type            empty;
+        inGroups        List&lt;word&gt; 1(empty);
+        nFaces          3072;
+        startFace       9408;
+    }
+)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-RAS
-{
-    RASModel        kOmegaSST;// 使用SST k-$\omega$
 
-    turbulence      on;
 
-    printCoeffs     on;
-}
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<hr>
+<ul>
+<li><p><strong>polyMesh</strong> 包含了网格的基本信息，openFOAM存储网格不同类型的数据，提供了 <strong>Field</strong> 类，常用的标量 <strong>scalarField</strong> 、矢量 <strong>vectorField</strong> 、张量<strong>tensorField</strong> 和 对称张量<strong>symmTensorField</strong> </p>
+</li>
+<li><p>在polyMesh基础上，建立了fvMesh类，存储有限体积离散所需要的数据，由此产生了两类：<strong>surface&lt;Field类&gt;</strong> 和 <strong>vol&lt;Field类&gt;</strong> </p>
+</li>
+<li><p>为了将流场数据存储至网格，openFOAM提供了<strong>geometricField</strong> 类模板</p>
+<ul>
+<li><p>vol&lt;Field类&gt; ：存储于网格单元中心，在求解器中应用较多</p>
+</li>
+<li><p>surface&lt;Field类&gt; ：存储于网格面，在边界条件中应用较为广泛</p>
+</li>
+<li><p>point&lt;Field类&gt; ：存储于网格节点</p>
+<hr>
+</li>
 </ul>
+</li>
+</ul>
+<h3 id="2-方程的空间离散"><a href="#2-方程的空间离散" class="headerlink" title="2. 方程的空间离散"></a>2. 方程的空间离散</h3><p><em>在上一节中讨论了离散的第一步——计算域的离散，包括时间和空间的离散，揭示了数据的储存问题，本节对方程的离散进行解析</em></p>
+<p>在CFD中，控制方程的通用形式可写为<br>$$<br>\frac{\partial \rho\phi}{\partial t}+\nabla\cdot(\rho\boldsymbol U \phi)-\nabla\cdot(\rho\Gamma_\phi\nabla\phi)=\boldsymbol Y_\phi(\phi)<br>$$<br>在离散时，通常将偏微分方程组离散为如下的代数方程组<br>$$<br>\boldsymbol AX=\boldsymbol b<br>$$<br>式中：<strong>A</strong>为储存代数方程的系数，采用 fvMatrix 类模板；<strong>x</strong>为变量组成的列向量，<strong>b</strong>为源向量，均采用geometricField类模板。</p>
+<p>偏微分方程的每一项均有 <strong>fvm</strong> (<em>finiteVolumeMethod</em>) 以及 <strong>fvc</strong> (<em>finiteVolumeCalculus</em>) 两种离散方式，其中 fvm 隐式计算，返回系数矩阵 fvMatrix 类，而 fvc 显式计算，返回geometricField 类，偏微分方程各项均可用 fvm 或 fvc 的形式进行离散，其格式为“ fvm::”和“ fvc::”</p>
+<p><em>张量运算和不同项的代码表示方法在《openFOAM编程指南》第一章有详细的介绍</em></p>
+<hr>
+<p>有限体积法将计算域划分为网格单元，即控制体。在单个控制体内，等式两边同时对控制体体积和时间进行积分<br>$$<br>\int_t^{t+\Delta t}[\frac{\partial}{\partial t}\int_V\rho\phi dV+\int_V\nabla\cdot(\rho U\phi)dV-\int_V\nabla\cdot(\rho\Gamma_\phi\nabla\phi)dV]dt=\int_t^{t+\Delta t}(\int_V\boldsymbol Y_\phi(\phi)dV)dt<br>$$</p>
+<p>对数值计算而言，体积分是很难处理的，通常运用高斯定理将其转换为面积分<br>$$<br>\int_V \nabla\cdot \boldsymbol adV=\oint_{S_V}d \boldsymbol S_f\cdot\boldsymbol a<br>$$</p>
+<p>$$<br>\int_V\nabla\phi dV=\oint_{S_V}d\boldsymbol S_f\phi<br>$$</p>
+<p>$$<br>\int_V\nabla\boldsymbol a dV=\oint_{S_V}d\boldsymbol S_f\boldsymbol a<br>$$</p>
+<hr>
+<p>我们打开搅拌器算例，在 /system/fvSchemes 文件中可以看到</p>
+<ul>
+<li><strong>ddtSchemes</strong> 表示时间离散格式， <strong>gradSchemes</strong> 表示梯度项离散格式， <strong>laplacianSchemes</strong> 表示拉普拉斯项离散格式</li>
+<li><strong>interpolationSchemes</strong> 表示插值格式，由网格中心按照所选格式进行插值</li>
+<li><strong>divSchemes</strong> 是对流项和散度项的离散格式，只需要将网格中心的量插值到网格面上即可</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">格式名称</th>
+<th align="center">特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Gauss linear</td>
+<td align="center">二阶精度，无界</td>
+</tr>
+<tr>
+<td align="center">Gauss upwind</td>
+<td align="center">一阶精度，有界</td>
+</tr>
+<tr>
+<td align="center">Gauss linearUpwind</td>
+<td align="center">二阶精度，无界</td>
+</tr>
+<tr>
+<td align="center">Gauss QUICK</td>
+<td align="center">一或二，有界</td>
+</tr>
+<tr>
+<td align="center">Gauss TVD/NVD</td>
+<td align="center">一或二，有界</td>
+</tr>
+</tbody></table>
+<p><em>注：有界无界是数学的定义，表征函数或变量是否有最大及最下值限制，一般而言，无界格式易出现数值振荡</em></p>
 ]]></content>
       <categories>
         <category>CFD</category>
       </categories>
       <tags>
-        <tag>Trebulent</tag>
+        <tag>OpenFOAM</tag>
       </tags>
   </entry>
   <entry>
@@ -439,7 +346,7 @@ RAS
 </ol>
 <h3 id="2-简历内容"><a href="#2-简历内容" class="headerlink" title="2 简历内容"></a>2 简历内容</h3><p><img src="https://s1.328888.xyz/2022/04/17/ijg4P.png"></p>
 <hr>
-<p><img src="https://s1.328888.xyz/2022/04/17/ijJSA.png" alt="s"></p>
+<p><img src="https://s1.328888.xyz/2022/04/17/ijJSA.png"></p>
 <p><img src="https://s1.328888.xyz/2022/04/17/ij9cm.png"></p>
 <hr>
 <p><img src="https://s1.328888.xyz/2022/04/17/ijfsR.png"></p>
@@ -539,6 +446,99 @@ OptimisationSwitches
       </categories>
       <tags>
         <tag>OpenFOAM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>湍流模型</title>
+    <url>/2022/01/03/%E6%B9%8D%E6%B5%81%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<h3 id="0-写在前面"><a href="#0-写在前面" class="headerlink" title="0 写在前面"></a>0 写在前面</h3><p>去年有幸参加了一个学术论坛的答辩，我主要讲汇报计算流体力学和机翼气动响应分析的内容。讲的还可以，不过最后评委老师提问时候，有个问题没答上来，写在这里进行深度的学习</p>
+<ul>
+<li><p>老师问：你这个网格的湍流模型是哪一个？</p>
+</li>
+<li><p>我：…</p>
+<p>（我只记得一个二维网格，大概十几万的网格数，边界层厚度和设置的最大迭代次数…暑假（对，就是上次写Blog时候）看了湍流模型那一章节，不过觉得需要时候再查书就好了，没怎么记忆 555</p>
+</li>
+</ul>
+<h3 id="1-湍流模型"><a href="#1-湍流模型" class="headerlink" title="1 湍流模型"></a>1 湍流模型</h3><p>湍流模式理论或简称湍流模型，就是以雷诺平均运动方程与脉动运动方程为基础，依靠理论与经验的结合，引进一系列模型假设，而建立起的一组描写湍流平均量微分方程形式的封闭方程组。常用的湍流模型可根据所采用的微分方程数进行分类为：零方程模型、一方程模型、两方程模型、四方程模型、七方程模型等。</p>
+<p>这里先写一下FLUENT提供的湍流模型，关于这些模型是否在不同软件通用，这个后面再研究一下</p>
+<ul>
+<li><p>Spalart-Allmaras （SA）模型</p>
+</li>
+<li><p>$ k- \epsilon$ 模型 </p>
+<ul>
+<li>标准 $ k-\epsilon$ 模型</li>
+<li>重整化RNG $ k-\epsilon$ 模型</li>
+<li>可实现 $ k-\epsilon$ 模型</li>
+</ul>
+</li>
+<li><p>$ k-\omega$ 模型</p>
+<ul>
+<li>标准 $ k-\omega$ 模型</li>
+<li>剪切应力 SST $ k-\omega$ 模型</li>
+</ul>
+</li>
+<li><p>v2-f 模型</p>
+</li>
+<li><p>转捩 $k-kl-\omega$ 模型</p>
+</li>
+<li><p>转捩 $k-\omega$模型</p>
+</li>
+<li><p>雷诺应力 RSM 模型</p>
+<ul>
+<li>x线性压力应力 RSM 模型</li>
+<li>二次压力应力 RSM 模型</li>
+<li>低雷诺数应力 $\omega$ RSM 模型</li>
+</ul>
+</li>
+<li><p>分离涡模型，大涡（LES）模型</p>
+<p><a href="https://www.cfd-china.com/assets/uploads/files/1544074398130-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%B9%8D%E6%B5%81%E6%A8%A1%E5%9E%8B.pdf">点我查看模型微分方程 PDF</a></p>
+</li>
+</ul>
+<h3 id="2-具体介绍"><a href="#2-具体介绍" class="headerlink" title="2 具体介绍"></a>2 具体介绍</h3><p>这些模型的名字看起来好奇怪，各种 k 啊，$\omega$ 啊，先背下来吧，以后看文章看到名字了知道是在讲湍流模型，接下来具体介绍一下，有一个初步的了解</p>
+<h4 id="（1）Spalart-Allmaras-模型"><a href="#（1）Spalart-Allmaras-模型" class="headerlink" title="（1）Spalart-Allmaras 模型"></a>（1）Spalart-Allmaras 模型</h4><p><em>Spalart-Allmaras( SA )</em> 模型是用于空气动力学、流体机械等含有中度分离现象的场合，如接近音速和超音速的机翼绕流、边界层流动等，也用在壁面射流空气动力学问题、透平等问题。中心问题是怎样计算漩涡粘度。</p>
+<p>模型由<a href="https://marinecfd.xyz/post/spalart-allmaras/">Spalart 和 Allmaras</a>提出，是一个一方程模型，设计初衷是用于航空领域的壁面流。有如下特点：</p>
+<ul>
+<li>只需求解一个输运方程，相比其他湍流模型计算速度快。</li>
+<li>对逆压梯度问题结果较好。</li>
+<li>无法准确模拟自由剪切流，如射流。</li>
+<li>无法准确模拟均匀衰减、各项同性湍流。</li>
+</ul>
+<p>SA 模型是相对简单的单方程模型，只需求解湍流粘性的输运方程，不需要求解当地剪切层厚度的长度尺度；由于没有考虑长度尺度的变化，这对一些流动尺度变换比较大的流动问题不太适合；比如平板射流问题，从有壁面影响流动突然变化到自由剪切流，流场尺度变化明显等问题。</p>
+<p>SA 模型中的输运变量在近壁处的梯度要比k-ε中的小，这使得该模型对网格粗糙带来数值误差不太敏感。</p>
+<h4 id="（2）标准-k-epsilon-模型"><a href="#（2）标准-k-epsilon-模型" class="headerlink" title="（2）标准 $k-\epsilon$ 模型"></a>（2）标准 $k-\epsilon$ 模型</h4><p><em>Standard k-ε</em> 模型是基于湍流动能 $ k $ 及其耗散率$ \epsilon $的输运方程的模型。K的模型传输方程是从精确方程推导出来的，而ε的模型传输方程是通过物理推理得到的，与数学上的精确方程相似性很小。<a href="http://staff.ustc.edu.cn/~humaobin/course/cht/ppt/7.4.pdf">详细查看USTC的文档</a></p>
+<p>在模型的推导过程中，假设流动完全是湍流，分子粘度的影响可以忽略不计。因此，<em>standard</em> 模型只适用于完全湍流，而且由于方程包含不能再壁面计算的项，于是要使用壁面函数；对强分离、大曲率流动、强压强梯度流动的预测结果很弱。为了提高其性能，对其进行了一些改进：重整化 <em>RNG</em> 模型和可实现  <em>relizable</em> 模型</p>
+<p><strong><em>RNG</em>模型</strong>来源于严格的统计技术，与 <em>standard</em> 相比，考虑的湍流漩涡，从而有效地提高了精度，并且 <em>standard</em> 是高雷诺说模型，其主要是用户的经验常数，而 <em>RNG</em> 是提供了低雷诺数流动粘性解析公式，在复杂剪切流动、含高剪切率流动、旋流和流动分离场合中预测要好于 <em>standard</em> 模型</p>
+<p><strong><em>relizable</em> 模型</strong>，为流动粘性增加了一个公式，其优势在于预测平面和圆形射流扩散作用，对于旋流、强逆压梯度的边界层流动、流动分离和二次流也有很好表现（这段是照书上抄的，具体怎么好表现后面再看看）</p>
+<p><strong>v2-f 模型</strong>是 $k-\epsilon$ 模型的扩展，为具有强湍流各向异性的流动提供了高精度的解，可以用于水利旋流器</p>
+<h4 id="（3）标准-k-omega-模型"><a href="#（3）标准-k-omega-模型" class="headerlink" title="（3）标准 $k-\omega$ 模型"></a>（3）标准 $k-\omega$ 模型</h4><p>考虑低雷诺数、可压性、剪切流传播，如尾流、混合流动、平板绕流、圆柱绕流、放射状喷射等，是一个变形的 <em>SST k-\omega</em> 模型</p>
+<p><em>Shear stress transport (SST)</em> 模型在壁面网格精度很高情况下，对壁面的流固分离具有很高的计算精度</p>
+<h4 id="（4）雷诺应力模型"><a href="#（4）雷诺应力模型" class="headerlink" title="（4）雷诺应力模型"></a>（4）雷诺应力模型</h4><p><em>Reynolds stress model (RSM)</em> 在二维流动中加了4个方程，在三维流动加了7个方程，使雷诺时均方程封闭，解决了雷诺应力、耗散速率不封闭的问题</p>
+<p><em>RSM</em> 比单方程和双方程更严格考虑的流线型弯曲、漩涡、旋转和张力快速变化，适用于与雷诺应力有关的复杂流动。</p>
+<p>当考虑雷诺应力的方向性时，必须使用 <em>RSM</em> 模型，可以适用于飓风、燃烧室高速旋转流、管道二次流等。对于强旋流动，使用 <em>$k-\omega$</em> 或 <em>$k-\epsilon$</em> 都不能正确预测。</p>
+<h4 id="（5）大涡模型"><a href="#（5）大涡模型" class="headerlink" title="（5）大涡模型"></a>（5）大涡模型</h4><p>湍流流场起主导作用的是大尺度涡，而小尺度涡引起湍流动量扩散</p>
+<h3 id="3-湍流模型设定"><a href="#3-湍流模型设定" class="headerlink" title="3 湍流模型设定"></a>3 湍流模型设定</h3><ul>
+<li><p>在 FLUENT 中，可以在Viscous Model 对话框里选择需要的湍流模型，选中后就会出现所需要设置的参数</p>
+</li>
+<li><p>在 OpenFOAM 中，添加湍流模型参见<a href="http://www.cfluid.com/forum.php?mod=viewthread&amp;tid=57757">如何在OpenFoam里添加湍流模型 - OpenFOAM 流体中文网 - (cfluid.com)</a>讲解</p>
+<p>使用时候在constant文件夹下面turbulenceProperties文件进行设置，<a href="https://www.openfoam.com/documentation/guides/latest/doc/guide-fos-field-turbulenceFields.html">OpenFOAM: User Guide: turbulenceFields</a></p>
+<pre class="line-numbers language-C" data-language="C"><code class="language-C">simulationType RAS;//举例
+
+RAS
+{
+    RASModel        kOmegaSST;// 使用SST k-$\omega$
+
+    turbulence      on;
+
+    printCoeffs     on;
+}
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+]]></content>
+      <categories>
+        <category>CFD</category>
+      </categories>
+      <tags>
+        <tag>Trebulent</tag>
       </tags>
   </entry>
 </search>
