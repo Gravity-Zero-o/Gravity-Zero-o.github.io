@@ -98,6 +98,101 @@ svn commit -m "LogMessage" [-N] [--no-unlock] PATH(如果选择了保持锁，�
       </tags>
   </entry>
   <entry>
+    <title>OpenFOAM边界条件</title>
+    <url>/2021/09/01/OpenFOAM%E8%BE%B9%E7%95%8C%E6%9D%A1%E4%BB%B6/</url>
+    <content><![CDATA[<h2 id="1-边界类型"><a href="#1-边界类型" class="headerlink" title="1.边界类型"></a>1.边界类型</h2><p><strong>patch</strong>：基本边界，不包含网格几何或拓扑信息，常用于进口、出口、自由表面</p>
+<ul>
+<li><strong>wall</strong>：壁面边界</li>
+<li><strong>empty</strong>：二维求解中设置为第三方向的</li>
+<li><strong>wedge</strong>：楔形边界，仅用于二维轴对称流动的模拟</li>
+<li><strong>cyclic</strong>：周期性边界，用于模拟旋转周期和平移周期</li>
+<li><strong>processor</strong>：并行计算网格切分交界面</li>
+<li><strong>cyclicAMI</strong>：任意边界，用于耦合两个完全不一样的边界</li>
+<li><strong>symmetry</strong> 和 <strong>symmetryPlane</strong>：边界两侧的流场互为镜像，前者是曲面，后者是平面</li>
+</ul>
+<h2 id="2-边界条件类型"><a href="#2-边界条件类型" class="headerlink" title="2.边界条件类型"></a>2.边界条件类型</h2><p>边界条件在CFD中分两大类：<strong>Dirichlet <strong>边界和 <strong>Neumann</strong> 边界。其中，</strong>Dirichlet</strong> （迪利克雷）是定值边界条件，即边界上的物理量是固定值；而 <strong>Neumann</strong> （诺伊曼）是定梯度边界条件，即边界上的物理量的梯度是固定值。在OpenFOAM中，有很多边界条件，除壁面函数以外均位于 <em>/src/finiteVolume/fields/fvPatchFields</em> 以下是一些常用的边界条件。</p>
+<ul>
+<li><p>fixedValue</p>
+<p>Dirichlet边界条件是应用最广的边界条件之一，用于设定进出口速度、压力以及壁面速度等</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
+<span class="token punctuation">{</span>
+	type     fixedValue<span class="token punctuation">;</span>
+	value    uniform <span class="token number">0</span><span class="token punctuation">;</span>   <span class="token comment">//uniform 表示均匀分布，0表示物理量的值，若为矢量，则（0 0 0）等形式</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>zeroGradient</p>
+<p>Neumann 边界条件，表示边界的梯度为 0 ，常用于壁面处压力以及其余标量场如 nut 、epsilon 等的设置</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
+<span class="token punctuation">{</span>
+    type       zeroGradient<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>壁面函数</p>
+<p>在网格不足以近似求解近壁面区流动时，需采用壁面函数建立近壁区流场。此时，针对涡粘系数（nut）、湍流能（k）、湍流能耗散率（epsilon）与湍流能比耗散率（omega）均应设置相应的壁面函数，目前还没看懂这些函数，先不写了。</p>
+</li>
+<li><p>slip</p>
+<p>滑移边界，对于变量，该边界等同于 zeroGradient ；对于矢量，则垂直于边界方向为 fixedValue ，且为 0 ，而平行于边界方向为 zeroGradient</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
+<span class="token punctuation">{</span>
+    type       slip<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>movingWallVelocity</p>
+<p>运动壁面条件，用于设定壁面的速度</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
+<span class="token punctuation">{</span>
+    type	  movingWallVelocity<span class="token punctuation">;</span>
+    value     <span class="token function">uniform</span><span class="token punctuation">(</span><span class="token number">0</span> <span class="token number">0</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>*使用 MRF 模拟旋转流场时，必须将旋转域内壁面设置为movingWallVelocity，且速度值设为相对运动速度，对于一般的叶轮机械，由于叶片随转子旋转，此时壁面的相对运动速度为0</p>
+</li>
+<li><p>totalPressure</p>
+<p>用于给定边界的总压，常用于进口和出口</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
+<span class="token punctuation">{</span>
+    type	 totalPressure<span class="token punctuation">;</span>
+    U        U<span class="token punctuation">;</span>         <span class="token comment">//U为速度场名称，一般设置为U ，在某些使用相对速度Urel</span>
+    phi      phi<span class="token punctuation">;</span>       <span class="token comment">//通量场名称，一般为 phi</span>
+    rho      none<span class="token punctuation">;</span>      <span class="token comment">//密度场名称，不可流动为none,可流动为rho</span>
+    psi      none<span class="token punctuation">;</span>      <span class="token comment">//可压缩流场名称，亚音速可压缩流体以及不可压流体不考虑可压缩性对总压的影响，为none，其他为psi</span>
+    gamma    <span class="token number">1</span><span class="token punctuation">;</span>         <span class="token comment">//绝热常数，若求解不考虑传热，则该参数不生效</span>
+    value    uniform <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">//总压的值</span>
+        
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>flowRateInletVelocity</p>
+<p>流量边界，用于给定进口或出口的质量流量或体积流量</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">//1. 给定质量流量</span>
+边界名                                            
+<span class="token punctuation">{</span>
+    type	             flowRateInletVelocity<span class="token punctuation">;</span>    
+    massFlowRate         <span class="token number">0.2</span><span class="token punctuation">;</span>         <span class="token comment">//质量流量，单位kg/s,流入为正</span>
+    rho                  rho<span class="token punctuation">;</span>		  <span class="token comment">//密度场名称，一般为rho</span>
+    rhoInlet             <span class="token number">1.0</span><span class="token punctuation">;</span>         <span class="token comment">//初始密度，用于计算开始时未给定密度初始值的情况</span>
+<span class="token punctuation">}</span>
+<span class="token comment">//2. 给定体积流量</span>
+边界名
+<span class="token punctuation">{</span>
+    type                 flowRateInletVelocity<span class="token punctuation">;</span>
+    vloumetricFlowRate   <span class="token number">0.2</span><span class="token punctuation">;</span>          <span class="token comment">//体积流量 单位立方米每秒</span>
+    value                <span class="token function">uniform</span><span class="token punctuation">(</span><span class="token number">0</span> <span class="token number">0</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//占位符，无意义</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>inletOutlet和outletInlet</p>
+<p>出口边界 / 进口边界 ，可以控制回流</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
+<span class="token punctuation">{</span>
+    type                 inletOutlet<span class="token punctuation">;</span>   <span class="token comment">//inletOutlet或outletInlet</span>
+    phi                  phi<span class="token punctuation">;</span>			<span class="token comment">//通量名称，判断流动方向，一般为phi</span>
+    inletValue           uniform <span class="token number">0</span><span class="token punctuation">;</span>		<span class="token comment">//出现回流时流动参数值</span>
+    value                uniform <span class="token number">0</span><span class="token punctuation">;</span>     <span class="token comment">//边界初始值</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+]]></content>
+      <categories>
+        <category>CFD</category>
+      </categories>
+      <tags>
+        <tag>OpenFOAM</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>OpenFOAM中的离散</title>
     <url>/2021/08/27/OpenFOAM%E4%B8%AD%E7%9A%84%E7%A6%BB%E6%95%A3/</url>
     <content><![CDATA[<h3 id="1-计算域离散"><a href="#1-计算域离散" class="headerlink" title="1. 计算域离散"></a>1. 计算域离散</h3><p>计算域的离散</p>
@@ -225,101 +320,6 @@ svn commit -m "LogMessage" [-N] [--no-unlock] PATH(如果选择了保持锁，�
       </tags>
   </entry>
   <entry>
-    <title>OpenFOAM边界条件</title>
-    <url>/2021/09/01/OpenFOAM%E8%BE%B9%E7%95%8C%E6%9D%A1%E4%BB%B6/</url>
-    <content><![CDATA[<h2 id="1-边界类型"><a href="#1-边界类型" class="headerlink" title="1.边界类型"></a>1.边界类型</h2><p><strong>patch</strong>：基本边界，不包含网格几何或拓扑信息，常用于进口、出口、自由表面</p>
-<ul>
-<li><strong>wall</strong>：壁面边界</li>
-<li><strong>empty</strong>：二维求解中设置为第三方向的</li>
-<li><strong>wedge</strong>：楔形边界，仅用于二维轴对称流动的模拟</li>
-<li><strong>cyclic</strong>：周期性边界，用于模拟旋转周期和平移周期</li>
-<li><strong>processor</strong>：并行计算网格切分交界面</li>
-<li><strong>cyclicAMI</strong>：任意边界，用于耦合两个完全不一样的边界</li>
-<li><strong>symmetry</strong> 和 <strong>symmetryPlane</strong>：边界两侧的流场互为镜像，前者是曲面，后者是平面</li>
-</ul>
-<h2 id="2-边界条件类型"><a href="#2-边界条件类型" class="headerlink" title="2.边界条件类型"></a>2.边界条件类型</h2><p>边界条件在CFD中分两大类：<strong>Dirichlet <strong>边界和 <strong>Neumann</strong> 边界。其中，</strong>Dirichlet</strong> （迪利克雷）是定值边界条件，即边界上的物理量是固定值；而 <strong>Neumann</strong> （诺伊曼）是定梯度边界条件，即边界上的物理量的梯度是固定值。在OpenFOAM中，有很多边界条件，除壁面函数以外均位于 <em>/src/finiteVolume/fields/fvPatchFields</em> 以下是一些常用的边界条件。</p>
-<ul>
-<li><p>fixedValue</p>
-<p>Dirichlet边界条件是应用最广的边界条件之一，用于设定进出口速度、压力以及壁面速度等</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
-<span class="token punctuation">{</span>
-	type     fixedValue<span class="token punctuation">;</span>
-	value    uniform <span class="token number">0</span><span class="token punctuation">;</span>   <span class="token comment">//uniform 表示均匀分布，0表示物理量的值，若为矢量，则（0 0 0）等形式</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>zeroGradient</p>
-<p>Neumann 边界条件，表示边界的梯度为 0 ，常用于壁面处压力以及其余标量场如 nut 、epsilon 等的设置</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
-<span class="token punctuation">{</span>
-    type       zeroGradient<span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>壁面函数</p>
-<p>在网格不足以近似求解近壁面区流动时，需采用壁面函数建立近壁区流场。此时，针对涡粘系数（nut）、湍流能（k）、湍流能耗散率（epsilon）与湍流能比耗散率（omega）均应设置相应的壁面函数，目前还没看懂这些函数，先不写了。</p>
-</li>
-<li><p>slip</p>
-<p>滑移边界，对于变量，该边界等同于 zeroGradient ；对于矢量，则垂直于边界方向为 fixedValue ，且为 0 ，而平行于边界方向为 zeroGradient</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
-<span class="token punctuation">{</span>
-    type       slip<span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>movingWallVelocity</p>
-<p>运动壁面条件，用于设定壁面的速度</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
-<span class="token punctuation">{</span>
-    type	  movingWallVelocity<span class="token punctuation">;</span>
-    value     <span class="token function">uniform</span><span class="token punctuation">(</span><span class="token number">0</span> <span class="token number">0</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>*使用 MRF 模拟旋转流场时，必须将旋转域内壁面设置为movingWallVelocity，且速度值设为相对运动速度，对于一般的叶轮机械，由于叶片随转子旋转，此时壁面的相对运动速度为0</p>
-</li>
-<li><p>totalPressure</p>
-<p>用于给定边界的总压，常用于进口和出口</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
-<span class="token punctuation">{</span>
-    type	 totalPressure<span class="token punctuation">;</span>
-    U        U<span class="token punctuation">;</span>         <span class="token comment">//U为速度场名称，一般设置为U ，在某些使用相对速度Urel</span>
-    phi      phi<span class="token punctuation">;</span>       <span class="token comment">//通量场名称，一般为 phi</span>
-    rho      none<span class="token punctuation">;</span>      <span class="token comment">//密度场名称，不可流动为none,可流动为rho</span>
-    psi      none<span class="token punctuation">;</span>      <span class="token comment">//可压缩流场名称，亚音速可压缩流体以及不可压流体不考虑可压缩性对总压的影响，为none，其他为psi</span>
-    gamma    <span class="token number">1</span><span class="token punctuation">;</span>         <span class="token comment">//绝热常数，若求解不考虑传热，则该参数不生效</span>
-    value    uniform <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">//总压的值</span>
-        
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>flowRateInletVelocity</p>
-<p>流量边界，用于给定进口或出口的质量流量或体积流量</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">//1. 给定质量流量</span>
-边界名                                            
-<span class="token punctuation">{</span>
-    type	             flowRateInletVelocity<span class="token punctuation">;</span>    
-    massFlowRate         <span class="token number">0.2</span><span class="token punctuation">;</span>         <span class="token comment">//质量流量，单位kg/s,流入为正</span>
-    rho                  rho<span class="token punctuation">;</span>		  <span class="token comment">//密度场名称，一般为rho</span>
-    rhoInlet             <span class="token number">1.0</span><span class="token punctuation">;</span>         <span class="token comment">//初始密度，用于计算开始时未给定密度初始值的情况</span>
-<span class="token punctuation">}</span>
-<span class="token comment">//2. 给定体积流量</span>
-边界名
-<span class="token punctuation">{</span>
-    type                 flowRateInletVelocity<span class="token punctuation">;</span>
-    vloumetricFlowRate   <span class="token number">0.2</span><span class="token punctuation">;</span>          <span class="token comment">//体积流量 单位立方米每秒</span>
-    value                <span class="token function">uniform</span><span class="token punctuation">(</span><span class="token number">0</span> <span class="token number">0</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//占位符，无意义</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>inletOutlet和outletInlet</p>
-<p>出口边界 / 进口边界 ，可以控制回流</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">边界名
-<span class="token punctuation">{</span>
-    type                 inletOutlet<span class="token punctuation">;</span>   <span class="token comment">//inletOutlet或outletInlet</span>
-    phi                  phi<span class="token punctuation">;</span>			<span class="token comment">//通量名称，判断流动方向，一般为phi</span>
-    inletValue           uniform <span class="token number">0</span><span class="token punctuation">;</span>		<span class="token comment">//出现回流时流动参数值</span>
-    value                uniform <span class="token number">0</span><span class="token punctuation">;</span>     <span class="token comment">//边界初始值</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-</ul>
-]]></content>
-      <categories>
-        <category>CFD</category>
-      </categories>
-      <tags>
-        <tag>OpenFOAM</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>掉落液滴两相流</title>
     <url>/2021/09/02/%E4%B8%A4%E7%9B%B8%E6%B5%81/</url>
     <content><![CDATA[<h2 id="0-前言"><a href="#0-前言" class="headerlink" title="0. 前言"></a>0. 前言</h2><p>看到这个标题，就是两相流，简单明了。<strong>两相流</strong>是两相物质(至少一相为流体)所组成的流动<a href="https://baike.baidu.com/item/%E7%B3%BB%E7%BB%9F">系统</a>。若流动系统中物质的相态多于两个，则称为多相流。</p>
@@ -401,6 +401,38 @@ OptimisationSwitches
       </categories>
       <tags>
         <tag>OpenFOAM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>0219103简历评选</title>
+    <url>/2022/04/17/%E7%AE%80%E5%8E%86/</url>
+    <content><![CDATA[<h3 id="0-写在前面"><a href="#0-写在前面" class="headerlink" title="0 写在前面"></a>0 写在前面</h3><ul>
+<li>按照学院要求，每班只能评选3个简历来加0.5分群星计划，其他简历的同学加0.3分。本次共7名同学投递了简历，于是需要在班内开展评选活动。</li>
+<li>简历向全班同学公开是经过了作者允许的，为了避免信息泄露，简历放在班长的个人网站上，本文章在2022年4月18日12：00会删除。没有使用第三方展板平台。</li>
+</ul>
+<h3 id="1-简历投稿人"><a href="#1-简历投稿人" class="headerlink" title="1 简历投稿人"></a>1 简历投稿人</h3><ol>
+<li><p>陈彦沁</p>
+</li>
+<li><p>魏鹏轩</p>
+</li>
+<li><p>欧阳云帆</p>
+</li>
+<li><p>高源</p>
+</li>
+<li><p>路倩倩</p>
+</li>
+<li><p>蔡远鹏</p>
+</li>
+<li><p>钱亮</p>
+</li>
+</ol>
+<h3 id="2-简历内容"><a href="#2-简历内容" class="headerlink" title="2 简历内容"></a>2 简历内容</h3><p>![](<a href="https://github.com/Gravity-Zero-o/Gravity-Zero-o.github.io/blob/master/image/wei.png">Gravity-Zero-o.github.io/wei.png at master · Gravity-Zero-o/Gravity-Zero-o.github.io</a>)</p>
+]]></content>
+      <categories>
+        <category>Class</category>
+      </categories>
+      <tags>
+        <tag>Student</tag>
       </tags>
   </entry>
   <entry>
@@ -494,38 +526,6 @@ RAS
       </categories>
       <tags>
         <tag>Trebulent</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>0219103简历评选</title>
-    <url>/2022/04/17/%E7%AE%80%E5%8E%86/</url>
-    <content><![CDATA[<h3 id="0-写在前面"><a href="#0-写在前面" class="headerlink" title="0 写在前面"></a>0 写在前面</h3><ul>
-<li>按照学院要求，每班只能评选3个简历来加0.5分群星计划，其他简历的同学加0.3分。本次共7名同学投递了简历，于是需要在班内开展评选活动。</li>
-<li>简历向全班同学公开是经过了作者允许的，为了避免信息泄露，简历放在班长的个人网站上，本文章在2022年4月18日12：00会删除。没有使用第三方展板平台。</li>
-</ul>
-<h3 id="1-简历投稿人"><a href="#1-简历投稿人" class="headerlink" title="1 简历投稿人"></a>1 简历投稿人</h3><ol>
-<li><p>陈彦沁</p>
-</li>
-<li><p>魏鹏轩</p>
-</li>
-<li><p>欧阳云帆</p>
-</li>
-<li><p>高源</p>
-</li>
-<li><p>路倩倩</p>
-</li>
-<li><p>蔡远鹏</p>
-</li>
-<li><p>钱亮</p>
-</li>
-</ol>
-<h3 id="2-简历内容"><a href="#2-简历内容" class="headerlink" title="2 简历内容"></a>2 简历内容</h3><p><img src="E:\blog\source\image\wei.png"></p>
-]]></content>
-      <categories>
-        <category>Class</category>
-      </categories>
-      <tags>
-        <tag>Student</tag>
       </tags>
   </entry>
 </search>
