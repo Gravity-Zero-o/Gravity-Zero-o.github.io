@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="湍流模型, Kowalski">
+    <meta name="keywords" content="OpenFOAM边界条件, Kowalski">
     <meta name="description" content="Welcome">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>湍流模型 | Kowlski&#39;s Coffee</title>
+    <title>OpenFOAM边界条件 | Kowlski&#39;s Coffee</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -287,12 +287,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">湍流模型</h1>
+                    <h1 class="description center-align post-title">OpenFOAM边界条件</h1>
                 </div>
             </div>
         </div>
@@ -408,8 +408,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Trebulent/">
-                                <span class="chip bg-color">Trebulent</span>
+                            <a href="/tags/innovation/">
+                                <span class="chip bg-color">innovation</span>
                             </a>
                         
                     </div>
@@ -420,8 +420,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/CFD/" class="post-category">
-                                CFD
+                            <a href="/categories/homework/" class="post-category">
+                                homework
                             </a>
                         
                     </div>
@@ -433,14 +433,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2022-01-02
+                    2022-10-16
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>Update Date:&nbsp;&nbsp;
-                    2022-01-10
+                    2022-10-16
                 </div>
                 
 
@@ -462,87 +462,83 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="0-写在前面"><a href="#0-写在前面" class="headerlink" title="0 写在前面"></a>0 写在前面</h3><p>去年有幸参加了一个学术论坛的答辩，我主要讲汇报计算流体力学和机翼气动响应分析的内容。讲的还可以，不过最后评委老师提问时候，有个问题没答上来，写在这里进行深度的学习</p>
+                <h2 id="一、市场分析"><a href="#一、市场分析" class="headerlink" title="一、市场分析"></a>一、<strong>市场分析</strong></h2><p><strong>1. 目标用户</strong></p>
+<p>我们的目标用户包括整个户外运动爱好者们，受众广，覆盖面大，主要针对于需要日常进行户外运动、追求健康，并愿意支付运动装备的人群。</p>
+<p>我们的目标用户具有以下几个特点：</p>
 <ul>
-<li><p>老师问：你这个网格的湍流模型是哪一个？</p>
+<li>热衷于户外运动，且经常性进行户外运动以保持健康。</li>
+<li>对于健康标准要求高，常居一二线城市，对于空气污染具有较高防范意识。</li>
+<li>以收入稳定的白领阶层居多，热衷于消费，并愿意积极尝试新兴事物。</li>
+</ul>
+<p>**2. ** <strong>市场规模</strong></p>
+<ul>
+<li><p>整体运动户外市场逐步进入成长期，增长趋势明显，行业整体渗透率和人数稳步增长，且市场逐渐向品牌化发展，行业规模将持续性扩张，预计2020年增速有望超过20%。</p>
 </li>
-<li><p>我：…</p>
-<p>（我只记得一个二维网格，大概十几万的网格数，边界层厚度和设置的最大迭代次数…暑假（对，就是上次写Blog时候）看了湍流模型那一章节，不过觉得需要时候再查书就好了，没怎么记忆 555</p>
+<li><p>我们以运动健身人群为基础用户，泛指以增强体能、减肥塑形等提升身心健康为目的的运动，该群体热爱运动且购买力较强，多居一二线城市，更加容易成为我们的用户。</p>
+</li>
+<li><p>据WHO研究显示中国仅有14.1%的居民不经常运动，同时截至2020年2月，运动健身App行业活跃用户规模快速上涨至8928万，同比增长了93.3%，同时随着中国全民运动率的不断提高，健康人群渗透率增长空间大，且体育产业GDP占比逐年增长。</p>
+</li>
+<li><p>从我们的用户来看，长期热衷于运动且对于健康要求较高，运动场景中选择户外公共区域，同时对运动鞋服功能有要求，经常戴口罩的人群，二者重叠的用户更容易成为我们的目标人群。由下图看来，这款运动型口罩市场变化趋势向好，市场容量存在巨大的空间。</p>
 </li>
 </ul>
-<h3 id="1-湍流模型"><a href="#1-湍流模型" class="headerlink" title="1 湍流模型"></a>1 湍流模型</h3><p>湍流模式理论或简称湍流模型，就是以雷诺平均运动方程与脉动运动方程为基础，依靠理论与经验的结合，引进一系列模型假设，而建立起的一组描写湍流平均量微分方程形式的封闭方程组。常用的湍流模型可根据所采用的微分方程数进行分类为：零方程模型、一方程模型、两方程模型、四方程模型、七方程模型等。</p>
-<p>这里先写一下FLUENT提供的湍流模型，关于这些模型是否在不同软件通用，这个后面再研究一下</p>
+<p><strong>3. 发展前景</strong></p>
+<p>​        2015-2017年，中国体育消费市场稳步增长。国家发改委数据显示，预计2020年中国体育消费市场将达到1.5万亿元，国家统计局数据显示，2015年中国经常参加体育锻炼人数达到3.6亿人，预计2020年该人数将达到4.4亿人。</p>
+<p>​        以健身市场来看，GWI认为全球健身人口平均渗透率为3.7%， 全球健身行业总规模为1086亿美元，人均为健身的消费为384美元。而中国在内的亚太市场，健身人口渗透率仅为1.%，位列全球倒数，但健身人口平均花费却为494美元，位列全球前列。也就是说，健身人口渗透率低的市场，人均健身消费却更高。</p>
+<p>​        iMedia Research(艾媒咨询)数据也显示， 2018年中国运动健身领域获得投资的24家公司中，经营智能健身房、运动社交平台以及相关运动服务的初创公司备受资本市场投资者偏好。</p>
+<p>​        这表明，中国健身市场的成长空间依然十分乐观，中国0.8%健身人口渗透率的增长，也是健身市场的成倍增长，人们对于健康运动的意愿不断加强，更加容易成为我们的用户，与此同时，对于运动支出的需求旺盛，所以我们这款运动型口罩受众群大、市场容量大，具有非常良好的市场环境与发展前景。</p>
+<p><strong>4. 风险分析及管理</strong></p>
+<p><strong>风险：</strong></p>
 <ul>
-<li><p>Spalart-Allmaras （SA）模型</p>
+<li><p>市场竞争风险：市场暂时无同类产品，但是发展后容易出现同类新技术、新产品，争夺市场份额</p>
 </li>
-<li><p>$ k- \epsilon$ 模型 </p>
-<ul>
-<li>标准 $ k-\epsilon$ 模型</li>
-<li>重整化RNG $ k-\epsilon$ 模型</li>
-<li>可实现 $ k-\epsilon$ 模型</li>
-</ul>
+<li><p>管理风险：项目团队人员流动，关键雇员依赖，初期市场敏感度不强，不能顺应市场发展，人才匮乏人才流失风险</p>
 </li>
-<li><p>$ k-\omega$ 模型</p>
-<ul>
-<li>标准 $ k-\omega$ 模型</li>
-<li>剪切应力 SST $ k-\omega$ 模型</li>
-</ul>
+<li><p>行业风险：受新冠疫情的严重冲击，预计未来3至5年体育市场年增长率将放缓至3.3%，较去年8%的增长预测有所下降。</p>
 </li>
-<li><p>v2-f 模型</p>
+<li><p>财务风险：新冠疫情无疑是当下面临的主要问题，主要症结在于投资创新的资金投入减少，很多情况下，体育行业的风险管理和应急计划都是缺位的，其在资金、现金流和成本管理问题等方面问题也彻底暴露出来。</p>
 </li>
-<li><p>转捩 $k-kl-\omega$ 模型</p>
-</li>
-<li><p>转捩 $k-\omega$模型</p>
-</li>
-<li><p>雷诺应力 RSM 模型</p>
-<ul>
-<li>x线性压力应力 RSM 模型</li>
-<li>二次压力应力 RSM 模型</li>
-<li>低雷诺数应力 $\omega$ RSM 模型</li>
-</ul>
-</li>
-<li><p>分离涡模型，大涡（LES）模型</p>
-<p><a target="_blank" rel="noopener" href="https://www.cfd-china.com/assets/uploads/files/1544074398130-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%B9%8D%E6%B5%81%E6%A8%A1%E5%9E%8B.pdf">点我查看模型微分方程 PDF</a></p>
+<li><p>其他风险与对策:政策调整、突发事件或非人为因素造成的企业资金周转、人才流失等风险。</p>
 </li>
 </ul>
-<h3 id="2-具体介绍"><a href="#2-具体介绍" class="headerlink" title="2 具体介绍"></a>2 具体介绍</h3><p>这些模型的名字看起来好奇怪，各种 k 啊，$\omega$ 啊，先背下来吧，以后看文章看到名字了知道是在讲湍流模型，接下来具体介绍一下，有一个初步的了解</p>
-<h4 id="（1）Spalart-Allmaras-模型"><a href="#（1）Spalart-Allmaras-模型" class="headerlink" title="（1）Spalart-Allmaras 模型"></a>（1）Spalart-Allmaras 模型</h4><p><em>Spalart-Allmaras( SA )</em> 模型是用于空气动力学、流体机械等含有中度分离现象的场合，如接近音速和超音速的机翼绕流、边界层流动等，也用在壁面射流空气动力学问题、透平等问题。中心问题是怎样计算漩涡粘度。</p>
-<p>模型由<a target="_blank" rel="noopener" href="https://marinecfd.xyz/post/spalart-allmaras/">Spalart 和 Allmaras</a>提出，是一个一方程模型，设计初衷是用于航空领域的壁面流。有如下特点：</p>
+<p><strong>对策：</strong></p>
+<p>面对当今严峻的挑战和未来的不确定性，新冠疫情不但是数字化加速器，更是变革驱动器。我们应当</p>
 <ul>
-<li>只需求解一个输运方程，相比其他湍流模型计算速度快。</li>
-<li>对逆压梯度问题结果较好。</li>
-<li>无法准确模拟自由剪切流，如射流。</li>
-<li>无法准确模拟均匀衰减、各项同性湍流。</li>
+<li>保持与时俱进精神,加大科研力度,同时吸收先进技术，保持技术的先性和新颖性,顺应市场发展和时代潮流,使本产品在市场竞争中处干优势地位。</li>
 </ul>
-<p>SA 模型是相对简单的单方程模型，只需求解湍流粘性的输运方程，不需要求解当地剪切层厚度的长度尺度；由于没有考虑长度尺度的变化，这对一些流动尺度变换比较大的流动问题不太适合；比如平板射流问题，从有壁面影响流动突然变化到自由剪切流，流场尺度变化明显等问题。</p>
-<p>SA 模型中的输运变量在近壁处的梯度要比k-ε中的小，这使得该模型对网格粗糙带来数值误差不太敏感。</p>
-<h4 id="（2）标准-k-epsilon-模型"><a href="#（2）标准-k-epsilon-模型" class="headerlink" title="（2）标准 $k-\epsilon$ 模型"></a>（2）标准 $k-\epsilon$ 模型</h4><p><em>Standard k-ε</em> 模型是基于湍流动能 $ k $ 及其耗散率$ \epsilon $的输运方程的模型。K的模型传输方程是从精确方程推导出来的，而ε的模型传输方程是通过物理推理得到的，与数学上的精确方程相似性很小。<a target="_blank" rel="noopener" href="http://staff.ustc.edu.cn/~humaobin/course/cht/ppt/7.4.pdf">详细查看USTC的文档</a></p>
-<p>在模型的推导过程中，假设流动完全是湍流，分子粘度的影响可以忽略不计。因此，<em>standard</em> 模型只适用于完全湍流，而且由于方程包含不能再壁面计算的项，于是要使用壁面函数；对强分离、大曲率流动、强压强梯度流动的预测结果很弱。为了提高其性能，对其进行了一些改进：重整化 <em>RNG</em> 模型和可实现  <em>relizable</em> 模型</p>
-<p><strong><em>RNG</em>模型</strong>来源于严格的统计技术，与 <em>standard</em> 相比，考虑的湍流漩涡，从而有效地提高了精度，并且 <em>standard</em> 是高雷诺说模型，其主要是用户的经验常数，而 <em>RNG</em> 是提供了低雷诺数流动粘性解析公式，在复杂剪切流动、含高剪切率流动、旋流和流动分离场合中预测要好于 <em>standard</em> 模型</p>
-<p><strong><em>relizable</em> 模型</strong>，为流动粘性增加了一个公式，其优势在于预测平面和圆形射流扩散作用，对于旋流、强逆压梯度的边界层流动、流动分离和二次流也有很好表现（这段是照书上抄的，具体怎么好表现后面再看看）</p>
-<p><strong>v2-f 模型</strong>是 $k-\epsilon$ 模型的扩展，为具有强湍流各向异性的流动提供了高精度的解，可以用于水利旋流器</p>
-<h4 id="（3）标准-k-omega-模型"><a href="#（3）标准-k-omega-模型" class="headerlink" title="（3）标准 $k-\omega$ 模型"></a>（3）标准 $k-\omega$ 模型</h4><p>考虑低雷诺数、可压性、剪切流传播，如尾流、混合流动、平板绕流、圆柱绕流、放射状喷射等，是一个变形的 <em>SST k-\omega</em> 模型</p>
-<p><em>Shear stress transport (SST)</em> 模型在壁面网格精度很高情况下，对壁面的流固分离具有很高的计算精度</p>
-<h4 id="（4）雷诺应力模型"><a href="#（4）雷诺应力模型" class="headerlink" title="（4）雷诺应力模型"></a>（4）雷诺应力模型</h4><p><em>Reynolds stress model (RSM)</em> 在二维流动中加了4个方程，在三维流动加了7个方程，使雷诺时均方程封闭，解决了雷诺应力、耗散速率不封闭的问题</p>
-<p><em>RSM</em> 比单方程和双方程更严格考虑的流线型弯曲、漩涡、旋转和张力快速变化，适用于与雷诺应力有关的复杂流动。</p>
-<p>当考虑雷诺应力的方向性时，必须使用 <em>RSM</em> 模型，可以适用于飓风、燃烧室高速旋转流、管道二次流等。对于强旋流动，使用 <em>$k-\omega$</em> 或 <em>$k-\epsilon$</em> 都不能正确预测。</p>
-<h4 id="（5）大涡模型"><a href="#（5）大涡模型" class="headerlink" title="（5）大涡模型"></a>（5）大涡模型</h4><p>湍流流场起主导作用的是大尺度涡，而小尺度涡引起湍流动量扩散</p>
-<h3 id="3-湍流模型设定"><a href="#3-湍流模型设定" class="headerlink" title="3 湍流模型设定"></a>3 湍流模型设定</h3><ul>
-<li><p>在 FLUENT 中，可以在Viscous Model 对话框里选择需要的湍流模型，选中后就会出现所需要设置的参数</p>
+<ul>
+<li><p>培养忧患意识, 内部建立危机管理意识，具体情况具体分析，不断学习保持头脑先进性。</p>
 </li>
-<li><p>在 OpenFOAM 中，添加湍流模型参见<a target="_blank" rel="noopener" href="http://www.cfluid.com/forum.php?mod=viewthread&amp;tid=57757">如何在OpenFoam里添加湍流模型 - OpenFOAM 流体中文网 - (cfluid.com)</a>讲解</p>
-<p>使用时候在constant文件夹下面turbulenceProperties文件进行设置，<a target="_blank" rel="noopener" href="https://www.openfoam.com/documentation/guides/latest/doc/guide-fos-field-turbulenceFields.html">OpenFOAM: User Guide: turbulenceFields</a></p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">simulationType RAS;//举例
-
-RAS
-{
-    RASModel        kOmegaSST;// 使用SST k-$\omega$
-
-    turbulence      on;
-
-    printCoeffs     on;
-}
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>建立财务风险监测系统和财务预警机制。</p>
+</li>
+<li><p>强化市场战略,以市场为导向,完成“产、销”预算。</p>
+</li>
+<li><p>合作之前深入调查对方信用、履行合同的能力以及还债能力等情况，加强法律观念和维权意识，有效利用法律武器保护企业与自身的财产和生命安全。明确各方费用来源，有理有据，通过股权融资解决经费不足的问题。</p>
+</li>
+</ul>
+<h2 id="二、营销组合策略及生产经营管理"><a href="#二、营销组合策略及生产经营管理" class="headerlink" title="二、营销组合策略及生产经营管理"></a>二、<strong>营销组合策略及生产经营管理</strong></h2><ul>
+<li><p><strong>（一）营销组合策略</strong></p>
+<p><strong>1.产品策略</strong></p>
+<p>形式产品：外观为一个口罩型的电子产品，口罩设有自由调节宽度大小的功能，顾客可根据自己的需要调节到自己适合的尺寸；</p>
+<p>款式：可根据顾客喜好选择各种颜色；按包装效果分为普通型和高级型；但产品性能无差异；</p>
+<p>重量：360克；</p>
+<p>包装：采用结实简单的硬纸盒包装，内置保护的透明塑料壳包裹口罩，间隙用泡泡膜包裹；</p>
+<p><strong>2.定价策略</strong></p>
+<p>成本：采用聚四氟乙烯外壳 ；</p>
+<p> 用户包括整个户外运动爱好者们，受众广，覆盖面大，主要针对于需要日常进行户外运动、追求健康，并愿意支付运动装备的人群，价格不会很高，普通型价格在￥300左右，高级型价格根据不同包装适当加价。</p>
+<p><strong>3.分销策略</strong></p>
+<p>由于面向对象为学生等广大民众，采用薄利多销的模式，可以和各大高校负责人谈好条件，建立合作关系，为学生提供最直接的购买渠道，如学校的电子产品店内设置我们运动口罩的销售处，在新生入学前可询问是否有购买需求。</p>
+<p>联系各地区各大型运动产品售卖店，建立合作关系，在相应售卖点设立相关产品点，提高体验，售卖一体化服务。</p>
+<p><strong>4.促销策略</strong></p>
+<p>新生入学前后进行广告宣传，实行新生先购优惠，前100人半价优惠；新生季后在校内定期进行宣传，配合学校的重大节日进行优惠，并附加产品的服务：如，考试季购买赠送考试模拟卷。</p>
+<p>在双十一，双十二等重大促销节推出相应大幅度降价打折，并附加产品服务，捆绑销售等。</p>
+<p><strong>（二）生产经营管理</strong></p>
+<p><strong>1.</strong> 明确企业的生产经营管理目标</p>
+<p>处在全球经济化和信息化进程逐步加快的今天，一定要规划好企业生产经营目标，根据实际生产经营情况和需要做好产品开发和市场拓展。</p>
+<p><strong>2</strong>. 优化生产经营管理方法</p>
+<p>加强柔性管理力度，实现多元化和个性化产品生产，借鉴国内外先进生产经营管理方法，提高生产经营管理工作效率。</p>
+<p><strong>3</strong>.加强监督和管控力度</p>
+<p>完善相关制度规范，提高制度规范的实用性和适用性，建构独立的监督管控机制，提高工作人员责任意识，以避免各种不必要的分析和损失。</p>
+</li>
 </ul>
 
                 
@@ -570,7 +566,7 @@ RAS
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://gravity-zero-o.github.io/2022/01/03/%E6%B9%8D%E6%B5%81%E6%A8%A1%E5%9E%8B/">https://gravity-zero-o.github.io/2022/01/03/%E6%B9%8D%E6%B5%81%E6%A8%A1%E5%9E%8B/</a>
+                    <a href="https://gravity-zero-o.github.io/2022/10/17/%E8%9E%8D%E8%B5%84%E9%9C%80%E6%B1%82/">https://gravity-zero-o.github.io/2022/10/17/%E8%9E%8D%E8%B5%84%E9%9C%80%E6%B1%82/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -608,8 +604,8 @@ RAS
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Trebulent/">
-                                    <span class="chip bg-color">Trebulent</span>
+                                <a href="/tags/innovation/">
+                                    <span class="chip bg-color">innovation</span>
                                 </a>
                             
                         </div>
@@ -655,9 +651,10 @@ RAS
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
                 <a href="/2022/10/17/%E8%9E%8D%E8%B5%84%E9%9C%80%E6%B1%82/">
                     <div class="card-image">
@@ -675,9 +672,9 @@ RAS
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-10-16
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-10-16
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -690,6 +687,7 @@ RAS
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -708,24 +706,24 @@ RAS
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/09/02/%E4%B8%A4%E7%9B%B8%E6%B5%81/">
+                <a href="/2022/01/03/%E6%B9%8D%E6%B5%81%E6%A8%A1%E5%9E%8B/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="掉落液滴两相流">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="湍流模型">
                         
-                        <span class="card-title">掉落液滴两相流</span>
+                        <span class="card-title">湍流模型</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            沃辛顿射流
+                            CFD的程序学习笔记
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-02
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-01-02
                             </span>
                         <span class="publish-author">
                             
@@ -742,8 +740,8 @@ RAS
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/OpenFOAM/">
-                        <span class="chip bg-color">OpenFOAM</span>
+                    <a href="/tags/Trebulent/">
+                        <span class="chip bg-color">Trebulent</span>
                     </a>
                     
                 </div>
