@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="分类, Kowalski">
+    <meta name="keywords" content="Category: 前处理, Kowalski">
     <meta name="description" content="Welcome">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>分类 | Kowlski&#39;s Coffee</title>
+    <title>Category: 前处理 | Kowlski&#39;s Coffee</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -372,7 +372,7 @@
                 
                 <a href="/categories/%E5%89%8D%E5%A4%84%E7%90%86/" title="前处理: 1">
                     <span class="chip center-align waves-effect waves-light
-                             chip-default "
+                             chip-active "
                             style="background-color: #E8F8F5;">前处理
                         <span class="tag-length">1</span>
                     </span>
@@ -395,65 +395,61 @@
 
 
     
-    <style type="text/css">
-    #category-radar {
-        width: 100%;
-        height: 360px;
-    }
-</style>
 
-<div class="container" data-aos="fade-up">
-    <div class="card">
-        <div id="category-radar" class="card-content"></div>
-    </div>
-</div>
+    <article id="articles" class="container articles">
+        <div class="row tags-posts">
+            
+            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2022/12/28/%E4%BA%8C%E7%BB%B4%E7%BF%BC%E5%9E%8B%E7%82%B9%E5%9D%90%E6%A0%87%E7%94%9F%E6%88%90igs/">
+                        <div class="card-image tag-image">
+                            
+                            
+                            <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="二维翼型点坐标生成igs">
+                            
+                            <span class="card-title">二维翼型点坐标生成igs</span>
+                        </div>
+                    </a>
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                将网络上或者程序生成的二维翼型点坐标导入到excel中，生成带逗号的二维坐标，再导入到CAD中绘制剖面图，再导出igs
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-12-27
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/%E5%89%8D%E5%A4%84%E7%90%86/" class="post-category">
+                                    前处理
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
 
-<script type="text/javascript" src="/libs/echarts/echarts.min.js"></script>
-<script type="text/javascript">
-    let radarChart = echarts.init(document.getElementById('category-radar'));
-
-    
-
-    let option = {
-        title: {
-            left: 'center',
-            text: 'Post Categories Radar Chart',
-            textStyle: {
-                fontWeight: 500,
-                fontSize: 22
-            }
-        },
-        tooltip: {},
-        radar: {
-            name: {
-                textStyle: {
-                    color: '#3C4858'
-                }
-            },
-            indicator: [{"name":"Markdown","max":5},{"name":"Technology","max":5},{"name":"CFD","max":5},{"name":"前处理","max":5},{"name":"homework","max":5}],
-            nameGap: 5,
-            center: ['50%','55%'],
-            radius: '66%'
-        },
-        series: [{
-            type: 'radar',
-            color: ['#3ecf8e'],
-            itemStyle: {normal: {areaStyle: {type: 'default'}}},
-            data : [
-                {
-                    value : [1,1,4,1,1],
-                    name : 'Number of Categories'
-                }
-            ]
-        }]
-    };
-
-    radarChart.setOption(option);
-</script>
-
-    
-
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/CAD/">
+                            <span class="chip bg-color">CAD</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </article>
 </main>
+
+
 
 
     <footer class="page-footer bg-color">

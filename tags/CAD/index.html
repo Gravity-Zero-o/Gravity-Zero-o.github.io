@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="分类, Kowalski">
+    <meta name="keywords" content="Tag: CAD, Kowalski">
     <meta name="description" content="Welcome">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>分类 | Kowlski&#39;s Coffee</title>
+    <title>Tag: CAD | Kowlski&#39;s Coffee</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -333,127 +333,133 @@
 
     
 
-<div id="category-cloud" class="container chip-container">
+<div id="tags" class="container chip-container">
     <div class="card">
         <div class="card-content">
             <div class="tag-title center-align">
-                <i class="fas fa-bookmark"></i>&nbsp;&nbsp;Post Categories
+                <i class="fas fa-tags"></i>&nbsp;&nbsp;Post Tags
             </div>
             <div class="tag-chips">
                 
                 
-                
-                <a href="/categories/Markdown/" title="Markdown: 1">
+                <a href="/tags/Typora/" title="Typora: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #F9EBEA;">Markdown
+                            data-tagname="Typora" style="background-color: #F9EBEA;">Typora
                         <span class="tag-length">1</span>
                     </span>
                 </a>
                 
                 
-                <a href="/categories/Technology/" title="Technology: 1">
+                <a href="/tags/Markdown/" title="Markdown: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #F5EEF8;">Technology
+                            data-tagname="Markdown" style="background-color: #F5EEF8;">Markdown
                         <span class="tag-length">1</span>
                     </span>
                 </a>
                 
                 
-                <a href="/categories/CFD/" title="CFD: 4">
+                <a href="/tags/OSLC/" title="OSLC: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #D5F5E3;">CFD
-                        <span class="tag-length">4</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E5%89%8D%E5%A4%84%E7%90%86/" title="前处理: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #E8F8F5;">前处理
+                            data-tagname="OSLC" style="background-color: #D5F5E3;">OSLC
                         <span class="tag-length">1</span>
                     </span>
                 </a>
                 
                 
-                <a href="/categories/homework/" title="homework: 1">
+                <a href="/tags/JAVA/" title="JAVA: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #FEF9E7;">homework
+                            data-tagname="JAVA" style="background-color: #E8F8F5;">JAVA
                         <span class="tag-length">1</span>
                     </span>
                 </a>
                 
+                
+                <a href="/tags/OpenFOAM/" title="OpenFOAM: 3">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            data-tagname="OpenFOAM" style="background-color: #FEF9E7;">OpenFOAM
+                        <span class="tag-length">3</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/tags/CAD/" title="CAD: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-active "
+                            data-tagname="CAD" style="background-color: #F8F9F9;">CAD
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/tags/innovation/" title="innovation: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            data-tagname="innovation" style="background-color: #82E0AA;">innovation
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/tags/Trebulent/" title="Trebulent: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            data-tagname="Trebulent" style="background-color: #D7BDE2;">Trebulent
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
                 
             </div>
         </div>
     </div>
 </div>
 
-
-    
-    <style type="text/css">
-    #category-radar {
-        width: 100%;
-        height: 360px;
-    }
-</style>
-
-<div class="container" data-aos="fade-up">
-    <div class="card">
-        <div id="category-radar" class="card-content"></div>
-    </div>
-</div>
-
-<script type="text/javascript" src="/libs/echarts/echarts.min.js"></script>
-<script type="text/javascript">
-    let radarChart = echarts.init(document.getElementById('category-radar'));
-
     
 
-    let option = {
-        title: {
-            left: 'center',
-            text: 'Post Categories Radar Chart',
-            textStyle: {
-                fontWeight: 500,
-                fontSize: 22
-            }
-        },
-        tooltip: {},
-        radar: {
-            name: {
-                textStyle: {
-                    color: '#3C4858'
-                }
-            },
-            indicator: [{"name":"Markdown","max":5},{"name":"Technology","max":5},{"name":"CFD","max":5},{"name":"前处理","max":5},{"name":"homework","max":5}],
-            nameGap: 5,
-            center: ['50%','55%'],
-            radius: '66%'
-        },
-        series: [{
-            type: 'radar',
-            color: ['#3ecf8e'],
-            itemStyle: {normal: {areaStyle: {type: 'default'}}},
-            data : [
-                {
-                    value : [1,1,4,1,1],
-                    name : 'Number of Categories'
-                }
-            ]
-        }]
-    };
-
-    radarChart.setOption(option);
-</script>
-
-    
-
+    <article id="articles" class="container articles">
+        <div class="row tags-posts">
+            
+            
+            <div class="article tag-post col s12 m6 l4" data-tags="CAD" data-aos="fade-up">
+                <div class="card">
+                    <a href="/2022/12/28/%E4%BA%8C%E7%BB%B4%E7%BF%BC%E5%9E%8B%E7%82%B9%E5%9D%90%E6%A0%87%E7%94%9F%E6%88%90igs/">
+                        <div class="card-image tag-image">
+                            
+                            
+                            <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="二维翼型点坐标生成igs">
+                            
+                            <span class="card-title">二维翼型点坐标生成igs</span>
+                        </div>
+                    </a>
+                    <div class="card-content article-content">
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-12-27
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/%E5%89%8D%E5%A4%84%E7%90%86/" class="post-category">
+                                前处理
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </article>
 </main>
+
+
 
 
     <footer class="page-footer bg-color">
