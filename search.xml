@@ -408,8 +408,7 @@ OptimisationSwitches
   <entry>
     <title>二维翼型点坐标生成igs</title>
     <url>/2022/12/28/%E4%BA%8C%E7%BB%B4%E7%BF%BC%E5%9E%8B%E7%82%B9%E5%9D%90%E6%A0%87%E7%94%9F%E6%88%90igs/</url>
-    <content><![CDATA[<h3 id="1-获取坐标"><a href="#1-获取坐标" class="headerlink" title="1 获取坐标"></a>1 获取坐标</h3><p>这个获取坐标嘛，很多方式啦，比如去</p>
-<p>，有一个翼型绘图器，在里面输入一些参数，然后下载；</p>
+    <content><![CDATA[<h3 id="1-获取坐标"><a href="#1-获取坐标" class="headerlink" title="1 获取坐标"></a>1 获取坐标</h3><p>这个获取坐标嘛，很多方式啦，比如去<a href="http://airfoiltools.com/plotter/index?airfoil=naca6412-il">NACA</a>，有一个翼型绘图器，在里面输入一些参数，然后下载；</p>
 <p>也可以用NACA程序，直接生成。这些生成的都是二维的XY坐标</p>
 <h3 id="2-导入Excel"><a href="#2-导入Excel" class="headerlink" title="2 导入Excel"></a>2 导入Excel</h3><p>在CAD绘图软件中，需要带逗号坐标来绘制，因此，我们需要把下载下来的二维坐标处理一下，让他X和Y坐标组合在一起，加一个逗号</p>
 <p>在第三列输入 =A1&amp;”,”&amp;B1  然后让所有的这一列都套用这个公式，然后复制</p>
@@ -421,6 +420,99 @@ OptimisationSwitches
       </categories>
       <tags>
         <tag>CAD</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>湍流模型</title>
+    <url>/2022/01/03/%E6%B9%8D%E6%B5%81%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<h3 id="0-写在前面"><a href="#0-写在前面" class="headerlink" title="0 写在前面"></a>0 写在前面</h3><p>去年有幸参加了一个学术论坛的答辩，我主要讲汇报计算流体力学和机翼气动响应分析的内容。讲的还可以，不过最后评委老师提问时候，有个问题没答上来，写在这里进行深度的学习</p>
+<ul>
+<li><p>老师问：你这个网格的湍流模型是哪一个？</p>
+</li>
+<li><p>我：…</p>
+<p>（我只记得一个二维网格，大概十几万的网格数，边界层厚度和设置的最大迭代次数…暑假（对，就是上次写Blog时候）看了湍流模型那一章节，不过觉得需要时候再查书就好了，没怎么记忆 555</p>
+</li>
+</ul>
+<h3 id="1-湍流模型"><a href="#1-湍流模型" class="headerlink" title="1 湍流模型"></a>1 湍流模型</h3><p>湍流模式理论或简称湍流模型，就是以雷诺平均运动方程与脉动运动方程为基础，依靠理论与经验的结合，引进一系列模型假设，而建立起的一组描写湍流平均量微分方程形式的封闭方程组。常用的湍流模型可根据所采用的微分方程数进行分类为：零方程模型、一方程模型、两方程模型、四方程模型、七方程模型等。</p>
+<p>这里先写一下FLUENT提供的湍流模型，关于这些模型是否在不同软件通用，这个后面再研究一下</p>
+<ul>
+<li><p>Spalart-Allmaras （SA）模型</p>
+</li>
+<li><p>$ k- \epsilon$ 模型 </p>
+<ul>
+<li>标准 $ k-\epsilon$ 模型</li>
+<li>重整化RNG $ k-\epsilon$ 模型</li>
+<li>可实现 $ k-\epsilon$ 模型</li>
+</ul>
+</li>
+<li><p>$ k-\omega$ 模型</p>
+<ul>
+<li>标准 $ k-\omega$ 模型</li>
+<li>剪切应力 SST $ k-\omega$ 模型</li>
+</ul>
+</li>
+<li><p>v2-f 模型</p>
+</li>
+<li><p>转捩 $k-kl-\omega$ 模型</p>
+</li>
+<li><p>转捩 $k-\omega$模型</p>
+</li>
+<li><p>雷诺应力 RSM 模型</p>
+<ul>
+<li>x线性压力应力 RSM 模型</li>
+<li>二次压力应力 RSM 模型</li>
+<li>低雷诺数应力 $\omega$ RSM 模型</li>
+</ul>
+</li>
+<li><p>分离涡模型，大涡（LES）模型</p>
+<p><a href="https://www.cfd-china.com/assets/uploads/files/1544074398130-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%B9%8D%E6%B5%81%E6%A8%A1%E5%9E%8B.pdf">点我查看模型微分方程 PDF</a></p>
+</li>
+</ul>
+<h3 id="2-具体介绍"><a href="#2-具体介绍" class="headerlink" title="2 具体介绍"></a>2 具体介绍</h3><p>这些模型的名字看起来好奇怪，各种 k 啊，$\omega$ 啊，先背下来吧，以后看文章看到名字了知道是在讲湍流模型，接下来具体介绍一下，有一个初步的了解</p>
+<h4 id="（1）Spalart-Allmaras-模型"><a href="#（1）Spalart-Allmaras-模型" class="headerlink" title="（1）Spalart-Allmaras 模型"></a>（1）Spalart-Allmaras 模型</h4><p><em>Spalart-Allmaras( SA )</em> 模型是用于空气动力学、流体机械等含有中度分离现象的场合，如接近音速和超音速的机翼绕流、边界层流动等，也用在壁面射流空气动力学问题、透平等问题。中心问题是怎样计算漩涡粘度。</p>
+<p>模型由<a href="https://marinecfd.xyz/post/spalart-allmaras/">Spalart 和 Allmaras</a>提出，是一个一方程模型，设计初衷是用于航空领域的壁面流。有如下特点：</p>
+<ul>
+<li>只需求解一个输运方程，相比其他湍流模型计算速度快。</li>
+<li>对逆压梯度问题结果较好。</li>
+<li>无法准确模拟自由剪切流，如射流。</li>
+<li>无法准确模拟均匀衰减、各项同性湍流。</li>
+</ul>
+<p>SA 模型是相对简单的单方程模型，只需求解湍流粘性的输运方程，不需要求解当地剪切层厚度的长度尺度；由于没有考虑长度尺度的变化，这对一些流动尺度变换比较大的流动问题不太适合；比如平板射流问题，从有壁面影响流动突然变化到自由剪切流，流场尺度变化明显等问题。</p>
+<p>SA 模型中的输运变量在近壁处的梯度要比k-ε中的小，这使得该模型对网格粗糙带来数值误差不太敏感。</p>
+<h4 id="（2）标准-k-epsilon-模型"><a href="#（2）标准-k-epsilon-模型" class="headerlink" title="（2）标准 $k-\epsilon$ 模型"></a>（2）标准 $k-\epsilon$ 模型</h4><p><em>Standard k-ε</em> 模型是基于湍流动能 $ k $ 及其耗散率$ \epsilon $的输运方程的模型。K的模型传输方程是从精确方程推导出来的，而ε的模型传输方程是通过物理推理得到的，与数学上的精确方程相似性很小。<a href="http://staff.ustc.edu.cn/~humaobin/course/cht/ppt/7.4.pdf">详细查看USTC的文档</a></p>
+<p>在模型的推导过程中，假设流动完全是湍流，分子粘度的影响可以忽略不计。因此，<em>standard</em> 模型只适用于完全湍流，而且由于方程包含不能再壁面计算的项，于是要使用壁面函数；对强分离、大曲率流动、强压强梯度流动的预测结果很弱。为了提高其性能，对其进行了一些改进：重整化 <em>RNG</em> 模型和可实现  <em>relizable</em> 模型</p>
+<p><strong><em>RNG</em>模型</strong>来源于严格的统计技术，与 <em>standard</em> 相比，考虑的湍流漩涡，从而有效地提高了精度，并且 <em>standard</em> 是高雷诺说模型，其主要是用户的经验常数，而 <em>RNG</em> 是提供了低雷诺数流动粘性解析公式，在复杂剪切流动、含高剪切率流动、旋流和流动分离场合中预测要好于 <em>standard</em> 模型</p>
+<p><strong><em>relizable</em> 模型</strong>，为流动粘性增加了一个公式，其优势在于预测平面和圆形射流扩散作用，对于旋流、强逆压梯度的边界层流动、流动分离和二次流也有很好表现（这段是照书上抄的，具体怎么好表现后面再看看）</p>
+<p><strong>v2-f 模型</strong>是 $k-\epsilon$ 模型的扩展，为具有强湍流各向异性的流动提供了高精度的解，可以用于水利旋流器</p>
+<h4 id="（3）标准-k-omega-模型"><a href="#（3）标准-k-omega-模型" class="headerlink" title="（3）标准 $k-\omega$ 模型"></a>（3）标准 $k-\omega$ 模型</h4><p>考虑低雷诺数、可压性、剪切流传播，如尾流、混合流动、平板绕流、圆柱绕流、放射状喷射等，是一个变形的 <em>SST k-\omega</em> 模型</p>
+<p><em>Shear stress transport (SST)</em> 模型在壁面网格精度很高情况下，对壁面的流固分离具有很高的计算精度</p>
+<h4 id="（4）雷诺应力模型"><a href="#（4）雷诺应力模型" class="headerlink" title="（4）雷诺应力模型"></a>（4）雷诺应力模型</h4><p><em>Reynolds stress model (RSM)</em> 在二维流动中加了4个方程，在三维流动加了7个方程，使雷诺时均方程封闭，解决了雷诺应力、耗散速率不封闭的问题</p>
+<p><em>RSM</em> 比单方程和双方程更严格考虑的流线型弯曲、漩涡、旋转和张力快速变化，适用于与雷诺应力有关的复杂流动。</p>
+<p>当考虑雷诺应力的方向性时，必须使用 <em>RSM</em> 模型，可以适用于飓风、燃烧室高速旋转流、管道二次流等。对于强旋流动，使用 <em>$k-\omega$</em> 或 <em>$k-\epsilon$</em> 都不能正确预测。</p>
+<h4 id="（5）大涡模型"><a href="#（5）大涡模型" class="headerlink" title="（5）大涡模型"></a>（5）大涡模型</h4><p>湍流流场起主导作用的是大尺度涡，而小尺度涡引起湍流动量扩散</p>
+<h3 id="3-湍流模型设定"><a href="#3-湍流模型设定" class="headerlink" title="3 湍流模型设定"></a>3 湍流模型设定</h3><ul>
+<li><p>在 FLUENT 中，可以在Viscous Model 对话框里选择需要的湍流模型，选中后就会出现所需要设置的参数</p>
+</li>
+<li><p>在 OpenFOAM 中，添加湍流模型参见<a href="http://www.cfluid.com/forum.php?mod=viewthread&amp;tid=57757">如何在OpenFoam里添加湍流模型 - OpenFOAM 流体中文网 - (cfluid.com)</a>讲解</p>
+<p>使用时候在constant文件夹下面turbulenceProperties文件进行设置，<a href="https://www.openfoam.com/documentation/guides/latest/doc/guide-fos-field-turbulenceFields.html">OpenFOAM: User Guide: turbulenceFields</a></p>
+<pre class="line-numbers language-C" data-language="C"><code class="language-C">simulationType RAS;//举例
+
+RAS
+{
+    RASModel        kOmegaSST;// 使用SST k-$\omega$
+
+    turbulence      on;
+
+    printCoeffs     on;
+}
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+]]></content>
+      <categories>
+        <category>CFD</category>
+      </categories>
+      <tags>
+        <tag>Trebulent</tag>
       </tags>
   </entry>
   <entry>
@@ -524,99 +616,6 @@ OptimisationSwitches
       </categories>
       <tags>
         <tag>innovation</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>湍流模型</title>
-    <url>/2022/01/03/%E6%B9%8D%E6%B5%81%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<h3 id="0-写在前面"><a href="#0-写在前面" class="headerlink" title="0 写在前面"></a>0 写在前面</h3><p>去年有幸参加了一个学术论坛的答辩，我主要讲汇报计算流体力学和机翼气动响应分析的内容。讲的还可以，不过最后评委老师提问时候，有个问题没答上来，写在这里进行深度的学习</p>
-<ul>
-<li><p>老师问：你这个网格的湍流模型是哪一个？</p>
-</li>
-<li><p>我：…</p>
-<p>（我只记得一个二维网格，大概十几万的网格数，边界层厚度和设置的最大迭代次数…暑假（对，就是上次写Blog时候）看了湍流模型那一章节，不过觉得需要时候再查书就好了，没怎么记忆 555</p>
-</li>
-</ul>
-<h3 id="1-湍流模型"><a href="#1-湍流模型" class="headerlink" title="1 湍流模型"></a>1 湍流模型</h3><p>湍流模式理论或简称湍流模型，就是以雷诺平均运动方程与脉动运动方程为基础，依靠理论与经验的结合，引进一系列模型假设，而建立起的一组描写湍流平均量微分方程形式的封闭方程组。常用的湍流模型可根据所采用的微分方程数进行分类为：零方程模型、一方程模型、两方程模型、四方程模型、七方程模型等。</p>
-<p>这里先写一下FLUENT提供的湍流模型，关于这些模型是否在不同软件通用，这个后面再研究一下</p>
-<ul>
-<li><p>Spalart-Allmaras （SA）模型</p>
-</li>
-<li><p>$ k- \epsilon$ 模型 </p>
-<ul>
-<li>标准 $ k-\epsilon$ 模型</li>
-<li>重整化RNG $ k-\epsilon$ 模型</li>
-<li>可实现 $ k-\epsilon$ 模型</li>
-</ul>
-</li>
-<li><p>$ k-\omega$ 模型</p>
-<ul>
-<li>标准 $ k-\omega$ 模型</li>
-<li>剪切应力 SST $ k-\omega$ 模型</li>
-</ul>
-</li>
-<li><p>v2-f 模型</p>
-</li>
-<li><p>转捩 $k-kl-\omega$ 模型</p>
-</li>
-<li><p>转捩 $k-\omega$模型</p>
-</li>
-<li><p>雷诺应力 RSM 模型</p>
-<ul>
-<li>x线性压力应力 RSM 模型</li>
-<li>二次压力应力 RSM 模型</li>
-<li>低雷诺数应力 $\omega$ RSM 模型</li>
-</ul>
-</li>
-<li><p>分离涡模型，大涡（LES）模型</p>
-<p><a href="https://www.cfd-china.com/assets/uploads/files/1544074398130-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%B9%8D%E6%B5%81%E6%A8%A1%E5%9E%8B.pdf">点我查看模型微分方程 PDF</a></p>
-</li>
-</ul>
-<h3 id="2-具体介绍"><a href="#2-具体介绍" class="headerlink" title="2 具体介绍"></a>2 具体介绍</h3><p>这些模型的名字看起来好奇怪，各种 k 啊，$\omega$ 啊，先背下来吧，以后看文章看到名字了知道是在讲湍流模型，接下来具体介绍一下，有一个初步的了解</p>
-<h4 id="（1）Spalart-Allmaras-模型"><a href="#（1）Spalart-Allmaras-模型" class="headerlink" title="（1）Spalart-Allmaras 模型"></a>（1）Spalart-Allmaras 模型</h4><p><em>Spalart-Allmaras( SA )</em> 模型是用于空气动力学、流体机械等含有中度分离现象的场合，如接近音速和超音速的机翼绕流、边界层流动等，也用在壁面射流空气动力学问题、透平等问题。中心问题是怎样计算漩涡粘度。</p>
-<p>模型由<a href="https://marinecfd.xyz/post/spalart-allmaras/">Spalart 和 Allmaras</a>提出，是一个一方程模型，设计初衷是用于航空领域的壁面流。有如下特点：</p>
-<ul>
-<li>只需求解一个输运方程，相比其他湍流模型计算速度快。</li>
-<li>对逆压梯度问题结果较好。</li>
-<li>无法准确模拟自由剪切流，如射流。</li>
-<li>无法准确模拟均匀衰减、各项同性湍流。</li>
-</ul>
-<p>SA 模型是相对简单的单方程模型，只需求解湍流粘性的输运方程，不需要求解当地剪切层厚度的长度尺度；由于没有考虑长度尺度的变化，这对一些流动尺度变换比较大的流动问题不太适合；比如平板射流问题，从有壁面影响流动突然变化到自由剪切流，流场尺度变化明显等问题。</p>
-<p>SA 模型中的输运变量在近壁处的梯度要比k-ε中的小，这使得该模型对网格粗糙带来数值误差不太敏感。</p>
-<h4 id="（2）标准-k-epsilon-模型"><a href="#（2）标准-k-epsilon-模型" class="headerlink" title="（2）标准 $k-\epsilon$ 模型"></a>（2）标准 $k-\epsilon$ 模型</h4><p><em>Standard k-ε</em> 模型是基于湍流动能 $ k $ 及其耗散率$ \epsilon $的输运方程的模型。K的模型传输方程是从精确方程推导出来的，而ε的模型传输方程是通过物理推理得到的，与数学上的精确方程相似性很小。<a href="http://staff.ustc.edu.cn/~humaobin/course/cht/ppt/7.4.pdf">详细查看USTC的文档</a></p>
-<p>在模型的推导过程中，假设流动完全是湍流，分子粘度的影响可以忽略不计。因此，<em>standard</em> 模型只适用于完全湍流，而且由于方程包含不能再壁面计算的项，于是要使用壁面函数；对强分离、大曲率流动、强压强梯度流动的预测结果很弱。为了提高其性能，对其进行了一些改进：重整化 <em>RNG</em> 模型和可实现  <em>relizable</em> 模型</p>
-<p><strong><em>RNG</em>模型</strong>来源于严格的统计技术，与 <em>standard</em> 相比，考虑的湍流漩涡，从而有效地提高了精度，并且 <em>standard</em> 是高雷诺说模型，其主要是用户的经验常数，而 <em>RNG</em> 是提供了低雷诺数流动粘性解析公式，在复杂剪切流动、含高剪切率流动、旋流和流动分离场合中预测要好于 <em>standard</em> 模型</p>
-<p><strong><em>relizable</em> 模型</strong>，为流动粘性增加了一个公式，其优势在于预测平面和圆形射流扩散作用，对于旋流、强逆压梯度的边界层流动、流动分离和二次流也有很好表现（这段是照书上抄的，具体怎么好表现后面再看看）</p>
-<p><strong>v2-f 模型</strong>是 $k-\epsilon$ 模型的扩展，为具有强湍流各向异性的流动提供了高精度的解，可以用于水利旋流器</p>
-<h4 id="（3）标准-k-omega-模型"><a href="#（3）标准-k-omega-模型" class="headerlink" title="（3）标准 $k-\omega$ 模型"></a>（3）标准 $k-\omega$ 模型</h4><p>考虑低雷诺数、可压性、剪切流传播，如尾流、混合流动、平板绕流、圆柱绕流、放射状喷射等，是一个变形的 <em>SST k-\omega</em> 模型</p>
-<p><em>Shear stress transport (SST)</em> 模型在壁面网格精度很高情况下，对壁面的流固分离具有很高的计算精度</p>
-<h4 id="（4）雷诺应力模型"><a href="#（4）雷诺应力模型" class="headerlink" title="（4）雷诺应力模型"></a>（4）雷诺应力模型</h4><p><em>Reynolds stress model (RSM)</em> 在二维流动中加了4个方程，在三维流动加了7个方程，使雷诺时均方程封闭，解决了雷诺应力、耗散速率不封闭的问题</p>
-<p><em>RSM</em> 比单方程和双方程更严格考虑的流线型弯曲、漩涡、旋转和张力快速变化，适用于与雷诺应力有关的复杂流动。</p>
-<p>当考虑雷诺应力的方向性时，必须使用 <em>RSM</em> 模型，可以适用于飓风、燃烧室高速旋转流、管道二次流等。对于强旋流动，使用 <em>$k-\omega$</em> 或 <em>$k-\epsilon$</em> 都不能正确预测。</p>
-<h4 id="（5）大涡模型"><a href="#（5）大涡模型" class="headerlink" title="（5）大涡模型"></a>（5）大涡模型</h4><p>湍流流场起主导作用的是大尺度涡，而小尺度涡引起湍流动量扩散</p>
-<h3 id="3-湍流模型设定"><a href="#3-湍流模型设定" class="headerlink" title="3 湍流模型设定"></a>3 湍流模型设定</h3><ul>
-<li><p>在 FLUENT 中，可以在Viscous Model 对话框里选择需要的湍流模型，选中后就会出现所需要设置的参数</p>
-</li>
-<li><p>在 OpenFOAM 中，添加湍流模型参见<a href="http://www.cfluid.com/forum.php?mod=viewthread&amp;tid=57757">如何在OpenFoam里添加湍流模型 - OpenFOAM 流体中文网 - (cfluid.com)</a>讲解</p>
-<p>使用时候在constant文件夹下面turbulenceProperties文件进行设置，<a href="https://www.openfoam.com/documentation/guides/latest/doc/guide-fos-field-turbulenceFields.html">OpenFOAM: User Guide: turbulenceFields</a></p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">simulationType RAS;//举例
-
-RAS
-{
-    RASModel        kOmegaSST;// 使用SST k-$\omega$
-
-    turbulence      on;
-
-    printCoeffs     on;
-}
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-</ul>
-]]></content>
-      <categories>
-        <category>CFD</category>
-      </categories>
-      <tags>
-        <tag>Trebulent</tag>
       </tags>
   </entry>
 </search>
