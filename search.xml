@@ -24,6 +24,159 @@
       </tags>
   </entry>
   <entry>
+    <title></title>
+    <url>/2023/01/11/CasioUserGuide/</url>
+    <content><![CDATA[<p>title: CasioUserGuide<br>date: 2023-1-11 18:25:00</p>
+<p>hide: false</p>
+<p>mathjax: ture<br>summary: 某款Casio手表的功能和操作<br>categories: Tools</p>
+<h3 id="0-基本功能"><a href="#0-基本功能" class="headerlink" title="0 基本功能"></a>0 基本功能</h3><h4 id="五种模式"><a href="#五种模式" class="headerlink" title="五种模式"></a>五种模式</h4><ul>
+<li>计时模式</li>
+<li>世界时间模式</li>
+<li>闹铃模式</li>
+<li>倒计时模式</li>
+<li>秒表模式</li>
+</ul>
+<h4 id="按钮说明"><a href="#按钮说明" class="headerlink" title="按钮说明"></a>按钮说明</h4><p>左上A，右上B，左下C，右下D</p>
+<h3 id="1-计时模式（主模式）"><a href="#1-计时模式（主模式）" class="headerlink" title="1 计时模式（主模式）"></a>1 计时模式（主模式）</h3><p>计时模式最多保留4个城市的时间，分别为T-1 T-2 T-3 T-4，其中当地时间与T-1一致。按下D即可切换其他城市时间。</p>
+<h4 id="改变本地时间和日期"><a href="#改变本地时间和日期" class="headerlink" title="改变本地时间和日期"></a>改变本地时间和日期</h4><p>用D按钮显示本地T-1时间</p>
+<p>在计时模式中，按住A按钮直到秒数开始闪动，此时显示已经进入设定画面。</p>
+<p>按下C按钮来切换需要设定的项目（闪动）。</p>
+<p>顺序分别为 秒-夏令时-城市代码-小时-分钟-12/24小时制-年-月-日-照明时间-秒。</p>
+<p>选择了需要变更的项目后（闪动），使用D按钮和B按钮进行如下变更。</p>
+<table>
+<thead>
+<tr>
+<th align="center">项目</th>
+<th align="center">目的</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">秒</td>
+<td align="center">将秒数归零</td>
+<td>D</td>
+</tr>
+<tr>
+<td align="center">夏令时DST</td>
+<td align="center">开启或关闭夏令时</td>
+<td>D</td>
+</tr>
+<tr>
+<td align="center">城市</td>
+<td align="center">改变城市代码</td>
+<td>D（向东）B（向西）</td>
+</tr>
+<tr>
+<td align="center">时和分</td>
+<td align="center">选择时、分</td>
+<td>D（+）B（-）</td>
+</tr>
+<tr>
+<td align="center">12/24H</td>
+<td align="center">切换12/24小时制</td>
+<td>D</td>
+</tr>
+<tr>
+<td align="center">年</td>
+<td align="center">选换年数</td>
+<td>D（+）B（-）</td>
+</tr>
+<tr>
+<td align="center">月日</td>
+<td align="center">选换月、日数</td>
+<td>D（+）B（-）</td>
+</tr>
+<tr>
+<td align="center">照明时间LT</td>
+<td align="center">选换1.5或3秒</td>
+<td>D</td>
+</tr>
+</tbody></table>
+<p>按A退出设定界面。</p>
+<p>星期会根据年月日自动显示。</p>
+<h4 id="如何改变本城市时间"><a href="#如何改变本城市时间" class="headerlink" title="如何改变本城市时间"></a>如何改变本城市时间</h4><p>在计时模式中，按D显示要用做本城市时间的当地时间。</p>
+<p>同时按下AB即可。</p>
+<h4 id="如何照明"><a href="#如何照明" class="headerlink" title="如何照明"></a>如何照明</h4><p>按下B按钮。</p>
+<h3 id="2-世界时间模式"><a href="#2-世界时间模式" class="headerlink" title="2 世界时间模式"></a>2 世界时间模式</h3><p>本手表可显示48个城市（31个时区）的时间。</p>
+<p>按下C按钮切换到世界时间模式。</p>
+<p>在世界时间模式中，使用D按钮可以进行不同城市的切换。</p>
+<p>按住A按钮1秒可以设置夏令时，并出现DST标识。夏令时只对当前城市有效，不影响其他城市。</p>
+<h3 id="3-闹铃模式"><a href="#3-闹铃模式" class="headerlink" title="3 闹铃模式"></a>3 闹铃模式</h3><p>本手表有5个闹铃编号为1~5，都可以配置为每日闹铃或者只响一次，闹铃时间是本地时间。</p>
+<p>如果开启了，在状态栏中会显示ALM。</p>
+<p>本手表配置了整点播报，是第六个，编号为：00。</p>
+<p>如果开启了，在状态栏中会显示SIG。</p>
+<h4 id="设定闹铃时间"><a href="#设定闹铃时间" class="headerlink" title="设定闹铃时间"></a>设定闹铃时间</h4><p>在闹铃模式中，使用D按钮切换闹铃序号，到了期望的闹铃后，按住A直到时数开始闪动，按下C依次切换项目：时-分-一次/每日-时。</p>
+<table>
+<thead>
+<tr>
+<th align="center">画面显示</th>
+<th align="center">目的</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">12：00</td>
+<td align="center">更改时和分</td>
+<td>D（+）B（-），如果选用12小时制，还需要设定AM/PM</td>
+</tr>
+<tr>
+<td align="center">1-ON/ON/OFF</td>
+<td align="center">一次/每日/关闭</td>
+<td>按D切换：一次闹铃是1-ON，每日是ON，关闭是OFF</td>
+</tr>
+</tbody></table>
+<h4 id="闹铃动作"><a href="#闹铃动作" class="headerlink" title="闹铃动作"></a>闹铃动作</h4><p>无论当前是什么模式，闹铃到达预设时间会鸣响10秒。</p>
+<p>闹铃开始鸣响后，按下任意按钮可以停止闹铃。</p>
+<h4 id="测试闹铃"><a href="#测试闹铃" class="headerlink" title="测试闹铃"></a>测试闹铃</h4><p>在闹铃模式中，按住D可以使闹铃鸣响。</p>
+<h4 id="开启和解除闹铃"><a href="#开启和解除闹铃" class="headerlink" title="开启和解除闹铃"></a>开启和解除闹铃</h4><p>在闹铃模式中按D切换闹铃，按A循环闹铃设置OFF 和1-ON 和ON。</p>
+<h4 id="开启和解除整点报时"><a href="#开启和解除整点报时" class="headerlink" title="开启和解除整点报时"></a>开启和解除整点报时</h4><p>在闹铃模式中，按D切换到整点报时，按A开启或解除。</p>
+<p>如果开启了，在状态栏中会显示SIG。</p>
+<h3 id="4-倒数计时器模式"><a href="#4-倒数计时器模式" class="headerlink" title="4 倒数计时器模式"></a>4 倒数计时器模式</h3><p>倒数计时器可以在1~24小时范围内进行设定，当倒数计时器到达零时会鸣响。</p>
+<h4 id="如何设定"><a href="#如何设定" class="headerlink" title="如何设定"></a>如何设定</h4><p>按住A直到数字开始闪动，按下C切换 时-分-秒 。</p>
+<p>切换到需要设定的项目，用D（+）B（-），若设定为24小时，请设定为0：00：00。</p>
+<p>按A退出设定界面。</p>
+<h4 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h4><p>在倒数计数器模式下，按下D可以启动。</p>
+<p>倒数结束后，闹铃鸣响10秒钟或者您按下任意按钮可以停止鸣响。闹铃鸣响时，时间自动返回开始值。</p>
+<p>倒数正在进行时，按D可以暂停，再次D可以继续。</p>
+<p>若想完全停止计时，首先要暂停D，然后按A复位。</p>
+<h3 id="5-秒表模式"><a href="#5-秒表模式" class="headerlink" title="5 秒表模式"></a>5 秒表模式</h3><p>秒表用于测量经过时间、中途时间以及两名选手完成时间。秒表的限度是23小时59分59.99秒</p>
+<p>若不停止秒表，测时会不停进行，直到达到限度，会到0再继续。</p>
+<p>若不停止秒表，即使退出了秒表模式，仍会计时。</p>
+<p>若当中途时间在画面中显示时退出秒表模式，中途时间会被清除而返回经过时间的测量画面。</p>
+<h4 id="用秒表测量时间"><a href="#用秒表测量时间" class="headerlink" title="用秒表测量时间"></a>用秒表测量时间</h4><ul>
+<li><p>经过时间</p>
+<p>D开始-D停止-D重新开始-D停止-A清除；</p>
+</li>
+<li><p>中途时间</p>
+<p>D开始-A中途测量-A中途测量解除-D停止-A清除；</p>
+</li>
+<li><p>两名选手完成时间</p>
+<p>D开始-A中途测量（第一名选手冲线，显示完成时间）-D停止（第二名选手冲线）-A中途测量解除（显示第二名完成时间）-A清除；</p>
+</li>
+</ul>
+<h3 id="6-按钮操作音"><a href="#6-按钮操作音" class="headerlink" title="6 按钮操作音"></a>6 按钮操作音</h3><p>当按下按钮时候会鸣响一次</p>
+<p>在任意模式下，按住C即可切换，提示音关闭时，状态栏会显示MUTE</p>
+<h3 id="7-注意"><a href="#7-注意" class="headerlink" title="7 注意"></a>7 注意</h3><ul>
+<li><p>闹钟模式下2~3分钟无操作会返回计时模式</p>
+</li>
+<li><p>B和D按钮可以用来切换</p>
+</li>
+<li><p>秒表复位至00时，如果秒数是30-59之间，复位后分会加1</p>
+</li>
+<li><p>年份可以在2000-2099设置</p>
+</li>
+<li><p>本手表会自动调整长短月和闰年日期，设定好后，除更换电池外，无需再调整</p>
+</li>
+<li><p>世界时间使用UTC时差，指基准点格林威治与各城市所在时区之间时差</p>
+</li>
+<li><p>UTC（Coordinated Universal Time(协调世界时)）</p>
+</li>
+<li><p>锂电池一枚 CR2025</p>
+</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>OSLC开发（踩坑）指南</title>
     <url>/2021/08/29/OSLC%E9%80%82%E9%85%8D%E5%99%A8%E5%BC%80%E5%8F%91%EF%BC%88%E8%B8%A9%E5%9D%91%EF%BC%89%E6%8C%87%E5%8D%97/</url>
     <content><![CDATA[<h3 id="模型转换"><a href="#模型转换" class="headerlink" title="模型转换"></a>模型转换</h3><p>计划是开发CAD和CAE插件，从而使得模型可以转化为 RDF 文件，三元组来描述模型的特征。目前还没有选择软件，也没有研究明白怎么转换，也没看懂怎么展示rdf。</p>
@@ -406,23 +559,6 @@ OptimisationSwitches
       </tags>
   </entry>
   <entry>
-    <title>二维翼型点坐标生成igs</title>
-    <url>/2022/12/28/%E4%BA%8C%E7%BB%B4%E7%BF%BC%E5%9E%8B%E7%82%B9%E5%9D%90%E6%A0%87%E7%94%9F%E6%88%90igs/</url>
-    <content><![CDATA[<h3 id="1-获取坐标"><a href="#1-获取坐标" class="headerlink" title="1 获取坐标"></a>1 获取坐标</h3><p>这个获取坐标嘛，很多方式啦，比如去<a href="http://airfoiltools.com/plotter/index?airfoil=naca6412-il">NACA</a>，有一个翼型绘图器，在里面输入一些参数，然后下载；</p>
-<p>也可以用NACA程序，直接生成。这些生成的都是二维的XY坐标</p>
-<h3 id="2-导入Excel"><a href="#2-导入Excel" class="headerlink" title="2 导入Excel"></a>2 导入Excel</h3><p>在CAD绘图软件中，需要带逗号坐标来绘制，因此，我们需要把下载下来的二维坐标处理一下，让他X和Y坐标组合在一起，加一个逗号</p>
-<p>在第三列输入 =A1&amp;”,”&amp;B1  然后让所有的这一列都套用这个公式，然后复制</p>
-<h3 id="3-三维数据导入CAD"><a href="#3-三维数据导入CAD" class="headerlink" title="3 三维数据导入CAD"></a>3 三维数据导入CAD</h3><p>这里需要用到插值函数SPLINE</p>
-<p>在CAD命令框中输入 SPLINE   接着粘贴刚刚复制的数据，于是可以生成一条插值曲线或者图形了。</p>
-]]></content>
-      <categories>
-        <category>前处理</category>
-      </categories>
-      <tags>
-        <tag>CAD</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>湍流模型</title>
     <url>/2022/01/03/%E6%B9%8D%E6%B5%81%E6%A8%A1%E5%9E%8B/</url>
     <content><![CDATA[<h3 id="0-写在前面"><a href="#0-写在前面" class="headerlink" title="0 写在前面"></a>0 写在前面</h3><p>去年有幸参加了一个学术论坛的答辩，我主要讲汇报计算流体力学和机翼气动响应分析的内容。讲的还可以，不过最后评委老师提问时候，有个问题没答上来，写在这里进行深度的学习</p>
@@ -513,6 +649,23 @@ RAS
       </categories>
       <tags>
         <tag>Trebulent</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>二维翼型点坐标生成igs</title>
+    <url>/2022/12/28/%E4%BA%8C%E7%BB%B4%E7%BF%BC%E5%9E%8B%E7%82%B9%E5%9D%90%E6%A0%87%E7%94%9F%E6%88%90igs/</url>
+    <content><![CDATA[<h3 id="1-获取坐标"><a href="#1-获取坐标" class="headerlink" title="1 获取坐标"></a>1 获取坐标</h3><p>这个获取坐标嘛，很多方式啦，比如去<a href="http://airfoiltools.com/plotter/index?airfoil=naca6412-il">NACA</a>，有一个翼型绘图器，在里面输入一些参数，然后下载；</p>
+<p>也可以用NACA程序，直接生成。这些生成的都是二维的XY坐标</p>
+<h3 id="2-导入Excel"><a href="#2-导入Excel" class="headerlink" title="2 导入Excel"></a>2 导入Excel</h3><p>在CAD绘图软件中，需要带逗号坐标来绘制，因此，我们需要把下载下来的二维坐标处理一下，让他X和Y坐标组合在一起，加一个逗号</p>
+<p>在第三列输入 =A1&amp;”,”&amp;B1  然后让所有的这一列都套用这个公式，然后复制</p>
+<h3 id="3-三维数据导入CAD"><a href="#3-三维数据导入CAD" class="headerlink" title="3 三维数据导入CAD"></a>3 三维数据导入CAD</h3><p>这里需要用到插值函数SPLINE</p>
+<p>在CAD命令框中输入 SPLINE   接着粘贴刚刚复制的数据，于是可以生成一条插值曲线或者图形了。</p>
+]]></content>
+      <categories>
+        <category>前处理</category>
+      </categories>
+      <tags>
+        <tag>CAD</tag>
       </tags>
   </entry>
   <entry>
