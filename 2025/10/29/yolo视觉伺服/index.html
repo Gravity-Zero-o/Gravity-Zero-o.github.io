@@ -1,0 +1,1120 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1" theme-name="Stellar" theme-version="1.33.1">
+  
+  
+  <meta name="generator" content="Hexo 8.1.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  <title>yolo视觉伺服 - 常守 朱</title>
+
+  
+    <meta name="description" content="这是一个无人机跟踪的代码分析 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697">
+<meta property="og:type" content="article">
+<meta property="og:title" content="yolo视觉伺服">
+<meta property="og:url" content="http://example.com/2025/10/29/yolo%E8%A7%86%E8%A7%89%E4%BC%BA%E6%9C%8D/">
+<meta property="og:site_name" content="常守 朱">
+<meta property="og:description" content="这是一个无人机跟踪的代码分析 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/read.png">
+<meta property="article:published_time" content="2025-10-29T10:28:49.000Z">
+<meta property="article:modified_time" content="2026-01-05T11:16:35.022Z">
+<meta property="article:author" content="Gravitykole">
+<meta property="article:tag" content="where is the keywords">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/read.png">
+  
+  
+  
+  <meta name="keywords" content="where is the keywords">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.33.1">
+
+
+  
+    <link rel="shortcut icon" href="/image/favicon.png">
+  
+
+  
+
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Gravitykole","sameAs":[],"image":"/image/read.png"},"dateCreated":"2025-10-29T10:28:49Z","dateModified":"2026-01-05T11:16:35Z","datePublished":"2025-10-29T10:28:49Z","description":"","headline":"yolo视觉伺服","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/10/29/yolo%E8%A7%86%E8%A7%89%E4%BC%BA%E6%9C%8D/"},"publisher":{"@type":"Organization","name":"Gravitykole","sameAs":[],"image":"/image/read.png","logo":{"@type":"ImageObject","url":"/image/read.png"}},"url":"http://example.com/2025/10/29/yolo%E8%A7%86%E8%A7%89%E4%BC%BA%E6%9C%8D/","thumbnailUrl":null,"image":[]}</script>
+  <link rel="stylesheet" href="https://cdn.staticfile.org/lxgw-wenkai-screen-webfont/1.6.0/lxgwwenkaiscreen.css">
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+<body>
+
+<div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/image/read.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">常守 朱</div><div class="sub normal cap">Tsunemori Akane</div><div class="sub hover cap" style="opacity:0">つねもり あかね</div></a></div></header>
+
+<div class="nav-area">
+
+<nav class="menu dis-select"><a class="nav-item" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="分类" href="/categories/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item active" title="专栏" href="/topic/" style="color:#FA6400"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="社交" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+</div>
+<div class="widgets">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+<widget class="widget-wrapper related post-list"><div class="widget-header dis-select"><span class="name">专栏：第一个专栏-目标检测</span></div><div class="widget-body"><a class="item" href="/2025/10/30/Track/"><span class="title">AntiUAV 检测与跟踪项目深度解析</span></a><a class="item" href="/2025/10/30/%E8%A5%BF%E5%B7%A5%E5%A4%A7%E7%BA%A2%E6%B0%94%E7%90%83/"><span class="title">西工大红气球</span></a><a class="item active" href="/2025/10/29/yolo%E8%A7%86%E8%A7%89%E4%BC%BA%E6%9C%8D/"><span class="title">yolo视觉伺服</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div></widget>
+
+
+
+
+
+<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2026/01/15/%E7%A1%AC%E4%BB%B6%E5%9C%A8%E7%8E%AF/"><span class="title">硬件在环</span></a><a class="item title" href="/2026/02/08/ProfDeng/"><span class="title">ProfDeng</span></a><a class="item title" href="/2026/02/08/AIgovernment/"><span class="title">AIgovernment</span></a><a class="item title" href="/2025/12/30/bilibili-class/"><span class="title">bilibili_class</span></a><a class="item title" href="/2026/01/20/%E5%88%B6%E5%AF%BC%E8%AE%BA%E6%96%87/"><span class="title">制导论文</span></a><a class="item title" href="/2026/01/16/%E7%AB%AF%E4%BE%A7%E9%83%A8%E7%BD%B2/"><span class="title">端侧部署</span></a><a class="item title" href="/2026/01/08/JGCD%E7%9A%84%E5%BC%95%E7%94%A8/"><span class="title">JGCD的引用</span></a><a class="item title" href="/2025/10/28/Blog-%E8%B8%A9%E5%9D%91%E6%8C%87%E5%8D%97/"><span class="title">Blog 踩坑指南</span></a><a class="item title" href="/2025/10/29/yolo%E8%A7%86%E8%A7%89%E4%BC%BA%E6%9C%8D/"><span class="title">yolo视觉伺服</span></a><a class="item title" href="/2025/10/30/Track/"><span class="title">AntiUAV 检测与跟踪项目深度解析</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/Gravity-Zero-o" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder/social/08a41b181ce68.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder/social/3845874.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder/social/3616429.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder/social/942ebbf1a4b91.svg"/></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/topic/">专栏</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/2025/10/30/Track/">第一个专栏-目标检测</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-10-29T10:28:49.000Z">2025-10-29</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2026-01-05T11:16:35.022Z">2026-01-05</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>yolo视觉伺服</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><p>这是一个无人机跟踪的代码分析</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br></pre></td><td class="code"><pre><span class="line">&lt;div style=<span class="string">"max-height: 300px; max-width: 100%; overflow: auto;"</span>&gt;</span><br><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">Optional</span>, <span class="type">Tuple</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> PX4MavCtrlV4 <span class="keyword">as</span> PX4MavCtrl</span><br><span class="line"><span class="keyword">import</span> UE4CtrlAPI</span><br><span class="line"><span class="keyword">import</span> VisionCaptureApi</span><br><span class="line"><span class="keyword">from</span> detect_drone_ultralytics <span class="keyword">import</span> DroneDetectorUltralytics  </span><br><span class="line"></span><br><span class="line"><span class="comment"># --- Configuration -----------------------------------------------------------------</span></span><br><span class="line">THIS_DIR = Path(__file__).resolve().parent</span><br><span class="line"><span class="comment"># 使用 fengru 文件夹中训练好的无人机检测模型</span></span><br><span class="line">DEFAULT_WEIGHTS = THIS_DIR / <span class="string">"fengru"</span> / <span class="string">"runs"</span> / <span class="string">"train"</span> / <span class="string">"exp4"</span> / <span class="string">"weights"</span> / <span class="string">"best.pt"</span></span><br><span class="line">WEIGHTS_PATH = Path(sys.argv[<span class="number">1</span>]).resolve() <span class="keyword">if</span> <span class="built_in">len</span>(sys.argv) &gt; <span class="number">1</span> <span class="keyword">else</span> DEFAULT_WEIGHTS</span><br><span class="line">TARGET_CLASS_NAME = <span class="string">"drone"</span>  <span class="comment"># YOLO11 无人机检测类别名</span></span><br><span class="line">TARGET_CONF_THRESHOLD = <span class="number">0.3</span>  <span class="comment"># 降低置信度阈值，更容易检测到目标</span></span><br><span class="line">TARGET_AREA_RATIO = <span class="number">0.015</span>  <span class="comment"># Desired bounding-box area ratio when at the preferred distance</span></span><br><span class="line">FRAME_RATE = <span class="number">30.0</span>  <span class="comment"># 提高到30 FPS实现实时检测</span></span><br><span class="line">DETECT_IMG_SCALE = <span class="number">0.6</span>  <span class="comment"># 检测图像缩放比例 (缩小到60%以提高速度)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># PID-like control gains (similar to detect_ball.py K_z and K_yawrate)</span></span><br><span class="line">K_FORWARD = <span class="number">2.5</span>  <span class="comment"># Forward speed gain based on area error</span></span><br><span class="line">K_LATERAL = <span class="number">0.0025</span>  <span class="comment"># Lateral speed gain based on horizontal center error</span></span><br><span class="line">K_VERTICAL = <span class="number">0.0020</span>  <span class="comment"># Vertical speed gain based on vertical center error  </span></span><br><span class="line">K_YAW = <span class="number">0.0040</span>  <span class="comment"># Yaw rate gain based on horizontal center error</span></span><br><span class="line"></span><br><span class="line">MAX_FORWARD_VEL = <span class="number">2.0</span></span><br><span class="line">MAX_BACKWARD_VEL = <span class="number">1.0</span></span><br><span class="line">MAX_LATERAL_VEL = <span class="number">1.5</span></span><br><span class="line">MAX_VERTICAL_VEL = <span class="number">1.0</span></span><br><span class="line">MAX_YAW_RATE = <span class="number">0.6</span></span><br><span class="line">REACQUIRE_PIXEL_THRESHOLD = <span class="number">80.0</span></span><br><span class="line">SEARCH_HOLD_DURATION = <span class="number">1.0</span></span><br><span class="line">SEARCH_YAW_RATE = <span class="number">0.3</span></span><br><span class="line">FOLLOWER_INIT_POS = [<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>]  <span class="comment"># 跟随机的初始位置,第一架飞机</span></span><br><span class="line">FOLLOWER_CRUISE_ALT = -<span class="number">10.0</span>  <span class="comment"># NED: -10m = 10m above ground 起飞高度</span></span><br><span class="line">TARGET_COPTER_ID = <span class="number">2</span></span><br><span class="line">TARGET_VEHICLE_TYPE = <span class="number">3</span></span><br><span class="line">TARGET_INIT_POS = [<span class="number">3.0</span>, <span class="number">0</span>, <span class="number">0.0</span>]  <span class="comment"># 目标初始位置  第二架飞机，x方向偏移3m</span></span><br><span class="line">TARGET_CRUISE_ALT = -<span class="number">10.0</span>  <span class="comment"># NED: -10m = 10m above ground  # 目标起飞高度</span></span><br><span class="line">TARGET_WAIT_TIME = <span class="number">5.0</span>  <span class="comment"># Target drone waits this long at cruise altitude before follower starts</span></span><br><span class="line">SEARCH_YAW_ANGLE_DEG = <span class="number">10.0</span>  <span class="comment"># 搜索时偏航角范围 ±10度</span></span><br><span class="line">SEARCH_YAW_SPEED = <span class="number">0.2</span>  <span class="comment"># rad/s, yaw rotation speed when searching</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># --- Global State --------------------------------------------------------------------</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">clamp</span>(<span class="params">value: <span class="built_in">float</span>, lower: <span class="built_in">float</span>, upper: <span class="built_in">float</span></span>) -&gt; <span class="built_in">float</span>:</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">max</span>(lower, <span class="built_in">min</span>(upper, value))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">create_tracker</span>() -&gt; cv2.Tracker:</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">hasattr</span>(cv2, <span class="string">"TrackerKCF_create"</span>):</span><br><span class="line">        <span class="keyword">return</span> cv2.TrackerKCF_create()</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">hasattr</span>(cv2, <span class="string">"legacy"</span>) <span class="keyword">and</span> <span class="built_in">hasattr</span>(cv2.legacy, <span class="string">"TrackerKCF_create"</span>):</span><br><span class="line">        <span class="keyword">return</span> cv2.legacy.TrackerKCF_create()</span><br><span class="line">    <span class="keyword">raise</span> RuntimeError(<span class="string">"OpenCV KCF tracker is unavailable in this environment."</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">select_detection</span>(<span class="params">detections, class_names</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> detections:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">    target_index = <span class="literal">None</span></span><br><span class="line">    <span class="keyword">if</span> TARGET_CLASS_NAME <span class="keyword">in</span> class_names:</span><br><span class="line">        target_index = class_names.index(TARGET_CLASS_NAME)</span><br><span class="line">    <span class="keyword">if</span> target_index <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">        candidates = [det <span class="keyword">for</span> det <span class="keyword">in</span> detections <span class="keyword">if</span> det[<span class="number">0</span>] == target_index <span class="keyword">and</span> det[<span class="number">2</span>] &gt;= TARGET_CONF_THRESHOLD]</span><br><span class="line">        <span class="keyword">if</span> candidates:</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">max</span>(candidates, key=<span class="keyword">lambda</span> item: item[<span class="number">2</span>])</span><br><span class="line">    filtered = [det <span class="keyword">for</span> det <span class="keyword">in</span> detections <span class="keyword">if</span> det[<span class="number">2</span>] &gt;= TARGET_CONF_THRESHOLD]</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">max</span>(filtered, key=<span class="keyword">lambda</span> item: item[<span class="number">2</span>]) <span class="keyword">if</span> filtered <span class="keyword">else</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">compute_control</span>(<span class="params">center: <span class="type">Tuple</span>[<span class="built_in">float</span>, <span class="built_in">float</span>], area: <span class="built_in">float</span>, width: <span class="built_in">int</span>, height: <span class="built_in">int</span></span>) -&gt; <span class="type">Tuple</span>[<span class="built_in">float</span>, <span class="built_in">float</span>, <span class="built_in">float</span>, <span class="built_in">float</span>]:</span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Compute control commands based on detection center error and area.</span></span><br><span class="line"><span class="string">    Similar to detect_ball.py Controller function.</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        center: (cx, cy) detection center in pixels</span></span><br><span class="line"><span class="string">        area: detection bounding box area in pixels^2</span></span><br><span class="line"><span class="string">        width: image width</span></span><br><span class="line"><span class="string">        height: image height</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    Returns:</span></span><br><span class="line"><span class="string">        (vx, vy, vz, yaw_rate) control velocities in FRD frame</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    cx, cy = center</span><br><span class="line">    <span class="comment"># Calculate pixel errors from image center</span></span><br><span class="line">    ex = cx - width / <span class="number">2.0</span>  <span class="comment"># horizontal error (positive = target is right)</span></span><br><span class="line">    ey = cy - height / <span class="number">2.0</span>  <span class="comment"># vertical error (positive = target is below)</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Calculate area ratio error</span></span><br><span class="line">    area_ratio = area / <span class="built_in">float</span>(width * height) <span class="keyword">if</span> width * height <span class="keyword">else</span> <span class="number">0.0</span></span><br><span class="line">    area_error = TARGET_AREA_RATIO - area_ratio  <span class="comment"># positive = need to move forward</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Control logic similar to detect_ball.py</span></span><br><span class="line">    <span class="comment"># Forward velocity based on area error</span></span><br><span class="line">    vx = K_FORWARD * area_error</span><br><span class="line">    vx = clamp(vx, -MAX_BACKWARD_VEL, MAX_FORWARD_VEL)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Lateral velocity based on horizontal error</span></span><br><span class="line">    vy = K_LATERAL * ex</span><br><span class="line">    vy = clamp(vy, -MAX_LATERAL_VEL, MAX_LATERAL_VEL)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Vertical velocity based on vertical error</span></span><br><span class="line">    vz = K_VERTICAL * ey</span><br><span class="line">    vz = clamp(vz, -MAX_VERTICAL_VEL, MAX_VERTICAL_VEL)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Yaw rate based on horizontal error</span></span><br><span class="line">    yaw_rate = K_YAW * ex</span><br><span class="line">    yaw_rate = clamp(yaw_rate, -MAX_YAW_RATE, MAX_YAW_RATE)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> vx, vy, vz, yaw_rate</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">search_control</span>(<span class="params">last_cmd: <span class="type">Tuple</span>[<span class="built_in">float</span>, <span class="built_in">float</span>, <span class="built_in">float</span>, <span class="built_in">float</span>], time_since_seen: <span class="built_in">float</span>, toggle_state: <span class="built_in">int</span></span>) -&gt; <span class="type">Tuple</span>[<span class="built_in">float</span>, <span class="built_in">float</span>, <span class="built_in">float</span>, <span class="built_in">float</span>]:</span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Search control: oscillate yaw within ±10 degrees when target is lost.</span></span><br><span class="line"><span class="string">    Also commands pitch changes via gimbal control (not velocity).</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">if</span> time_since_seen &lt; SEARCH_HOLD_DURATION:</span><br><span class="line">        <span class="keyword">return</span> last_cmd</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Oscillate yaw within ±SEARCH_YAW_ANGLE_DEG degrees (±10度)</span></span><br><span class="line">    <span class="comment"># Use sine wave to create smooth left-right scanning motion</span></span><br><span class="line">    search_phase = time_since_seen * SEARCH_YAW_SPEED</span><br><span class="line">    yaw_angle_rad = math.radians(SEARCH_YAW_ANGLE_DEG) * math.sin(search_phase)</span><br><span class="line">    <span class="comment"># Convert angle to yaw rate (approximate derivative)</span></span><br><span class="line">    yaw_rate = SEARCH_YAW_SPEED * math.radians(SEARCH_YAW_ANGLE_DEG) * math.cos(search_phase)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, yaw_rate</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">ensure_offboard</span>(<span class="params">mav: PX4MavCtrl.PX4MavCtrler</span>):</span><br><span class="line">    <span class="string">"""Ensure MAV is armed and in offboard mode."""</span></span><br><span class="line">    retry_count = <span class="number">0</span></span><br><span class="line">    max_retries = <span class="number">5</span></span><br><span class="line">    <span class="keyword">while</span> retry_count &lt; max_retries:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> mav.isInOffboard:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f"  Attempting to enter offboard mode... (attempt <span class="subst">{retry_count + <span class="number">1</span>}</span>/<span class="subst">{max_retries}</span>)"</span>)</span><br><span class="line">            mav.initOffboard()</span><br><span class="line">            time.sleep(<span class="number">0.5</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> mav.isArmed:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f"  Attempting to arm... (attempt <span class="subst">{retry_count + <span class="number">1</span>}</span>/<span class="subst">{max_retries}</span>)"</span>)</span><br><span class="line">            mav.SendMavArm(<span class="literal">True</span>)</span><br><span class="line">            time.sleep(<span class="number">0.5</span>)</span><br><span class="line">        <span class="keyword">if</span> mav.isInOffboard <span class="keyword">and</span> mav.isArmed:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f"  ✓ Successfully armed and in offboard mode"</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        retry_count += <span class="number">1</span></span><br><span class="line">        time.sleep(<span class="number">1.0</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f"  ✗ Failed to enter offboard mode after <span class="subst">{max_retries}</span> attempts"</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f"  Status: isInOffboard=<span class="subst">{mav.isInOffboard}</span>, isArmed=<span class="subst">{mav.isArmed}</span>"</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">ctrl_target_drone_hover</span>(<span class="params">target_mav: PX4MavCtrl.PX4MavCtrler, wait_time: <span class="built_in">float</span></span>):</span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Control target drone: take off to cruise altitude and hover.</span></span><br><span class="line"><span class="string">    Similar to target_follow.py CtrlTargetDrone function.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"Target drone (ID=2) taking off..."</span>)</span><br><span class="line">    <span class="comment"># Ensure target is in offboard mode</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> ensure_offboard(target_mav):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"ERROR: Target drone failed to enter offboard mode!"</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Take off to cruise altitude</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f"  Sending takeoff command: position=(<span class="subst">{TARGET_INIT_POS[<span class="number">0</span>]}</span>, <span class="subst">{TARGET_INIT_POS[<span class="number">1</span>]}</span>, <span class="subst">{TARGET_CRUISE_ALT}</span>)"</span>)</span><br><span class="line">    target_mav.SendPosNED(TARGET_INIT_POS[<span class="number">0</span>], TARGET_INIT_POS[<span class="number">1</span>], TARGET_CRUISE_ALT, <span class="number">0.0</span>)</span><br><span class="line">    time.sleep(<span class="number">5.0</span>)  <span class="comment"># Wait for takeoff</span></span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f"Target drone hovering at <span class="subst">{-TARGET_CRUISE_ALT}</span>m altitude, waiting <span class="subst">{wait_time}</span>s..."</span>)</span><br><span class="line">    <span class="comment"># Hover at cruise altitude</span></span><br><span class="line">    time_interval = <span class="number">1.0</span> / <span class="number">10.0</span>  <span class="comment"># 10Hz control loop</span></span><br><span class="line">    last_time = time.time()</span><br><span class="line">    start_time = time.time()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        last_time = last_time + time_interval</span><br><span class="line">        sleep_time = last_time - time.time()</span><br><span class="line">        <span class="keyword">if</span> sleep_time &gt; <span class="number">0</span>:</span><br><span class="line">            time.sleep(sleep_time)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            last_time = time.time()</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># Keep sending hover command</span></span><br><span class="line">        target_mav.SendPosNED(TARGET_INIT_POS[<span class="number">0</span>], TARGET_INIT_POS[<span class="number">1</span>], TARGET_CRUISE_ALT, <span class="number">0.0</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># Check if initial wait time has passed (signal for follower to start)</span></span><br><span class="line">        elapsed = time.time() - start_time</span><br><span class="line">        <span class="keyword">if</span> elapsed &gt; wait_time <span class="keyword">and</span> elapsed &lt; wait_time + <span class="number">0.5</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"Target drone hover complete, follower can start searching..."</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">detection_and_control_loop</span>(<span class="params"></span></span><br><span class="line"><span class="params">    vis: VisionCaptureApi.VisionCaptureApi, </span></span><br><span class="line"><span class="params">    follower_mav: PX4MavCtrl.PX4MavCtrler,</span></span><br><span class="line"><span class="params">    target_mav: PX4MavCtrl.PX4MavCtrler,</span></span><br><span class="line"><span class="params">    start_delay: <span class="built_in">float</span></span></span><br><span class="line"><span class="params"></span>):</span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Main tracking loop for follower drone.</span></span><br><span class="line"><span class="string">    Waits for target to be ready, then takes off, searches, detects and tracks.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># detector = detectapi(weights=str(WEIGHTS_PATH))  # 旧的球体检测器</span></span><br><span class="line">    detector = DroneDetectorUltralytics(weights_path=<span class="built_in">str</span>(WEIGHTS_PATH))  <span class="comment"># 新的无人机检测器</span></span><br><span class="line">    tracker: <span class="type">Optional</span>[cv2.Tracker] = <span class="literal">None</span></span><br><span class="line">    last_ctrl = (<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>)</span><br><span class="line">    last_seen_time = <span class="number">0.0</span></span><br><span class="line">    search_toggle = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Wait for target drone to be ready</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f"Follower waiting <span class="subst">{start_delay}</span>s for target drone to be ready..."</span>)</span><br><span class="line">    time.sleep(start_delay)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Ensure follower is in offboard mode and at initial position</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"Follower (ID=1) preparing for takeoff..."</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> ensure_offboard(follower_mav):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"ERROR: Follower drone failed to enter offboard mode!"</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f"  Moving to initial position: (<span class="subst">{FOLLOWER_INIT_POS[<span class="number">0</span>]}</span>, <span class="subst">{FOLLOWER_INIT_POS[<span class="number">1</span>]}</span>, <span class="subst">{FOLLOWER_INIT_POS[<span class="number">2</span>]}</span>)"</span>)</span><br><span class="line">    follower_mav.SendPosNED(FOLLOWER_INIT_POS[<span class="number">0</span>], FOLLOWER_INIT_POS[<span class="number">1</span>], FOLLOWER_INIT_POS[<span class="number">2</span>], <span class="number">0.0</span>)</span><br><span class="line">    time.sleep(<span class="number">3.0</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Take off to cruise altitude</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f"Follower taking off to <span class="subst">{-FOLLOWER_CRUISE_ALT}</span>m cruise altitude..."</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f"  Sending takeoff command: position=(<span class="subst">{FOLLOWER_INIT_POS[<span class="number">0</span>]}</span>, <span class="subst">{FOLLOWER_INIT_POS[<span class="number">1</span>]}</span>, <span class="subst">{FOLLOWER_CRUISE_ALT}</span>)"</span>)</span><br><span class="line">    follower_mav.SendPosNED(FOLLOWER_INIT_POS[<span class="number">0</span>], FOLLOWER_INIT_POS[<span class="number">1</span>], FOLLOWER_CRUISE_ALT, <span class="number">0.0</span>)</span><br><span class="line">    time.sleep(<span class="number">5.0</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"Follower at cruise altitude, starting YOLO detection and tracking..."</span>)</span><br><span class="line"></span><br><span class="line">    frame_interval = <span class="number">1.0</span> / FRAME_RATE</span><br><span class="line">    next_tick = time.time()</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 添加帧率统计</span></span><br><span class="line">    frame_count = <span class="number">0</span></span><br><span class="line">    detection_count = <span class="number">0</span></span><br><span class="line">    last_fps_time = time.time()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        next_tick += frame_interval</span><br><span class="line">        sleep_time = next_tick - time.time()</span><br><span class="line">        <span class="keyword">if</span> sleep_time &gt; <span class="number">0</span>:</span><br><span class="line">            time.sleep(sleep_time)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            next_tick = time.time()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> vis.hasData[<span class="number">0</span>]:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        frame = copy.deepcopy(vis.Img[<span class="number">0</span>])</span><br><span class="line">        vis.hasData[<span class="number">0</span>] = <span class="literal">False</span></span><br><span class="line">        height, width = frame.shape[:<span class="number">2</span>]</span><br><span class="line">        </span><br><span class="line">        frame_count += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        track_ok = <span class="literal">False</span></span><br><span class="line">        track_center = <span class="literal">None</span></span><br><span class="line">        track_box = <span class="literal">None</span></span><br><span class="line">        <span class="keyword">if</span> tracker <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            track_ok, tracked_roi = tracker.update(frame)</span><br><span class="line">            <span class="keyword">if</span> track_ok:</span><br><span class="line">                tx, ty, tw, th = tracked_roi</span><br><span class="line">                track_box = (<span class="built_in">int</span>(tx), <span class="built_in">int</span>(ty), <span class="built_in">int</span>(tx + tw), <span class="built_in">int</span>(ty + th))</span><br><span class="line">                track_center = (tx + tw / <span class="number">2.0</span>, ty + th / <span class="number">2.0</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                tracker = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 如果需要加速检测，可以缩小图像</span></span><br><span class="line">        <span class="keyword">if</span> DETECT_IMG_SCALE &lt; <span class="number">1.0</span>:</span><br><span class="line">            detect_frame = cv2.resize(frame, <span class="literal">None</span>, fx=DETECT_IMG_SCALE, fy=DETECT_IMG_SCALE, interpolation=cv2.INTER_LINEAR)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            detect_frame = frame</span><br><span class="line">            </span><br><span class="line">        result, names, _, _ = detector.detect([detect_frame])</span><br><span class="line">        annotated = result[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line">        detections = result[<span class="number">0</span>][<span class="number">1</span>]</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 如果缩放了图像，需要将检测框坐标还原到原始尺寸</span></span><br><span class="line">        <span class="keyword">if</span> DETECT_IMG_SCALE &lt; <span class="number">1.0</span>:</span><br><span class="line">            scale_factor = <span class="number">1.0</span> / DETECT_IMG_SCALE</span><br><span class="line">            scaled_detections = []</span><br><span class="line">            <span class="keyword">for</span> det <span class="keyword">in</span> detections:</span><br><span class="line">                cls_id, bbox, conf = det</span><br><span class="line">                x1, y1, x2, y2 = bbox</span><br><span class="line">                scaled_bbox = [<span class="built_in">int</span>(x1 * scale_factor), <span class="built_in">int</span>(y1 * scale_factor), </span><br><span class="line">                              <span class="built_in">int</span>(x2 * scale_factor), <span class="built_in">int</span>(y2 * scale_factor)]</span><br><span class="line">                scaled_detections.append((cls_id, scaled_bbox, conf))</span><br><span class="line">            detections = scaled_detections</span><br><span class="line">            <span class="comment"># 使用原始图像作为底图</span></span><br><span class="line">            annotated = frame.copy()</span><br><span class="line">            <span class="comment"># 手动在原始图像上绘制检测框</span></span><br><span class="line">            <span class="keyword">for</span> cls_id, bbox, conf <span class="keyword">in</span> detections:</span><br><span class="line">                x1, y1, x2, y2 = bbox</span><br><span class="line">                <span class="comment"># 绘制绿色检测框</span></span><br><span class="line">                cv2.rectangle(annotated, (x1, y1), (x2, y2), (<span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>), <span class="number">2</span>)</span><br><span class="line">                <span class="comment"># 绘制标签</span></span><br><span class="line">                label = <span class="string">f"<span class="subst">{names[cls_id] <span class="keyword">if</span> cls_id <span class="keyword">in</span> names <span class="keyword">else</span> <span class="string">'drone'</span>}</span> <span class="subst">{conf:<span class="number">.2</span>f}</span>"</span></span><br><span class="line">                cv2.putText(annotated, label, (x1, y1 - <span class="number">10</span>), cv2.FONT_HERSHEY_SIMPLEX, <span class="number">0.5</span>, (<span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>), <span class="number">2</span>)</span><br><span class="line">        </span><br><span class="line">        chosen = select_detection(detections, names)</span><br><span class="line">        </span><br><span class="line">        detection_count += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        detection_center = <span class="literal">None</span></span><br><span class="line">        detection_area = <span class="number">0.0</span></span><br><span class="line">        detection_box = <span class="literal">None</span></span><br><span class="line">        <span class="keyword">if</span> chosen <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            cls_id, bbox, conf = chosen</span><br><span class="line">            x1, y1, x2, y2 = bbox</span><br><span class="line">            detection_box = (<span class="built_in">int</span>(x1), <span class="built_in">int</span>(y1), <span class="built_in">int</span>(x2), <span class="built_in">int</span>(y2))</span><br><span class="line">            detection_center = ((x1 + x2) / <span class="number">2.0</span>, (y1 + y2) / <span class="number">2.0</span>)</span><br><span class="line">            detection_area = <span class="built_in">max</span>(<span class="number">0.0</span>, (x2 - x1)) * <span class="built_in">max</span>(<span class="number">0.0</span>, (y2 - y1))</span><br><span class="line"></span><br><span class="line">            <span class="comment"># Update tracker when YOLO detects target</span></span><br><span class="line">            <span class="keyword">if</span> tracker <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                tracker = create_tracker()</span><br><span class="line">                tracker.init(frame, (x1, y1, x2 - x1, y2 - y1))</span><br><span class="line">                <span class="comment"># print(f"Tracker initialized: center=({detection_center[0]:.1f}, {detection_center[1]:.1f}), area={detection_area:.1f}")  # 移除输出</span></span><br><span class="line">            <span class="keyword">elif</span> track_center <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">                error = math.hypot(detection_center[<span class="number">0</span>] - track_center[<span class="number">0</span>], detection_center[<span class="number">1</span>] - track_center[<span class="number">1</span>])</span><br><span class="line">                <span class="keyword">if</span> error &gt; REACQUIRE_PIXEL_THRESHOLD:</span><br><span class="line">                    tracker = create_tracker()</span><br><span class="line">                    tracker.init(frame, (x1, y1, x2 - x1, y2 - y1))</span><br><span class="line">                    <span class="comment"># print(f"Tracker reinitialized due to large error: {error:.1f} pixels")  # 移除输出</span></span><br><span class="line">            track_center = detection_center</span><br><span class="line">            track_box = detection_box</span><br><span class="line">            track_ok = <span class="literal">True</span></span><br><span class="line">            last_seen_time = time.time()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Use detection center if available, otherwise use tracker center</span></span><br><span class="line">        control_center = detection_center <span class="keyword">if</span> detection_center <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span> <span class="keyword">else</span> track_center</span><br><span class="line">        control_area = detection_area <span class="keyword">if</span> detection_center <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span> <span class="keyword">else</span> (</span><br><span class="line">            (track_box[<span class="number">2</span>] - track_box[<span class="number">0</span>]) * (track_box[<span class="number">3</span>] - track_box[<span class="number">1</span>]) <span class="keyword">if</span> track_box <span class="keyword">else</span> <span class="number">0.0</span></span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> control_center <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            last_ctrl = compute_control(control_center, control_area, width, height)</span><br><span class="line">            follower_mav.SendVelFRD(*last_ctrl)</span><br><span class="line">            <span class="comment"># 移除控制信息输出,避免UE4界面显示红色信息</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            time_since_seen = time.time() - last_seen_time</span><br><span class="line">            <span class="keyword">if</span> time_since_seen &gt; <span class="number">5.0</span>:</span><br><span class="line">                search_toggle += <span class="number">1</span></span><br><span class="line">                last_seen_time = time.time()</span><br><span class="line">            fallback_ctrl = search_control(last_ctrl, time_since_seen, search_toggle)</span><br><span class="line">            follower_mav.SendVelFRD(*fallback_ctrl)</span><br><span class="line">            last_ctrl = fallback_ctrl</span><br><span class="line">            <span class="comment"># if time_since_seen &gt; SEARCH_HOLD_DURATION:</span></span><br><span class="line">            <span class="comment">#     print(f"Searching... time_since_seen={time_since_seen:.1f}s")</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># Draw bounding boxes on annotated image</span></span><br><span class="line">        <span class="comment"># Red box: YOLO detection (like detect_ball.py detection box)</span></span><br><span class="line">        <span class="comment"># Blue box: Tracker box</span></span><br><span class="line">        <span class="keyword">if</span> detection_box <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            cv2.rectangle(annotated, (detection_box[<span class="number">0</span>], detection_box[<span class="number">1</span>]), (detection_box[<span class="number">2</span>], detection_box[<span class="number">3</span>]), (<span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>), <span class="number">2</span>)</span><br><span class="line">            cv2.putText(annotated, <span class="string">"YOLO"</span>, (detection_box[<span class="number">0</span>], detection_box[<span class="number">1</span>] - <span class="number">10</span>), cv2.FONT_HERSHEY_SIMPLEX, <span class="number">0.5</span>, (<span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>), <span class="number">2</span>)</span><br><span class="line">        <span class="keyword">if</span> track_box <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span> <span class="keyword">and</span> detection_box != track_box:</span><br><span class="line">            cv2.rectangle(annotated, (track_box[<span class="number">0</span>], track_box[<span class="number">1</span>]), (track_box[<span class="number">2</span>], track_box[<span class="number">3</span>]), (<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>), <span class="number">2</span>)</span><br><span class="line">            cv2.putText(annotated, <span class="string">"Tracker"</span>, (track_box[<span class="number">0</span>], track_box[<span class="number">1</span>] - <span class="number">10</span>), cv2.FONT_HERSHEY_SIMPLEX, <span class="number">0.5</span>, (<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>), <span class="number">2</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># Draw image center crosshair</span></span><br><span class="line">        cv2.line(annotated, (<span class="built_in">int</span>(width/<span class="number">2</span>) - <span class="number">20</span>, <span class="built_in">int</span>(height/<span class="number">2</span>)), (<span class="built_in">int</span>(width/<span class="number">2</span>) + <span class="number">20</span>, <span class="built_in">int</span>(height/<span class="number">2</span>)), (<span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>), <span class="number">2</span>)</span><br><span class="line">        cv2.line(annotated, (<span class="built_in">int</span>(width/<span class="number">2</span>), <span class="built_in">int</span>(height/<span class="number">2</span>) - <span class="number">20</span>), (<span class="built_in">int</span>(width/<span class="number">2</span>), <span class="built_in">int</span>(height/<span class="number">2</span>) + <span class="number">20</span>), (<span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>), <span class="number">2</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 显示FPS统计信息</span></span><br><span class="line">        current_time = time.time()</span><br><span class="line">        <span class="keyword">if</span> current_time - last_fps_time &gt;= <span class="number">1.0</span>:</span><br><span class="line">            fps = frame_count / (current_time - last_fps_time)</span><br><span class="line">            det_fps = detection_count / (current_time - last_fps_time)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f"[FPS] Frame: <span class="subst">{fps:<span class="number">.1</span>f}</span> | Detection: <span class="subst">{det_fps:<span class="number">.1</span>f}</span> | Total Detections: <span class="subst">{<span class="built_in">len</span>(detections)}</span> | Selected: <span class="subst">{chosen <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>}</span>"</span>)</span><br><span class="line">            frame_count = <span class="number">0</span></span><br><span class="line">            detection_count = <span class="number">0</span></span><br><span class="line">            last_fps_time = current_time</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 在图像上显示FPS和检测信息</span></span><br><span class="line">        fps_text = <span class="string">f"FPS: <span class="subst">{<span class="built_in">int</span>(frame_count / <span class="built_in">max</span>(<span class="number">1</span>, current_time - last_fps_time))}</span>"</span></span><br><span class="line">        cv2.putText(annotated, fps_text, (<span class="number">10</span>, <span class="number">30</span>), cv2.FONT_HERSHEY_SIMPLEX, <span class="number">1.0</span>, (<span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>), <span class="number">2</span>)</span><br><span class="line">        </span><br><span class="line">        det_text = <span class="string">f"Detections: <span class="subst">{<span class="built_in">len</span>(detections)}</span>"</span></span><br><span class="line">        cv2.putText(annotated, det_text, (<span class="number">10</span>, <span class="number">70</span>), cv2.FONT_HERSHEY_SIMPLEX, <span class="number">1.0</span>, (<span class="number">0</span>, <span class="number">255</span>, <span class="number">255</span>), <span class="number">2</span>)</span><br><span class="line">        </span><br><span class="line">        cv2.imshow(<span class="string">"YOLO UAV Tracking"</span>, annotated)</span><br><span class="line">        cv2.waitKey(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Main function - similar to target_follow.py structure.</span></span><br><span class="line"><span class="string">    Creates two drones: follower (ID=1) and target (ID=2).</span></span><br><span class="line"><span class="string">    Target takes off first and hovers, then follower takes off and tracks.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    vis = VisionCaptureApi.VisionCaptureApi()</span><br><span class="line">    ue = UE4CtrlAPI.UE4CtrlAPI()</span><br><span class="line">    vis.jsonLoad()</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> vis.sendReqToUE4():</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"Failed to connect to UE4 vision source."</span>)</span><br><span class="line">        sys.exit(<span class="number">0</span>)</span><br><span class="line">    vis.startImgCap()</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 优化图像质量和性能设置</span></span><br><span class="line">    ue.sendUE4Cmd(<span class="string">'t.MaxFPS 60'</span>, <span class="number">0</span>)  <span class="comment"># 提高帧率到60 FPS</span></span><br><span class="line">    ue.sendUE4Cmd(<span class="string">'r.MotionBlurQuality 0'</span>, <span class="number">0</span>)  <span class="comment"># 禁用运动模糊,提高清晰度</span></span><br><span class="line">    ue.sendUE4Cmd(<span class="string">'r.DefaultFeature.AntiAliasing 2'</span>, <span class="number">0</span>)  <span class="comment"># 启用FXAA抗锯齿</span></span><br><span class="line">    ue.sendUE4Cmd(<span class="string">'r.PostProcessAAQuality 4'</span>, <span class="number">0</span>)  <span class="comment"># 最高质量抗锯齿</span></span><br><span class="line">    ue.sendUE4Cmd(<span class="string">'r.Streaming.PoolSize 2000'</span>, <span class="number">0</span>)  <span class="comment"># 增加纹理池,提高清晰度</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Remove white walls, keep only ground</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"Removing white walls from scene..."</span>)</span><br><span class="line">    ue.sendUE4Cmd(<span class="string">'RflyHideActorByName BP_Wall'</span>, <span class="number">0</span>)</span><br><span class="line">    time.sleep(<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Create two MAV controllers like target_follow.py</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"Creating MAV controllers for 2 vehicles..."</span>)</span><br><span class="line">    vehicle_num = <span class="number">2</span></span><br><span class="line">    mav_list = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(vehicle_num):</span><br><span class="line">        mav_list.append(PX4MavCtrl.PX4MavCtrler(i + <span class="number">1</span>))</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Initialize MAV loops</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(vehicle_num):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f"  Initializing MAV <span class="subst">{i+<span class="number">1</span>}</span> loops..."</span>)</span><br><span class="line">        mav_list[i].InitMavLoop()</span><br><span class="line">        mav_list[i].InitTrueDataLoop()</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"Waiting for MAV connections to stabilize..."</span>)</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Initialize offboard mode for both drones</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(vehicle_num):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f"  Initializing offboard mode for MAV <span class="subst">{i+<span class="number">1</span>}</span>..."</span>)</span><br><span class="line">        mav_list[i].initOffboard()</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"Waiting for offboard mode initialization..."</span>)</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Assign roles</span></span><br><span class="line">    follower_mav = mav_list[<span class="number">0</span>]  <span class="comment"># ID=1, for tracking</span></span><br><span class="line">    target_mav = mav_list[<span class="number">1</span>]    <span class="comment"># ID=2, to be tracked</span></span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"\n=== Starting Drone Tracking Scenario ==="</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"Target drone (ID=2) will take off first and hover"</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"Follower drone (ID=1) will take off later and track using YOLO"</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Start target drone control thread (takes off and hovers)</span></span><br><span class="line">    target_thread = threading.Thread(</span><br><span class="line">        target=ctrl_target_drone_hover,</span><br><span class="line">        args=(target_mav, TARGET_WAIT_TIME),</span><br><span class="line">        daemon=<span class="literal">True</span></span><br><span class="line">    )</span><br><span class="line">    target_thread.start()</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Start follower detection and tracking loop (waits, then takes off and tracks)</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        detection_and_control_loop(vis, follower_mav, target_mav, TARGET_WAIT_TIME)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        cv2.destroyAllWindows()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"\nTracking ended."</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    main()</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="鸟的眼睛"><a href="#鸟的眼睛" class="headerlink" title="鸟的眼睛"></a>鸟的眼睛</h3><p><a target="_blank" rel="noopener" href="https://www.163.com/dy/article/FIQEFNIQ0541GDNZ.html">鸟类眼睛的秘密</a></p>
+<p><strong>鸟类的视野宽度普遍在270度以上，甚至可以达到360度。</strong>当鸟类注视前方时，双眼的视野还可以重合。如果注视两侧，身侧和身后的影像都可以收入眼中。</p>
+<p><strong>草食性鸟为了避免被捕食，眼睛位于两侧</strong>，它们的视野非常广阔，稍微歪头就可以将身体周围的景象收入眼中，判断哪个方位有没有危险。但是<strong>广阔的视野也会造成它们定位不精准，所以鸟类会采用不断点头的方式，让视野中的东西动起来，来判断目标距离自己的位置。</strong></p>
+<p>造成鸟类视觉和人类视觉有这么大不同的，主要是三种细胞在起作用：<strong>视觉神经细胞、视杆细胞、视锥细胞。</strong></p>
+<p><strong>这三种细胞分别对应的是：视觉敏锐度、光源敏感度、颜色。</strong></p>
+<p>简单来说就是，<strong>能不能在一堆东西中抓到重点、晚上能不能看清东西、眼中能看到多少颜色。</strong></p>
+<p>1.<strong>影响视觉敏锐度的是视觉神经细胞在视网膜上的密度</strong>，猫头鹰数值在5-10，人类在30-60之间，其它大型猛禽比人类高出2-3倍。</p>
+<p>2.<strong>视杆细胞主要感知光线</strong>，猫头鹰虽然视力那么低，但是它们的视杆细胞分布密度很大，对光线的感知力是人类的35-100倍。</p>
+<p>3.<strong>视锥细胞主要辨认颜色</strong>。每个视锥细胞中含有视色素，不同的视色素吸收不同的光线波长，剩下的波长经过反射在大脑中形成色觉。人类有三种含不同色素的视锥细胞，而鸟类有四种，第四种就是紫外光线。</p>
+<p><strong>栉膜的形状像一把梳子，直立于眼后房中。</strong>当光线照射进来，被栉膜反射到视网膜上，就会形成变化的阴影。而这个阴影很可能能够帮助鸟类辨别方向。</p>
+<p><strong>油滴主要有五种颜色：绿、黄、橙、红和透明色</strong>，不同颜色的油滴有不同的作用。飞翔在开阔空中的鸟类，<strong> * 蓝色的油滴比例就比较大</strong>，这能够让它们的视野中增加其它颜色与蓝色的对比度，也就是与天空的对比度，便于发现空中的猛禽。*</p>
+<p><strong>能看到紫外线的代价就是较短的寿命</strong>，紫外线会对眼睛造成损伤、视网膜衰退。</p>
+<p>如果说<strong>人类眼睛中央凹的作用只是让物体更清晰的话</strong>，那<strong>有些猛禽的中央凹就相当于放大镜和望远镜了</strong></p>
+<h3 id="对空识别的视觉模型"><a href="#对空识别的视觉模型" class="headerlink" title="对空识别的视觉模型"></a>对空识别的视觉模型</h3><p>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44184852/article/details/146186650">【反无人机目标检测数据集】空对空视觉检测微型无人机：深度学习的实验评估_det-fly数据集-CSDN博客</a></p>
+<p>尽管深度学习方法在许多目标检测任务中表现出色，但其在无人机检测中的潜力尚未得到充分探索。</p>
+<p>近年来，微型无人机（UAV）的视觉检测技术受到越来越多的关注，因为它是许多重要应用的核心技术。例如，在基于视觉的无人机集群系统中，视觉检测至关重要，每个无人机都需要使用机载摄像头来测量其邻近无人机的相对运动[1]。此外，如今微型无人机的恶意使用已成为公共安全和个人隐私的严重威胁。对恶意微型无人机的视觉检测[2][3]是开发民用无人机防御系统的关键技术。另一个应用是无人机之间的“看见并避让”[4]。特别是，随着越来越多的商用无人机占据低空领域，例如用于包裹递送，如何确保无人机能够及时检测到其他无人机以安全导航而不发生碰撞，是一个重要问题。</p>
+<p>无人机的检测可以分为两种应用场景。第一种是地对空场景，即在地面上部署摄像头以检测飞行的无人机。第二种场景是空对空场景，即飞行的无人机利用其机载摄像头检测其他飞行的无人机（例如，参见图1）。本文主要关注空对空场景。此外，尽管可以使用不同类型的传感器来检测微型无人机，如视觉、雷达[5]和声学传感器[6]，但由于微型无人机的机载载荷极为有限，视觉传感器是空对空场景中少数合适的选择之一。<br>现有的无人机检测方法可分为两类。第一类是传统方法，由两步操作组成。第一步是提取目标特征，例如使用方向梯度直方图（HOG）或尺度不变特征变换（SIFT）来表示。第二步是使用机器学习算法（如支持向量机（SVM）或Adaboost）对特征进行分类。第二类是基于深度学习的方法，它通过端到端的人工神经网络直接输出检测结果。与传统方法使用手工设计的特征不同，基于深度学习的方法依赖于深度卷积神经网络（DCNN）特征，因此具有更强的表示复杂目标的能力。然而，使用DCNN的缺点是计算需求高，并且需要大量数据集进行训练。</p>
+<h3 id="避障用的一个方法是人工势场，类似引力和斥力，把无人机从障碍物排斥开。能不能人工引力，让目标吸引我方的无人机呢"><a href="#避障用的一个方法是人工势场，类似引力和斥力，把无人机从障碍物排斥开。能不能人工引力，让目标吸引我方的无人机呢" class="headerlink" title="避障用的一个方法是人工势场，类似引力和斥力，把无人机从障碍物排斥开。能不能人工引力，让目标吸引我方的无人机呢"></a>避障用的一个方法是人工势场，类似引力和斥力，把无人机从障碍物排斥开。能不能人工引力，让目标吸引我方的无人机呢</h3><p>基于<strong>人工势场方法(Artificial Potential Field,APF)</strong>于 1986 年由 Khatib 所提出，此方法是将智 能体(移动机器人或无人机)所处环境用势场形式来描述，通过其位置信息来控制智能体的避障或 规避运动，其核心思想是构建出障<strong>碍物周围斥力场</strong>和<strong>目标点位置引力场</strong>两个势场共同作用下的人 工势场环境，搜索或探索势场函数梯度下降方向来寻找无碰撞较优的路线。势场一般由两部分构 成，一部分是目标点智能体(旋翼无人机)产生的引力场，方向由智能体指向目标点；另一部分是 障碍物与智能体之间产生的斥力场。执行搜索任务空间的总势场可表示为斥力场和引力场两个势 场相累加合力的作用，从而通过引力和斥力累加合力来控制无人机的运动。 为了便于研究，将智能体(旋翼无人机)视为球形刚体模型，将障碍物视为球体。人工势场包 含引力场和斥力场，目标点位置对智能体(无人机)施加引力，障碍物对智能体施加斥力，避免智 能体与自身发生碰撞。智能体(无人机)路径规划中，各点的合力为该点斥力和引力总和。</p>
+<h3 id="哈里斯鹰优化算法-HHO"><a href="#哈里斯鹰优化算法-HHO" class="headerlink" title="哈里斯鹰优化算法(HHO)"></a>哈里斯鹰优化算法(HHO)</h3><p>哈里斯鹰优化算法灵感来源于自然界中哈里斯鹰的合作行为和追逐方式，即突袭。在这种聪明的策略中，几只鹰从不同的方向合作扑向猎物，试图出其不意。哈里斯鹰可以根据场景的动态性质和猎物的逃脱模式揭示各种追逐模式。群体围捕</p>
+<h3 id="电子科大"><a href="#电子科大" class="headerlink" title="电子科大"></a>电子科大</h3><p>单一 YOLO 检测方法相比，改进 YOLO 算法的误检率降低了 10%，漏检率降低了 5%；在轨迹预测方面，与传统的贝塞尔曲线预测方法相比，本文的预测算法在预测误差方面降低了16.2%，预测部分计算时长减少了 13.6%。</p>
+<h3 id="杭电"><a href="#杭电" class="headerlink" title="杭电"></a>杭电</h3><p>无人机因其多功能性和经济效益，在众多民用领域中得到了广泛应用。然而无人机的发展增加了对强大的反无人机系统的需求。作为反制的首要环节，如何快速、有效地检测、跟瞄目标无人机具有重要意义。基于视觉检测的低成本和易部署优势，本研究提出了一种基于机器视觉的轻量级无人机跟踪与瞄准系统，并针对无人机视觉检测中的数据集缺乏、小目标检测难、嵌入式平台部署及检测范围扩展四个问题进行研究，具体包括以下方面：(1) 数据集构建与算法分析：针对无人机检测领域缺少数据集的问题，本研究构建了一个包含 10800 张图像及其标注文件的高质量数据集。这些图像由 4K 分辨率高清相机拍摄，涵盖了多样化的拍摄角度、背景、光照条件和飞行高度，确保了数据的多样性和代表性。无人机的相对距离范围为 5 至 200 米，飞行高度在 0 至100 米之间。此外，基于该数据集，本研究使用七种典型深度学习算法进行实验，探究拍摄角度、图像灰度、目标尺度及训练-测试图像分辨率对算法表现的影响。实验结果表明，拍摄角度、目标尺度、图像灰度及分辨率对算法性能有显著影响，且大多数算法在小目标检测方面存在较大困难。(2) YOLO-Drone 算法优化：为解决小目标检测的难题，本研究提出了一种名为 YOLO-Drone 的改进算法。该算法引入多尺度密集连接以提高小目标的检测效果。同时，为避免改进带来的计算量和参数增多，采用多层共享检测头以减少YOLOv8 解耦头的参数和计算量。实验表明，YOLO-Drone 算法在精度上较基准模型 YOLOv8n 提升了 0.1%，召回率提高 19%，mAP50 提升 9.6%，mAP50:95 提升6.7%，检测头参数减少 80%。(3) 嵌入式端优化与加速：为保证 YOLO-Drone 在算力有限的嵌入式设备上依然具备高精度和快速检测能力，本研究在服务器端采用 LAMP 剪枝以进一步减少算法的参数和计算量，同时引入基于响应的知识蒸馏方法以弥补剪枝带来的性能损失。实验结果显示，剪枝后模型的参数减少 88%，计算量降低 40%，且性能下降不超过 1.1%。与其他深度学习模型相比，YOLO-Drone 在小目标检测方面表现最佳，推理速度居于第二。最终，嵌入式端使用 TensorRT 进一步加速 YOLO-Drone的运行，实验表明加速效果超过 50%，模型在嵌入式设备上实现了 14.7ms 的推理延迟，满足实时检测需求。（4)云台控制</p>
+<h3 id="南开"><a href="#南开" class="headerlink" title="南开"></a>南开</h3><p>无人机技术日渐普及的环境下，各种“黑飞”、“滥飞”事件给公共安全带来了 诸多安全隐患，采用技术手段对无人机进行监测具有重要意义。低空域无人机 具有体积小、机动性高的检测难点。而基于深度学习的目标检测与跟踪算法能 够有效实现低慢小无人机的检测与跟踪，因此展开基于深度学习的高速高精度 高稳定性的检测与跟踪算法的研究具有重要的现实与理论意义。</p>
+<h3 id="广东"><a href="#广东" class="headerlink" title="广东"></a>广东</h3><p>一是，空中非合作目标的特性 使得无人机难以精确获取其运动信息，这无疑增加了跟踪的难度。二是，空中非合作 目标运动轨迹多变，导致无人机跟踪过程所处的环境复杂，容易受到自身与外界不确 定因素的影响。三是，跟踪空中非合作目标还要求跟踪系统具备快速反应的能力。例 如，在跟踪敌方目标时，一旦目标察觉到有飞行器近距离跟踪，可能会采取快速变换 轨道的方式以摆脱追踪。因此，如何迅速接近空中非合作目标并稳定跟随其运动轨迹， 是实现其他任务的关键所在。</p>
+<p>（1）对于空中非合作目标跟踪问题，跟踪器与目标之间无法通信，跟踪器只能通过测 量工具获取目标信息[38]。为此，一些学者对基于视觉传感器的跟踪控制进行研究。实 际上，基于视觉的无人机是通过机载视觉传感器捕捉目标信息（如目标的方位角和仰 角），但其无法直接测量相对距离[39, 40]。为此，Zhao 等人提出了一种基于视觉的控制 算法，它可以通过无人机的高度估计相对距离[41]。然而，对于空中目标而言，相对距离 无法从跟踪器的高度估算，必须通过其他方法获得。通过使用相机球面投影模型和中 心点图像特征，Mebarki 等人提出了一种基于图像的非线性控制器，实现无人机控制， 但系统收敛速度较慢[42]。Zheng 等人提出了一种基于虚拟相机的控制方法，可以在不 进行图像处理的情况下恢复无人机的动力学特性，但它需要目标的先验知识[43]。因此， 在相对位置未知且没有目标先验知识的情况，使用基于视觉的无人机跟踪空中非合作 目标是一个有待解决的问题。</p>
+<p>（2）外界干扰 无人机需要较强的抗干扰能力，以便在风或其他干扰情况下进行精确跟踪。为了 获得理想的鲁棒控制性能，有必要应用一些抑制或消除扰动的方法[44–46]。扰动观测器 （Disturbance Observation，DO）是增强鲁棒性的有效工具[47–49]。为有效观测非线性系 统中的包络干扰，Chen 构建了一个非线性扰动观测器渐进估计干扰[50]。根据滑模控制 算法，Benallegue 等人设计了一种滑模扰动观测器来估计风引起的外界扰动，以提高 鲁棒性[51]。为更精确的估计外界干扰，需要提高干扰观测器中开关函数的增益，但过 大的增益会导致抖震。为了解决这个问题，超扭曲算法被应用到扰动观测器设计中[52]。 超扭曲算法是基于二阶非线性技术，其提高了控制方案的可行性，即时间效率和鲁棒 性[53, 54]。Han 等人设计了一种非线性扰动观测器来估计严格反馈系统的未知干扰[55]。 以上所提到的干扰观测器只实现渐进稳定</p>
+<p>[38] LIU W, LI Z, SUN S, et al. Design a novel target to improve positioning accuracy of<br>autonomous vehicular navigation system in GPS denied environments[J]. IEEE Trans-<br>actions on Industrial Informatics, 2021, 17(11): 7575-7588.<br>[39] STEPANYAN V, HOVAKIMYAN N. Visual tracking of a maneuvering target[J]. Jour-<br>nal of Guidance, Control, and Dynamics, 2008, 31(1): 66-80.<br>[40] LI T, YU J, QIU Q, et al. Hybrid uncalibrated visual servoing control of harvesting<br>robots with RGB-D cameras[J]. IEEE Transactions on Industrial Electronics, 2022, 70<br>(3): 2729-2738.<br>[41] ZHAO W, LIU H, LEWIS F L, et al. Robust visual servoing control for ground target<br>tracking of quadrotors[J]. IEEE Transactions on Control Systems Technology, 2019, 28<br>(5): 1980-1987.<br>[42] MEBARKI R, LIPPIELLO V, SICILIANO B. Nonlinear visual control of unmanned<br>aerial vehicles in GPS-denied environments[J]. IEEE Transactions on Robotics, 2015,<br>31(4): 1004-1017.<br>[43] ZHENG D, WANG H, WANG J, et al. Image-based visual servoing of a quadrotor using<br>virtual camera approach[J]. IEEE/ASME Transactions on Mechatronics, 2016, 22(2):<br>55<br>972-982.<br>[44] ZHENG X, LI X M, YAO D, et al. Observer-based finite-time consensus control for<br>multiagent systems with nonlinear faults[J]. Information Sciences, 2023, 621: 183-199.<br>[45] NI J, SHI P. Adaptive neural network fixed-time leader-follower consensus for multi-<br>agent systems with constraints and disturbances[J]. IEEE Transactions on Cybernetics,<br>2020, 51(4): 1835-1848.<br>[46] YAO D, LI H, SHI Y. Adaptive event-triggered sliding-mode control for consensus<br>tracking of nonlinear multiagent systems with unknown perturbations[J]. IEEE Trans-<br>actions on Cybernetics, 2022, 53(4): 2672-2684.<br>[47] WANG C, ZUO Z, SUN J, et al. Consensus disturbance rejection for Lipschitz nonlinear<br>multi-agent systems with input delay: A DOBC approach[J]. Journal of the Franklin<br>Institute, 2017, 354(1): 298-315.<br>[48] REN H, WANG Y, LIU M, et al. An optimal estimation framework of multi-agent<br>systems with random transport protocol[J]. IEEE Transactions on Signal Processing,<br>2022, 70: 2548-2559.<br>[49] MA L, ZONG G, ZHAO X, et al. Observed-based adaptive finite-time tracking control<br>for a class of nonstrict-feedback nonlinear systems with input saturation[J]. Journal of<br>the Franklin Institute, 2020, 357(16): 11518-11544.<br>[50] CHEN F, LEI W, ZHANG K, et al. A novel nonlinear resilient control for a quadro-<br>tor UAV via backstepping control and nonlinear disturbance observer[J]. Nonlinear<br>Dynamics, 2016, 85: 1281-1295.<br>[51] BENALLEGUE A, MOKHTARI A, FRIDMAN L. High-order sliding-mode observer<br>for a quadrotor UAV[J]. International Journal of Robust and Nonlinear Control: IFAC-<br>Affiliated Journal, 2008, 18(4-5): 427-440.<br>[52] NAGESH I, EDWARDS C. A multivariable super-twisting sliding mode approach[J].<br>Automatica, 2014, 50(3): 984-988.<br>[53] UTKIN V. On convergence time and disturbance rejection of super-twisting control[J].<br>IEEE Transactions on Automatic Control, 2013, 58(8): 2013-2017.<br>56<br>广东工业大学硕士学位论文<br>参考文献<br>[54] 涂宇, 王怡, 吴志海, 等. 基于超扭曲算法的解耦非奇异快速终端滑模[J]. 控制工<br>程, 2020, 27: 271-277.<br>[55] HAN S I. Fuzzy supertwisting dynamic surface control for MIMO strict-feedback non-<br>linear dynamic systems with supertwisting nonlinear disturbance observer and a new<br>partial tracking error constraint[J]. IEEE Transactions on Fuzzy Systems, 2019, 27(11):<br>2101-2114.</p>
+<h3 id="南航"><a href="#南航" class="headerlink" title="南航"></a>南航</h3><p>写的不错 基于视觉的无人机目标检测跟踪与轨迹预测技术研究  多旋翼无人机在快速发展带来广泛应用的同时，也因为“滥飞”和“黑飞”等问题，给社 会生活和个人安全带来了危害，因此亟需开展对反无人机系统的研究工作。而近年来的深度学 习大力发展，其中基于神经网络的目标检测与轨迹预测技术是研究热点。本文对反无人机系统 中的无人机目标检测跟踪算法和轨迹预测技术进行研究，最后搭建了实验平台进行实飞验证。 首先， 针对机载视觉系统中的无人机目标检测和跟踪任务要求，设计了整个视觉检测跟踪 引导的流程，并给出了系统的总体方案，根据系统的性能指标，进行了硬件上的选型和调试。 其次， 针对小型多旋翼无人机目标检测跟踪问题，本文提出了一种融合 AirBorne-YOLOv3 检测模型的相关核滤波跟踪算法。所提算法针对机载设备算力低和无人机目标尺度变化大、部 分场景背景复杂且目标尺寸较小的特点，替换了原算法的主干网络，引入了改进的感受野模块， 对先验框进行优化和重分配，并提出了一种针对小目标检测的新的回归损失函数。最后通过互 补滤波的方式将检测算法与跟踪算法融合，实验结果表明，所提算法在保证实时性的同时，提 高了对无人机目标的检测精度，尤其是对小目标，且跟踪也具有尺度适应性。 接着，针对多旋翼无人机飞行灵活、可频繁变向等特点，本文提出了一种基于双向门控循 环单元的轨迹预测模型，通过设计并整合两种不同的预测框架，包括基于相邻两点的位置变化 的预测和基于两点间隔的位置变化的预测，提高了算法对无人机在飞行拐点处的位置预测精度。 最后，搭建了反无人机系统实飞验证平台，将无人机检测跟踪和轨迹预测算法移植到机载 处理器上进行实飞，实验表明，本文设计的无人机目标检测跟踪算法和轨迹预测算法满足了反 制系统的需求，具备工程可实践性。</p>
+<p><strong>KCF 跟踪算法</strong>主要是用一个叫岭回归的分类模型对相关滤波器进行训练[42]，并对目标相关<br>区域及周边进行采样，得到正负样本，并计算与下一帧的相关性，最后将输出响应最高的部分<br>作为待跟踪目标。根据待跟踪无人机的运动特性，下一时刻物体出现在目标周围区域的概率大<br>于相距较远的区域，在工程实践当中，样本采用的是高斯分布，即样本距离目标的距离可以被<br>度量为[0,1]之间的数值。接着使用样本循环移位的方法对目标周边区域进行循环矩阵采样，目<br>的是加快计算，再用这些样本训练分类器，从而完成最终的跟踪目标判别。</p>
+<p>把 AirBorne-YOLOv3 的检测结果反馈给 KCF 来修正跟踪结果，AirBorne-YOLOv3<br>检测算法可以检测不同尺度大小的目标，且针对小目标也能得到较高的准确率</p>
+<p>多旋翼无人机飞行轨迹是一种基于时间序列的数据，且利用了历史飞行数据信<br>息，而前馈神经网络是一种静态网络，不具备“记忆”功能，因此在此基础上增加了短期记忆<br>能力的循环神经网络应运而生。但是在网络的学习过程中，遇到的主要问题就是梯度爆炸和梯<br>度消失，且很难建模长时间间隔的状态之间的依赖关系，为了改善循环神经网络的长程依赖关<br>系，以下的两种网络给出了具体的方案。</p>
+<p>长短期记忆网络（LSTM）改善了梯度爆炸或消失的问题[48]</p>
+<p>门控循环单元（GRU）相比 LSTM 来说更加简单，它是源于 Pavia 在更加复杂的 LSTM 模<br>型中做出的简化[51]，其参数更少，同时 GRU 引入了更新门用来控制遗忘和更新间的平衡，</p>
+<p><img src="C:\Users\Amy\AppData\Roaming\Typora\typora-user-images\image-20251030174027007.png" alt="image-20251030174027007"></p>
+<p>在跟踪算法中加入预测算法，在预测值周围进行搜索匹配，减少搜索的范围。<br>常见的预测算法有卡尔曼滤波、粒子滤波等[15]，还可以通过减少内核的方式减少<br>搜索范围，如 Meanshift 算法，Camshift 算法等</p>
+<p>多模融合识别技术所依赖的核心在于对不同<br>波段、不同成像机制和不同数据处理模式的兼容与充分<br>挖掘，既能够各自发挥分辨率高、全天时与全天候观测、<br>远距离监测等不同优势，又能够通过多源信息的互补性<br>降低单一传感器误检与漏检的风险，从而显著提升对低<br>空飞行小目标的识别效率与准确率</p>
+<ul>
+<li><strong>基于融合的3D检测</strong>：<ul>
+<li>将雷达提供的可疑目标3D位置与高分辨率光学图像进行融合。雷达先“发现”目标，然后引导摄像头“看清”并识别目标，这是一种非常有效的协同工作模式。</li>
+<li>例如，可以使用雷达点云作为3D候选区域，然后在对应的图像区域进行精细识别。</li>
+</ul>
+</li>
+<li><strong>运动特征检测</strong>：<ul>
+<li>由于目标小，外观特征弱，可以利用其<strong>运动特征</strong>。通过分析连续帧中微小的运动模式，可以将无人机从静态背景中分离出来。</li>
+</ul>
+</li>
+<li><strong>时序信息利用</strong>：<ul>
+<li>不依赖于单帧检测，而是使用<strong>多帧数据</strong>或<strong>视频流</strong>，通过时序模型（如3D卷积、Transformer、递归神经网络）来整合信息，提升对弱小目标的检测能力。</li>
+</ul>
+</li>
+</ul>
+<p>目标识别是一个，跟踪算法是一个，单目标跟踪 多目标跟踪 ，通用目标跟踪 特定目标跟踪  比如 KCF   BoT-SORT</p>
+<p>全局搜索+局部搜索，如果确定了目标就在局部搜索，减少计算量</p>
+<p>yolo12开始引入了注意力机制，但是传统的transformer速度慢，精度高</p>
+<h2 id="复旦-激光雷达-视觉Yolov5-卡尔曼滤波-跟踪室内无人机"><a href="#复旦-激光雷达-视觉Yolov5-卡尔曼滤波-跟踪室内无人机" class="headerlink" title="复旦 激光雷达+视觉Yolov5+卡尔曼滤波 跟踪室内无人机"></a>复旦 激光雷达+视觉Yolov5+卡尔曼滤波 跟踪室内无人机</h2><p>UAV Tracking with Lidar as a Camera Sensor in GNSS-Denied Environments</p>
+<p>2023年International Conference on Localization and GNSS (ICL-GNSS)</p>
+<p>ousetr公司出品的激光雷达  激光雷达+摄像头  OS0-128 10hz激光雷达摄像头，无人机配备了OptiTrack标记，可在运动捕捉（MOCAP）系统中以100 Hz的频率获取无人机的实际位置，该系统在图2中也有部分显示</p>
+<p>ROS Noetic  Ubuntu 20.04  YOLOv5    Jetson Nano   Open3D <a target="_blank" rel="noopener" href="https://www.open3d.org">https://www.open3d.org</a>    </p>
+<p>项目代码    <a target="_blank" rel="noopener" href="https://github.com/TIERS/UAV-tracking-based-on-LiDAR-as-a-camera">https://github.com/TIERS/UAV-tracking-based-on-LiDAR-as-a-camera</a>    </p>
+<p>ROS resource monitor tool 测量硬件使用情况 <a target="_blank" rel="noopener" href="https://github.com/alspitz/cpu_monitor">https://github.com/alspitz/cpu_monitor</a></p>
+<p>近距离的无人机精确跟踪，有利于对接等精密操作</p>
+<p>在本文中，我们提出了一种基于图像和Ouster激光雷达传感器生成的3D点云数据集成的无人机跟踪方法。我们遵循的方法示意图如图1所示。与其他仅依赖点云的方法不同，该方法无需手动给出无人机的初始位置，即可在信号图像中检测到无人机。此外，该检测过程还会在点云中生成一个近似感兴趣区域（ROI），如果未检测到无人机，该区域将进一步扩大。<br>这种方法通过避免进行全面的点云搜索来减少计算开销。无人机识别是通过在感兴趣区域（ROI）内对点进行聚类来实现的，然后使用卡尔曼滤波器（KF）进行连续的位置估计。</p>
+<p>距离7米以上，点是个位数  2m以内可以分析出形状。增加部分反射可以增加点</p>
+<p>基于图像的无人机跟踪方法平均误差相对较小；然而，其整体误差分布并不一致，因为Seq 1序列中的Y轴误差高达0.3米。相反，基于点云的无人机跟踪方法平均误差最大，但其误差分布更为均匀。另一方面，我们提出的方法实现了最小的平均误差和最小的误差波动。此外，为了补充定量轨迹分析，我们还从三个不同视角提供了基于点云跟踪方法和我们提出方法的轨迹可视化，如图6所示，其行为更为一致。</p>
+<p>国外的激光雷达太贵，可以考虑国产</p>
+<h2 id="复旦的MDPI论文"><a href="#复旦的MDPI论文" class="headerlink" title="复旦的MDPI论文"></a>复旦的MDPI论文</h2><p>这是他们团队用一种方法发了很多会议，这是唯一一个期刊的</p>
+<p><strong>A Benchmark for Multi-Modal LiDAR SLAM with Ground Truth in GNSS-Denied Environments</strong>  MDPI的remote sensing</p>
+<p>机载激光雷达室内建图 不是无人机追踪</p>
+<h2 id="芬兰图尔库大学"><a href="#芬兰图尔库大学" class="headerlink" title="芬兰图尔库大学"></a>芬兰图尔库大学</h2><p>Adaptive Lidar Scan Frame Integration: Tracking Known MAVs in 3D Point Clouds</p>
+<p>激光雷达点云中跟踪微型飞行器（MAVs）的新方法</p>
+<p>这三种模态描述如下：（i）自适应高频跟踪。在第一个过程中，稀疏点云以高达100赫兹的频率进行集成。微型飞行器（MAV）只能通过数量减少的点进行跟踪，但我们能够以高精度估计其位置和速度。在此过程中，微型飞行器在所有处理过的帧中不一定都能被识别出来。<br>（ii）自适应中频跟踪。第二个过程在典型激光雷达扫描仪的频率范围内（即5至20赫兹）运行。该范围内的频率会动态调整，以优化点云的密度。在这些频率下，提取的代表微型飞行器（MAV）的点云会因运动而失真，从而导致定位和速度估计的准确性降低。然而，由于该过程能够在大多数（如果不是全部）帧中识别出MAV，因此能够实现更稳健和持久的跟踪。<br>（iii）低频轨迹和物体验证。与前两个过程并行运行的第三个也是最后一个过程是进行长期跟踪，并根据预定义的维度约束验证微型飞行器（MAV）的重构轨迹。</p>
+<p>Livox 3D Lidar with 81.7 度 x25.1度 FoV  100HZ  ROS Melodic under Ubuntu 18.04</p>
+<p>The computer runs the</p>
+<p>robot’s driver1 , the Tello MAV driver2 , the Livox lidar driver3 ,</p>
+<p>and our open-source MAV tracking package4 . The latter is a</p>
+<p>multi-threaded node able to process the different point clouds</p>
+<p>in real time. The point cloud library (PCL) [34] is utilized to</p>
+<p>extract the position of the MAV from the lidar’s point cloud.</p>
+<p>1 <a target="_blank" rel="noopener" href="https://github.com/TIERS/dashgo-d1-ros">https://github.com/TIERS/dashgo-d1-ros</a></p>
+<p>2 <a target="_blank" rel="noopener" href="https://github.com/TIERS/tello-driver-ros">https://github.com/TIERS/tello-driver-ros</a></p>
+<p>3 <a target="_blank" rel="noopener" href="https://github.com/Livox-SDK/livox">https://github.com/Livox-SDK/livox</a> ros driver</p>
+<p>4 <a target="_blank" rel="noopener" href="https://github.com/TIERS/adaptive-lidar-tracking">https://github.com/TIERS/adaptive-lidar-tracking</a></p>
+<p>分析了不同距离点云密度，十米也就个位数了 </p>
+<h3 id="德国"><a href="#德国" class="headerlink" title="德国"></a>德国</h3><p> <strong>Potential of LiDAR sensors for the detection of UAVs</strong></p>
+<p>车载激光雷达探测无人机</p>
+<p>数据For our experiments we used data which we acquired with the measurement vehicle MODISSA [10] during a joint field </p>
+<p>trial in cooperation with the Institute Franco-Allemand </p>
+<p>不公开</p>
+<p>Laurenzis M., Hengy, S., Hammer, M., Hommes, A., Johannes, W., Rassy, O., Bacher, E., Schertzer, S., Poyet, J.-M., “An adaptive sensing approach for detection of small UAV: first investigation of static sensor network and moving sensor platform,” Proc. SPIE 10646 Paper 10646-27, (2018)</p>
+<p>对多种无人机进行了检测，分析不同距离的点数，有的使用视觉可以看到，但是激光没用。根据召回率确定，超过50%的FN在30米以上的距离内被检测到，因此认为</p>
+<p>3m-30m是激光雷达探测无人机的合理范围</p>
+</article>
+<div class="article-footer">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+
+</div>
+
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/10/30/Track/">AntiUAV 检测与跟踪项目深度解析</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/10/29/PX4/">PX4</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><center>
+<span>
+© 2025
+<a style="font-weight: bold;  auto;" target="_blank" rel="noopener" href="https://github.com/Gravity-Zero-o">Gravitykole</a>
+使用 <a style="font-weight: bold;  auto;" target="_blank" rel="noopener" href="https://github.com/FelicxFoster/hexo-theme-stellar">Stellar</a>
+创建
+</span>
+<br>
+<!--不蒜子计数器-->
+<script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--添加一个访问量-->
+<span>总访问 <span id="busuanzi_value_site_pv" style="font-weight: bold;">113701</span> 次 | 本页访问 <span id="busuanzi_value_page_pv" style="font-weight: bold;">326</span> 次</span>
+</br>
+<span id="runtime_span"></span>
+
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function() {
+    var runtime_span = document.getElementById('runtime_span');
+
+    function show_runtime() {
+      // 调用定时器
+      setTimeout(show_runtime, 1000);
+
+      var seconds = 1000;
+      var minutes = seconds * 60;
+      var hours = minutes * 60;
+      var days = hours * 24;
+      var years = days * 365;
+
+      var today = new Date();
+      var todayYear = today.getFullYear();
+      var todayMonth = today.getMonth();
+      var todayDate = today.getDate();
+      var todayHour = today.getHours();
+      var todayMinute = today.getMinutes();
+      var todaySecond = today.getSeconds();
+
+      var t1 = Date.UTC(2018, 9, 12, 0, 0, 0); // UTC时间，月份从0开始
+      var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+      var diff = t2 - t1;
+
+      var diffYears = Math.floor(diff / years);
+      var diffDays = Math.floor((diff / days) - diffYears * 365);
+      var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+      var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+      var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+
+      // 更新显示时间的span元素内容
+      runtime_span.innerHTML = "🦉营业：" + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒🦉";
+    }
+
+    show_runtime(); // 初次调用函数以启动定时器
+  });
+</script>
+</center>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%B8%9F%E7%9A%84%E7%9C%BC%E7%9D%9B"><span class="toc-text">鸟的眼睛</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E7%A9%BA%E8%AF%86%E5%88%AB%E7%9A%84%E8%A7%86%E8%A7%89%E6%A8%A1%E5%9E%8B"><span class="toc-text">对空识别的视觉模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%BF%E9%9A%9C%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E6%96%B9%E6%B3%95%E6%98%AF%E4%BA%BA%E5%B7%A5%E5%8A%BF%E5%9C%BA%EF%BC%8C%E7%B1%BB%E4%BC%BC%E5%BC%95%E5%8A%9B%E5%92%8C%E6%96%A5%E5%8A%9B%EF%BC%8C%E6%8A%8A%E6%97%A0%E4%BA%BA%E6%9C%BA%E4%BB%8E%E9%9A%9C%E7%A2%8D%E7%89%A9%E6%8E%92%E6%96%A5%E5%BC%80%E3%80%82%E8%83%BD%E4%B8%8D%E8%83%BD%E4%BA%BA%E5%B7%A5%E5%BC%95%E5%8A%9B%EF%BC%8C%E8%AE%A9%E7%9B%AE%E6%A0%87%E5%90%B8%E5%BC%95%E6%88%91%E6%96%B9%E7%9A%84%E6%97%A0%E4%BA%BA%E6%9C%BA%E5%91%A2"><span class="toc-text">避障用的一个方法是人工势场，类似引力和斥力，把无人机从障碍物排斥开。能不能人工引力，让目标吸引我方的无人机呢</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%88%E9%87%8C%E6%96%AF%E9%B9%B0%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95-HHO"><span class="toc-text">哈里斯鹰优化算法(HHO)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E5%AD%90%E7%A7%91%E5%A4%A7"><span class="toc-text">电子科大</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%AD%E7%94%B5"><span class="toc-text">杭电</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%97%E5%BC%80"><span class="toc-text">南开</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%BF%E4%B8%9C"><span class="toc-text">广东</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%97%E8%88%AA"><span class="toc-text">南航</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E6%97%A6-%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE-%E8%A7%86%E8%A7%89Yolov5-%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2-%E8%B7%9F%E8%B8%AA%E5%AE%A4%E5%86%85%E6%97%A0%E4%BA%BA%E6%9C%BA"><span class="toc-text">复旦 激光雷达+视觉Yolov5+卡尔曼滤波 跟踪室内无人机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E6%97%A6%E7%9A%84MDPI%E8%AE%BA%E6%96%87"><span class="toc-text">复旦的MDPI论文</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8A%AC%E5%85%B0%E5%9B%BE%E5%B0%94%E5%BA%93%E5%A4%A7%E5%AD%A6"><span class="toc-text">芬兰图尔库大学</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%B7%E5%9B%BD"><span class="toc-text">德国</span></a></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+
+
+<script type="text/javascript">
+  window.canonical = {"originalHost":null,"officialHosts":["localhost"],"encoded":""};
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":[],"codeblock":true,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+    loading: `https://api.iconify.design/eos-icons:three-dots-loading.svg?color=%231cd0fd`,
+  };
+  const deps = {
+    jquery: `https://gcore.jsdelivr.net/npm/jquery@3.7/dist/jquery.min.js`,
+    marked: `https://gcore.jsdelivr.net/npm/marked@13.0/lib/marked.umd.min.js`,
+    lazyload: `/%5Bobject%20Object%5D`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      const maxRetry = 3;
+      let retryCount = 0;
+
+      return new Promise((resolve, reject) => {
+        const load = () => {
+          utils.onLoading?.(el);
+
+          let timedOut = false;
+          const timeout = setTimeout(() => {
+            timedOut = true;
+            console.warn('[request] 超时:', url);
+
+            if (++retryCount >= maxRetry) {
+              utils.onLoadFailure?.(el);
+              onFailure?.();
+              reject('请求超时');
+            } else {
+              setTimeout(load, 1000);
+            }
+          }, 5000);
+
+          fetch(url).then(resp => {
+            if (timedOut) return;
+            clearTimeout(timeout);
+
+            if (!resp.ok) throw new Error('响应失败');
+            return resp;
+          }).then(data => {
+            if (timedOut) return;
+            utils.onLoadSuccess?.(el);
+            callback(data);
+            resolve(data);
+          }).catch(err => {
+            clearTimeout(timeout);
+            console.warn('[request] 错误:', err);
+
+            if (++retryCount >= maxRetry) {
+              utils.onLoadFailure?.(el);
+              onFailure?.();
+              reject(err);
+            } else {
+              setTimeout(load, 1000);
+            }
+          });
+        };
+
+        load();
+      });
+    },
+    requestWithoutLoading: (url, options = {}, maxRetry = 2, timeout = 5000) => {
+      return new Promise((resolve, reject) => {
+        let retryCount = 0;
+
+        const tryRequest = () => {
+          let timedOut = false;
+          const timer = setTimeout(() => {
+            timedOut = true;
+            if (++retryCount > maxRetry) reject('timeout');
+            else tryRequest();
+          }, timeout);
+
+          fetch(url, options)
+            .then(resp => {
+              clearTimeout(timer);
+              if (!resp.ok) throw new Error('bad response');
+              resolve(resp);
+            })
+            .catch(err => {
+              clearTimeout(timer);
+              if (++retryCount > maxRetry) reject(err);
+              else setTimeout(tryRequest, 500);
+            });
+        };
+
+        tryRequest();
+      });
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+<script async src="https://gcore.jsdelivr.net/npm/vanilla-lazyload@19.1/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+    callback_loaded: (el) => {
+      el.classList.add('loaded');
+      const wrapper = el.closest('.lazy-box');
+      const icon = wrapper?.querySelector('.lazy-icon');
+      if (icon) icon.remove();
+    }
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+
+  window.wrapLazyloadImages = (container) => {
+    if (typeof container === 'string') {
+      container = document.querySelector(container);
+    }
+    if (!container) return;
+    
+    const images = container.querySelectorAll('img');
+    images.forEach((img) => {
+      if (img.classList.contains('lazy')) return;
+
+      const src = img.getAttribute('src');
+      if (!src) return;
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'lazy-box';
+
+      const newImg = img.cloneNode();
+      newImg.removeAttribute('src');
+      newImg.setAttribute('data-src', src);
+      newImg.classList.add('lazy');
+
+      const icon = document.createElement('div');
+      icon.className = 'lazy-icon';
+      if (def.loading) {
+        icon.style.backgroundImage = `url("${def.loading}")`;
+      }
+
+      wrapper.appendChild(newImg);
+      wrapper.appendChild(icon);
+
+      img.replaceWith(wrapper);
+    });
+
+    // 通知 LazyLoad 更新
+    if (window.lazyLoadInstance?.update) {
+      window.lazyLoadInstance.update();
+    }
+  }
+  
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.33.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    // applyThemeToGiscus(theme)
+  }
+
+  // FIXME: 这会导致无法使用 preferred_color_scheme 以外的主题
+  const applyThemeToGiscus = (theme) => {
+    // theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"rating":{"js":"/js/services/rating.js","api":"https://star-vote.xaox.cc/api/rating"},"vote":{"js":"/js/services/vote.js","api":"https://star-vote.xaox.cc/api/vote"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"},"contributors":{"edit_this_page":{"_posts/":null,"wiki/stellar/":"https://github.com/xaoxuu/hexo-theme-stellar-docs/blob/main/"},"js":"/js/services/contributors.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://gcore.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://gcore.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://gcore.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error), .with-fancybox .atk-content img:not([atk-emoticon])';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const memos = document.getElementsByClassName('ds-memos');
+    if (memos != undefined && memos.length > 0) {
+      needFancybox = true;
+    }
+    const fancybox = document.getElementsByClassName('with-fancybox');
+    if (fancybox != undefined && fancybox.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+
+<script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+  MathJax.Hub.Config({
+    tex2jax: {
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+  });
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+<script type="text/javascript" src="/js/custom.js?1"></script><script src="/js/custom.js?1"></script>
+</div></body></html>

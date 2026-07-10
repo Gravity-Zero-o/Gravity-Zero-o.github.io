@@ -1,0 +1,1348 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1" theme-name="Stellar" theme-version="1.33.1">
+  
+  
+  <meta name="generator" content="Hexo 8.1.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  <title>PX4 - 常守 朱</title>
+
+  
+    <meta name="description" content="PX4代码分析这是RFlySim平台的PX4飞控代码，名为，三千多行，让AI帮忙分析了一下 高层结构概览 这是一个面向 PX4 &#x2F; CopterSim &#x2F; RflySim 的外部控制模块（Python），主要职责： 建立 MAVLink &#x2F; UDP &#x2F; Redis &#x2F; 串口 等多种通信方式（与 PX4 或仿真器交互）。 封装发送各种控制命令（位置&#x2F;速度&#x2F;姿态&#x2F;加速度&#x2F;RC 覆盖&#x2F;MAV_CMD 等">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PX4">
+<meta property="og:url" content="http://example.com/2025/10/29/PX4/">
+<meta property="og:site_name" content="常守 朱">
+<meta property="og:description" content="PX4代码分析这是RFlySim平台的PX4飞控代码，名为，三千多行，让AI帮忙分析了一下 高层结构概览 这是一个面向 PX4 &#x2F; CopterSim &#x2F; RflySim 的外部控制模块（Python），主要职责： 建立 MAVLink &#x2F; UDP &#x2F; Redis &#x2F; 串口 等多种通信方式（与 PX4 或仿真器交互）。 封装发送各种控制命令（位置&#x2F;速度&#x2F;姿态&#x2F;加速度&#x2F;RC 覆盖&#x2F;MAV_CMD 等">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/read.png">
+<meta property="article:published_time" content="2025-10-28T22:24:00.000Z">
+<meta property="article:modified_time" content="2025-10-29T15:11:29.370Z">
+<meta property="article:author" content="Gravitykole">
+<meta property="article:tag" content="where is the keywords">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/read.png">
+  
+  
+  
+  <meta name="keywords" content="where is the keywords">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.33.1">
+
+
+  
+    <link rel="shortcut icon" href="/image/favicon.png">
+  
+
+  
+
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Gravitykole","sameAs":[],"image":"/image/read.png"},"dateCreated":"2025-10-28T22:24:00Z","dateModified":"2025-10-29T15:11:29Z","datePublished":"2025-10-28T22:24:00Z","description":"","headline":"PX4","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/10/29/PX4/"},"publisher":{"@type":"Organization","name":"Gravitykole","sameAs":[],"image":"/image/read.png","logo":{"@type":"ImageObject","url":"/image/read.png"}},"url":"http://example.com/2025/10/29/PX4/","thumbnailUrl":null,"image":[]}</script>
+  <link rel="stylesheet" href="https://cdn.staticfile.org/lxgw-wenkai-screen-webfont/1.6.0/lxgwwenkaiscreen.css">
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+<body>
+
+<div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/image/read.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">常守 朱</div><div class="sub normal cap">Tsunemori Akane</div><div class="sub hover cap" style="opacity:0">つねもり あかね</div></a></div></header>
+
+<div class="nav-area">
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="分类" href="/categories/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="专栏" href="/topic/" style="color:#FA6400"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="社交" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+</div>
+<div class="widgets">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+
+
+
+
+
+<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2026/01/15/%E7%A1%AC%E4%BB%B6%E5%9C%A8%E7%8E%AF/"><span class="title">硬件在环</span></a><a class="item title" href="/2026/02/08/ProfDeng/"><span class="title">ProfDeng</span></a><a class="item title" href="/2026/02/08/AIgovernment/"><span class="title">AIgovernment</span></a><a class="item title" href="/2025/12/30/bilibili-class/"><span class="title">bilibili_class</span></a><a class="item title" href="/2026/01/20/%E5%88%B6%E5%AF%BC%E8%AE%BA%E6%96%87/"><span class="title">制导论文</span></a><a class="item title" href="/2026/01/16/%E7%AB%AF%E4%BE%A7%E9%83%A8%E7%BD%B2/"><span class="title">端侧部署</span></a><a class="item title" href="/2026/01/08/JGCD%E7%9A%84%E5%BC%95%E7%94%A8/"><span class="title">JGCD的引用</span></a><a class="item title" href="/2025/10/28/Blog-%E8%B8%A9%E5%9D%91%E6%8C%87%E5%8D%97/"><span class="title">Blog 踩坑指南</span></a><a class="item title" href="/2025/10/29/yolo%E8%A7%86%E8%A7%89%E4%BC%BA%E6%9C%8D/"><span class="title">yolo视觉伺服</span></a><a class="item title" href="/2025/10/30/Track/"><span class="title">AntiUAV 检测与跟踪项目深度解析</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/Gravity-Zero-o" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder/social/08a41b181ce68.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder/social/3845874.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder/social/3616429.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder/social/942ebbf1a4b91.svg"/></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">代码分析</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-10-28T22:24:00.000Z">2025-10-28</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-10-29T15:11:29.370Z">2025-10-29</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>PX4</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h2 id="PX4代码分析"><a href="#PX4代码分析" class="headerlink" title="PX4代码分析"></a>PX4代码分析</h2><p>这是RFlySim平台的PX4飞控代码，名为<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.464ex;" xmlns="http://www.w3.org/2000/svg" width="19.407ex" height="2.059ex" role="img" focusable="false" viewBox="0 -705 8578 910"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D443" d="M287 628Q287 635 230 637Q206 637 199 638T192 648Q192 649 194 659Q200 679 203 681T397 683Q587 682 600 680Q664 669 707 631T751 530Q751 453 685 389Q616 321 507 303Q500 302 402 301H307L277 182Q247 66 247 59Q247 55 248 54T255 50T272 48T305 46H336Q342 37 342 35Q342 19 335 5Q330 0 319 0Q316 0 282 1T182 2Q120 2 87 2T51 1Q33 1 33 11Q33 13 36 25Q40 41 44 43T67 46Q94 46 127 49Q141 52 146 61Q149 65 218 339T287 628ZM645 554Q645 567 643 575T634 597T609 619T560 635Q553 636 480 637Q463 637 445 637T416 636T404 636Q391 635 386 627Q384 621 367 550T332 412T314 344Q314 342 395 342H407H430Q542 342 590 392Q617 419 631 471T645 554Z"></path></g><g data-mml-node="mi" transform="translate(751,0)"><path data-c="1D44B" d="M42 0H40Q26 0 26 11Q26 15 29 27Q33 41 36 43T55 46Q141 49 190 98Q200 108 306 224T411 342Q302 620 297 625Q288 636 234 637H206Q200 643 200 645T202 664Q206 677 212 683H226Q260 681 347 681Q380 681 408 681T453 682T473 682Q490 682 490 671Q490 670 488 658Q484 643 481 640T465 637Q434 634 411 620L488 426L541 485Q646 598 646 610Q646 628 622 635Q617 635 609 637Q594 637 594 648Q594 650 596 664Q600 677 606 683H618Q619 683 643 683T697 681T738 680Q828 680 837 683H845Q852 676 852 672Q850 647 840 637H824Q790 636 763 628T722 611T698 593L687 584Q687 585 592 480L505 384Q505 383 536 304T601 142T638 56Q648 47 699 46Q734 46 734 37Q734 35 732 23Q728 7 725 4T711 1Q708 1 678 1T589 2Q528 2 496 2T461 1Q444 1 444 10Q444 11 446 25Q448 35 450 39T455 44T464 46T480 47T506 54Q523 62 523 64Q522 64 476 181L429 299Q241 95 236 84Q232 76 232 72Q232 53 261 47Q262 47 267 47T273 46Q276 46 277 46T280 45T283 42T284 35Q284 26 282 19Q279 6 276 4T261 1Q258 1 243 1T201 2T142 2Q64 2 42 0Z"></path></g><g data-mml-node="mn" transform="translate(1603,0)"><path data-c="34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z"></path></g><g data-mml-node="mi" transform="translate(2103,0)"><path data-c="1D440" d="M289 629Q289 635 232 637Q208 637 201 638T194 648Q194 649 196 659Q197 662 198 666T199 671T201 676T203 679T207 681T212 683T220 683T232 684Q238 684 262 684T307 683Q386 683 398 683T414 678Q415 674 451 396L487 117L510 154Q534 190 574 254T662 394Q837 673 839 675Q840 676 842 678T846 681L852 683H948Q965 683 988 683T1017 684Q1051 684 1051 673Q1051 668 1048 656T1045 643Q1041 637 1008 637Q968 636 957 634T939 623Q936 618 867 340T797 59Q797 55 798 54T805 50T822 48T855 46H886Q892 37 892 35Q892 19 885 5Q880 0 869 0Q864 0 828 1T736 2Q675 2 644 2T609 1Q592 1 592 11Q592 13 594 25Q598 41 602 43T625 46Q652 46 685 49Q699 52 704 61Q706 65 742 207T813 490T848 631L654 322Q458 10 453 5Q451 4 449 3Q444 0 433 0Q418 0 415 7Q413 11 374 317L335 624L267 354Q200 88 200 79Q206 46 272 46H282Q288 41 289 37T286 19Q282 3 278 1Q274 0 267 0Q265 0 255 0T221 1T157 2Q127 2 95 1T58 0Q43 0 39 2T35 11Q35 13 38 25T43 40Q45 46 65 46Q135 46 154 86Q158 92 223 354T289 629Z"></path></g><g data-mml-node="mi" transform="translate(3154,0)"><path data-c="1D44E" d="M33 157Q33 258 109 349T280 441Q331 441 370 392Q386 422 416 422Q429 422 439 414T449 394Q449 381 412 234T374 68Q374 43 381 35T402 26Q411 27 422 35Q443 55 463 131Q469 151 473 152Q475 153 483 153H487Q506 153 506 144Q506 138 501 117T481 63T449 13Q436 0 417 -8Q409 -10 393 -10Q359 -10 336 5T306 36L300 51Q299 52 296 50Q294 48 292 46Q233 -10 172 -10Q117 -10 75 30T33 157ZM351 328Q351 334 346 350T323 385T277 405Q242 405 210 374T160 293Q131 214 119 129Q119 126 119 118T118 106Q118 61 136 44T179 26Q217 26 254 59T298 110Q300 114 325 217T351 328Z"></path></g><g data-mml-node="mi" transform="translate(3683,0)"><path data-c="1D463" d="M173 380Q173 405 154 405Q130 405 104 376T61 287Q60 286 59 284T58 281T56 279T53 278T49 278T41 278H27Q21 284 21 287Q21 294 29 316T53 368T97 419T160 441Q202 441 225 417T249 361Q249 344 246 335Q246 329 231 291T200 202T182 113Q182 86 187 69Q200 26 250 26Q287 26 319 60T369 139T398 222T409 277Q409 300 401 317T383 343T365 361T357 383Q357 405 376 424T417 443Q436 443 451 425T467 367Q467 340 455 284T418 159T347 40T241 -11Q177 -11 139 22Q102 54 102 117Q102 148 110 181T151 298Q173 362 173 380Z"></path></g><g data-mml-node="mi" transform="translate(4168,0)"><path data-c="1D436" d="M50 252Q50 367 117 473T286 641T490 704Q580 704 633 653Q642 643 648 636T656 626L657 623Q660 623 684 649Q691 655 699 663T715 679T725 690L740 705H746Q760 705 760 698Q760 694 728 561Q692 422 692 421Q690 416 687 415T669 413H653Q647 419 647 422Q647 423 648 429T650 449T651 481Q651 552 619 605T510 659Q484 659 454 652T382 628T299 572T226 479Q194 422 175 346T156 222Q156 108 232 58Q280 24 350 24Q441 24 512 92T606 240Q610 253 612 255T628 257Q648 257 648 248Q648 243 647 239Q618 132 523 55T319 -22Q206 -22 128 53T50 252Z"></path></g><g data-mml-node="mi" transform="translate(4928,0)"><path data-c="1D461" d="M26 385Q19 392 19 395Q19 399 22 411T27 425Q29 430 36 430T87 431H140L159 511Q162 522 166 540T173 566T179 586T187 603T197 615T211 624T229 626Q247 625 254 615T261 596Q261 589 252 549T232 470L222 433Q222 431 272 431H323Q330 424 330 420Q330 398 317 385H210L174 240Q135 80 135 68Q135 26 162 26Q197 26 230 60T283 144Q285 150 288 151T303 153H307Q322 153 322 145Q322 142 319 133Q314 117 301 95T267 48T216 6T155 -11Q125 -11 98 4T59 56Q57 64 57 83V101L92 241Q127 382 128 383Q128 385 77 385H26Z"></path></g><g data-mml-node="mi" transform="translate(5289,0)"><path data-c="1D45F" d="M21 287Q22 290 23 295T28 317T38 348T53 381T73 411T99 433T132 442Q161 442 183 430T214 408T225 388Q227 382 228 382T236 389Q284 441 347 441H350Q398 441 422 400Q430 381 430 363Q430 333 417 315T391 292T366 288Q346 288 334 299T322 328Q322 376 378 392Q356 405 342 405Q286 405 239 331Q229 315 224 298T190 165Q156 25 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 114 189T154 366Q154 405 128 405Q107 405 92 377T68 316T57 280Q55 278 41 278H27Q21 284 21 287Z"></path></g><g data-mml-node="mi" transform="translate(5740,0)"><path data-c="1D459" d="M117 59Q117 26 142 26Q179 26 205 131Q211 151 215 152Q217 153 225 153H229Q238 153 241 153T246 151T248 144Q247 138 245 128T234 90T214 43T183 6T137 -11Q101 -11 70 11T38 85Q38 97 39 102L104 360Q167 615 167 623Q167 626 166 628T162 632T157 634T149 635T141 636T132 637T122 637Q112 637 109 637T101 638T95 641T94 647Q94 649 96 661Q101 680 107 682T179 688Q194 689 213 690T243 693T254 694Q266 694 266 686Q266 675 193 386T118 83Q118 81 118 75T117 65V59Z"></path></g><g data-mml-node="mi" transform="translate(6038,0)"><path data-c="1D449" d="M52 648Q52 670 65 683H76Q118 680 181 680Q299 680 320 683H330Q336 677 336 674T334 656Q329 641 325 637H304Q282 635 274 635Q245 630 242 620Q242 618 271 369T301 118L374 235Q447 352 520 471T595 594Q599 601 599 609Q599 633 555 637Q537 637 537 648Q537 649 539 661Q542 675 545 679T558 683Q560 683 570 683T604 682T668 681Q737 681 755 683H762Q769 676 769 672Q769 655 760 640Q757 637 743 637Q730 636 719 635T698 630T682 623T670 615T660 608T652 599T645 592L452 282Q272 -9 266 -16Q263 -18 259 -21L241 -22H234Q216 -22 216 -15Q213 -9 177 305Q139 623 138 626Q133 637 76 637H59Q52 642 52 648Z"></path></g><g data-mml-node="mn" transform="translate(6807,0)"><path data-c="34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z"></path><path data-c="2E" d="M78 60Q78 84 95 102T138 120Q162 120 180 104T199 61Q199 36 182 18T139 0T96 17T78 60Z" transform="translate(500,0)"></path></g><g data-mml-node="mi" transform="translate(7585,0)"><path data-c="1D45D" d="M23 287Q24 290 25 295T30 317T40 348T55 381T75 411T101 433T134 442Q209 442 230 378L240 387Q302 442 358 442Q423 442 460 395T497 281Q497 173 421 82T249 -10Q227 -10 210 -4Q199 1 187 11T168 28L161 36Q160 35 139 -51T118 -138Q118 -144 126 -145T163 -148H188Q194 -155 194 -157T191 -175Q188 -187 185 -190T172 -194Q170 -194 161 -194T127 -193T65 -192Q-5 -192 -24 -194H-32Q-39 -187 -39 -183Q-37 -156 -26 -148H-6Q28 -147 33 -136Q36 -130 94 103T155 350Q156 355 156 364Q156 405 131 405Q109 405 94 377T71 316T59 280Q57 278 43 278H29Q23 284 23 287ZM178 102Q200 26 252 26Q282 26 310 49T356 107Q374 141 392 215T411 325V331Q411 405 350 405Q339 405 328 402T306 393T286 380T269 365T254 350T243 336T235 326L232 322Q232 321 229 308T218 264T204 212Q178 106 178 102Z"></path></g><g data-mml-node="mi" transform="translate(8088,0)"><path data-c="1D466" d="M21 287Q21 301 36 335T84 406T158 442Q199 442 224 419T250 355Q248 336 247 334Q247 331 231 288T198 191T182 105Q182 62 196 45T238 27Q261 27 281 38T312 61T339 94Q339 95 344 114T358 173T377 247Q415 397 419 404Q432 431 462 431Q475 431 483 424T494 412T496 403Q496 390 447 193T391 -23Q363 -106 294 -155T156 -205Q111 -205 77 -183T43 -117Q43 -95 50 -80T69 -58T89 -48T106 -45Q150 -45 150 -87Q150 -107 138 -122T115 -142T102 -147L99 -148Q101 -153 118 -160T152 -167H160Q177 -167 186 -165Q219 -156 247 -127T290 -65T313 -9T321 21L315 17Q309 13 296 6T270 -6Q250 -11 231 -11Q185 -11 150 11T104 82Q103 89 103 113Q103 170 138 262T173 379Q173 380 173 381Q173 390 173 393T169 400T158 404H154Q131 404 112 385T82 344T65 302T57 280Q55 278 41 278H27Q21 284 21 287Z"></path></g></g></g></svg></mjx-container>，三千多行，让AI帮忙分析了一下</p>
+<h2 id="高层结构概览"><a href="#高层结构概览" class="headerlink" title="高层结构概览"></a>高层结构概览</h2><ul>
+<li>这是一个面向 PX4 / CopterSim / RflySim 的外部控制模块（Python），主要职责：<ul>
+<li>建立 MAVLink / UDP / Redis / 串口 等多种通信方式（与 PX4 或仿真器交互）。</li>
+<li>封装发送各种控制命令（位置/速度/姿态/加速度/RC 覆盖/MAV_CMD 等）。</li>
+<li>接收并解析多种二进制 UDP 包（来自 CopterSim / UE4 / DLL 模型的“真值”数据）。</li>
+<li>提供点质量模型（PointMassModelLoop）用于仿真时本地物理近似。</li>
+<li>支持将事件/故障写入 vehicle_command（SendFaultEvent）以便日志/后处理。</li>
+</ul>
+</li>
+</ul>
+<h2 id="关键模块-成员说明（简洁）"><a href="#关键模块-成员说明（简洁）" class="headerlink" title="关键模块 / 成员说明（简洁）"></a>关键模块 / 成员说明（简洁）</h2><ul>
+<li>PX4MavCtrler 类：主体，包含网络 socket、mavlink 对象、多个线程（t1/t2/t3/tTrue/tPX4/tRC）以及大量状态变量（uavPosNED, uavVelNED, truePosNED 等）。</li>
+<li>通信：<ul>
+<li>UDP sockets：udp_socket、udp_socketUDP、udp_socketTrue、udp_socketPX4、udp_socketUE4。</li>
+<li>MAVLink：mavutil.mavlink_connection（串口/udp），以及低级 mav0 = MAVLink(fifo)。</li>
+<li>Redis：可选（isEnableRdis）。</li>
+</ul>
+</li>
+<li>Offboard 发送循环：OffboardSendMode（定时向 PX4 发送 SET_POSITION_TARGET_LOCAL_NED / SET_ATTITUDE_TARGET 等）。</li>
+<li>真值接收：getTrueDataMsg（解析多种 struct 尺寸：112/152/168/192/264 等），getPX4DataMsg（从 udp_socketPX4 解析 PX4ExtMsg）。</li>
+<li>PointMassModelLoop：当不连接真机或串口时，可以在 Python 侧运行点质量动力学，按设定 pos/vel 生成 uavPosNED/uavVelNED 并通过 sendUE4PosNew 发给 UE4。</li>
+<li>辅助：TypeMask/PosTypeMask/AttTypeMask 用于生成 MAVLink 的 type_mask。</li>
+</ul>
+<h2 id="一：Offboard-位置-速度-姿态控制相关（主控接口）"><a href="#一：Offboard-位置-速度-姿态控制相关（主控接口）" class="headerlink" title="一：Offboard / 位置/速度/姿态控制相关（主控接口）"></a>一：Offboard / 位置/速度/姿态控制相关（主控接口）</h2><p>这些函数是外部控制器与 PX4 的主要接口，通常在高频控制环或定时线程中被调用（OffboardSendMode 会周期性调用 sendMavOffboardAPI）。</p>
+<ol>
+<li>sendMavOffboardCmd(self, type_mask, coordinate_frame, x, y, z, vx, vy, vz, afx, afy, afz, yaw, yaw_rate)<ul>
+<li>作用：直接构造并发送 MAVLink 的 SET_POSITION_TARGET_LOCAL_NED（本地 NED）消息（time_boot_ms 基于 self.startTime）。</li>
+<li>输入：完整的 type_mask（位掩码）、坐标系、位置（m）、速度（m/s）、加速度（m/s²）、yaw（rad）和 yaw_rate（rad/s）。</li>
+<li>副作用：通过 mavutil 发送（串口/realFly）或通过 mav0 打包后 SendBuf 发 UDP。</li>
+<li>使用场景：当需要直接发送 MAVLink offboard 消息而不经过 sendMavOffboardAPI 的封装时（低层 API）。</li>
+<li>风险/注意：<ul>
+<li>仅在 UDPMode &gt;= MAVLink 模式（UDPMode&gt;1.5）且非点质量模式时有效（函数内检查）。</li>
+<li>需保证 self.the_connection.target_system/component 已初始化（建立连接且等待 heartbeat）。</li>
+<li>未检查参数范围或 NaN。</li>
+</ul>
+</li>
+<li>建议：在发送前校验 target_system、type_mask 的有效性；对 NaN 做处理或抛错。</li>
+</ul>
+</li>
+<li>sendMavOffboardAPI(self, type_mask=0, coordinate_frame=0, pos=[..], vel=[..], acc=[..], yaw=0, yawrate=0)<ul>
+<li>作用：更高层的 Offboard 发送接口，依据 self.offMode 决定发送哪种 MAVLink 消息（local, global_int, attitude, 或自定义推力模式），并为 UDP_Full / Simple 提供降级方案（构造自定义 UDP 包）。</li>
+<li>输入：type_mask、坐标系、pos/vel/acc/yaw/yawrate（可为 list）。</li>
+<li>副作用：打包并通过 self.SendBuf 发送，或调用 the_connection.mav.* 发送；在 UDP_Full 时构造自定义结构体。</li>
+<li>使用场景：主循环（OffboardSendMode）中周期调用，实现对 PX4 的持续 setpoint 更新。</li>
+<li>风险/注意：<ul>
+<li>使用了 self.offMode 决策路径很多（0/1/2/3/其它），维护复杂；</li>
+<li>在 UDPMode ≤1.5 下退化到自定义 UDP/Simple 格式，需确保仿真端解析一致；</li>
+<li>使用大量魔法数字（offMode 值、bit mask），易读性差。</li>
+</ul>
+</li>
+<li>建议：<ul>
+<li>把 offMode 和 UDPMode 的枚举提成常量/Enum，并把每个分支封装为小函数；</li>
+<li>在进入发送分支前对 pos/vel/acc 做 fillList &amp; NaN 处理；</li>
+<li>对 offMode==3 的推力逻辑封装并单独测试（现在包含 PI 类积分 zInt，需验证稳定性）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>OffboardSendMode(self)<ul>
+<li>作用：作为一个线程循环（t2）周期性调用 sendMavOffboardAPI，将当前 self.pos/self.vel/… 以设定频率发送给飞控。</li>
+<li>输入：使用 self.UDPMode 决定频率（默认 100Hz 或 Simple 模式 30Hz）。</li>
+<li>副作用：持续发送 offboard 消息；对 <code>self.isInOffboard</code> 控制循环退出。</li>
+<li>使用场景：当 initOffboard 系列函数启动后会启动该线程。</li>
+<li>风险/注意：<ul>
+<li>循环中仅用 time.sleep 调整周期，未采用更精确定时或防止时间漂移的手段（虽使用累加法 lastTime2+interTime，有一定补偿）。</li>
+<li>若 sendMavOffboardAPI 阻塞或 the_connection 出问题，会延迟循环。</li>
+</ul>
+</li>
+<li>建议：在循环内对异常捕获并记录；在 sendMavOffboardAPI 前后统计发送失败次数并在达到阈值时上报或切换模式。</li>
+</ul>
+</li>
+<li>SendOffAll(self, type_mask=PosTypeMask(), coordinate_frame=1, pos=[…], vel=[…], acc=[…], yaw=0, yawrate=0)<ul>
+<li>作用：高层 API，将输入填充后写入 self.type_mask/self.coordinate_frame/self.pos/self.vel/…（不立刻发送）。</li>
+<li>输入：type_mask 对象或实例，坐标系和 setpoint。</li>
+<li>副作用：修改控制数据（由 OffboardSendMode 周期发送）。</li>
+<li>风险/注意：默认参数使用可变对象；建议改为 None 并在函数内初始化。</li>
+</ul>
+</li>
+<li>SendAttAll(self, type_mask=AttTypeMask(), q=[1,0,0,0], body_rate=[0,0,0], thrust=0)<ul>
+<li>作用：设置姿态控制模式相关变量（用于 offMode==2 的路径）。此函数用 q/vec 的不寻常映射（把 q[0] 写入 yawrate，q[1..3] 写入 pos）。</li>
+<li>输入：type_mask、四元数或其他编码、body_rate、thrust。</li>
+<li>副作用：设置 self.offMode=2, self.type_mask, self.yawrate/pos/vel 等。</li>
+<li>风险/注意：参数语义不直观（函数名与内部字段映射不一致），容易出错。建议明确参数注释并改为明确的 API（例如 SendAttitudeTarget(quat, body_rate, thrust)）。</li>
+</ul>
+</li>
+<li>TypeMask(self, EnList)<ul>
+<li>作用：针对 EnList（包含 pos, vel, acc, force, yaw, yawrate）生成 MAVLink 的 POSITION_TARGET_TYPEMASK（整数）。</li>
+<li>输入：EnList 长度至少 6（0/1 表示是否启用）。</li>
+<li>返回：int mask。</li>
+<li>风险/注意：实现符合“如果不启用则置位对应位”的习惯，但需确认位次与 mavlink 版本匹配；建议添加单元测试覆盖典型组合。</li>
+</ul>
+</li>
+</ol>
+<h2 id="二：高层控制模式封装（友好的-API）"><a href="#二：高层控制模式封装（友好的-API）" class="headerlink" title="二：高层控制模式封装（友好的 API）"></a>二：高层控制模式封装（友好的 API）</h2><p>这些是用户常调用的便捷函数，内部通常只是设置 EnList/offMode/type_mask 等，然后等待 OffboardSendMode 发送。</p>
+<ol>
+<li>SendVelNED(self, vx, vy, vz, yawrate)<ul>
+<li>作用：设置为 NED 地球速度控制（offMode=0, ctrlMode=0，EnList=[0,1,0,0,0,1]）。</li>
+<li>副作用：修改 pos/vel/acc/yaw/yawrate/type_mask/coordinate_frame。</li>
+<li>风险/注意：未对 vx/vy/vz/yawrate 做 NaN 处理（外部可能传入 math.nan）；建议把 NaN 当作“不控制”并相应设置 type_mask。</li>
+</ul>
+</li>
+<li>SendVelNEDNoYaw(self, vx, vy, vz)<ul>
+<li>作用：同上但忽略偏航（yaw 不被控制），EnList 最后一位 0。</li>
+<li>风险/注意：同上。</li>
+</ul>
+</li>
+<li>SendVelFRD(self, vx, vy, vz, yawrate)<ul>
+<li>作用：机体速度控制（FRD），coordinate_frame = MAV_FRAME_BODY_NED，ctrlMode=1。</li>
+<li>注意机体/地球坐标系转换由飞控处理或由上层转换。</li>
+</ul>
+</li>
+<li>SendAttPX4(self, att=[..], thrust=0.5, CtrlFlag=0, AltFlg=0)<ul>
+<li>作用：为姿态控制提供多种输入方式：<ul>
+<li>CtrlFlag 0/1：att 为 Euler（deg 或 rad）；函数会计算四元数并写入 self.pos/ yawrate 等。</li>
+<li>CtrlFlag 2：att 已是四元数。</li>
+<li>CtrlFlag 3/4：att 为 body rate（rad/s 或 deg/s），则把它存到 self.vel（机体角速率）。</li>
+<li>AltFlg&gt;0 时启用 offMode=3（把 thrust 作为期望高度并执行 PID 风格控制）。</li>
+</ul>
+</li>
+<li>副作用：设置 offMode=2（或 3）、type_mask、pos/vel/yaw/yawrate。</li>
+<li>风险/注意：<ul>
+<li>该函数把 quaternion 的 w 存入 self.yawrate，和常见语义不一致（需严格文档化）。</li>
+<li>四元数计算算法看似正确，但没有数值归一化或异常检查。</li>
+<li>AltFlg 下包含的积分（zInt）逻辑需要调参与边界检查。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>SendAccPX4(self, afx, afy, afz, yawValue, yawType, frameType)<ul>
+<li>作用：设置为加速度控制模式（EnList 相应更改），coordinate_frame 可选 NED/Body。</li>
+<li>副作用：设置 offMode=0, ctrlMode 6/7/8 等，以及 self.acc = [afx,afy,afz]。</li>
+<li>风险/注意：PX4 对加速度 setpoint 的内部映射可能不如速度或姿态稳定（注释指出“不是 properly supported”）；使用该接口需谨慎并充分测试。</li>
+</ul>
+</li>
+<li>SendPosNED / SendPosNEDNoYaw / SendPosFRD / SendPosFRDNoYaw / SendPosNEDExt / SendPosGlobal<ul>
+<li>作用：位置控制接口（地球或机体，带或不带 yaw），或全局经纬度控制。</li>
+<li>输入：坐标（本地 m 或经纬度），yaw 或 yawType。</li>
+<li>副作用：设置 offMode=0/1，EnList 对应为 pos enabled，coordinate_frame 设置为 MAV_FRAME_LOCAL_NED 或 GLOBAL_INT 等。</li>
+<li>风险/注意：<ul>
+<li>SendPosGlobal 将 lat/lon 写入 self.pos（但后续 sendMavOffboardAPI 在 offMode==1 会对 pos 做 int(lat*1e7)），确保调用者传入单位正确（该接口文档是度）。</li>
+<li>Global-&gt;Local 转换依赖 self.geo 和 uavPosGPSHome 的正确性；注意前面提到的 home 坐标判定 bug（abs(…) 用法错误）会影响坐标偏移计算。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>SendVelYawAlt(self, vel=10, yaw=6.28, alt=-100)<ul>
+<li>作用：混合控制（速度/高度/yaw）用于特定平台或固定翼模式，直接设置特殊 type_mask 值（int(“000111000000”,2)）。</li>
+<li>风险/注意：该函数使用非直观的字段编码，需和仿真端/控制端一致。</li>
+</ul>
+</li>
+<li>initOffboard / initOffboardAcc / initOffboardAtt / initOffboard2<ul>
+<li>作用：准备并启动 offboard 发送线程（t2），并依据模式做一些飞控参数设置（例如把飞控设为 LOITER 再 OFFBOARD，发送 disbale RTLRC 参数等），并在需要时 ARM（发送 COMPONENT_ARM_DISARM）。</li>
+<li>副作用：启动 OffboardSendMode 线程，发送若干 initial setpoint，修改 self.isInOffboard。</li>
+<li>风险/注意：<ul>
+<li>在 real PX4 中切换模式/arm 需要 heartbeat 与目标系统识别，需在建立连接成功后再执行；函数假定 the_connection 可用。</li>
+<li>initOffboard 系列函数会调用 sendMavSetParam 多次以禁用某些自动中断（NAV_RCL_ACT 等），这些是危险操作（会改变飞控行为），仅应在受控仿真或测试环境中使用。</li>
+</ul>
+</li>
+<li>建议：把“禁用 RTL/RC”作为可选参数，且在真实飞行前强制提示或禁止。</li>
+</ul>
+</li>
+</ol>
+<h2 id="三：低级-MAVLink-命令-参数写入"><a href="#三：低级-MAVLink-命令-参数写入" class="headerlink" title="三：低级 MAVLink / 命令 / 参数写入"></a>三：低级 MAVLink / 命令 / 参数写入</h2><p>这些函数负责发送 MAV_CMD、PARAM_SET、ARM、MANUAL_CONTROL 等底层指令。</p>
+<ol>
+<li>SendMavCmdLong(self, command, param1..param7)<ul>
+<li>作用：发送 MAV_CMD 的 COMMAND_LONG（旧版），在串口/realFly 直接用 the_connection.mav.command_long_send，否则用 mav0 打包并 SendBuf。</li>
+<li>风险/注意：函数在 isInPointMode 或 UDPMode &lt; 1.5 时直接 return（不会发送），新版 SendMavCmdLongNEW 支持 force_send。</li>
+<li>建议：优先使用 SendMavCmdLongNEW（更健壮，支持 target_system/force_send）。</li>
+</ul>
+</li>
+<li>SendMavCmdLongNEW(self, command, param1..param7, target_system=None, target_component=1, confirmation=0, force_send=False)<ul>
+<li>作用：改进版，支持 force_send（绕过 isInPointMode/UDPMode 限制），并允许指定 target_system。</li>
+<li>建议：保留并逐步替换旧接口，记录发送成功/失败（比如超时等待 ACK）。</li>
+</ul>
+</li>
+<li>SendMavSetParam(self, param_id, param_value, param_type)<ul>
+<li>作用：发送 PARAM_SET（更改飞控参数）。</li>
+<li>风险/注意：对真实飞行风险极高（会改变控制器行为）；应有确认或沙箱选项；函数内如果 self.isInPointMode 或 UDPMode &lt; 1.5 就 return（保护性行为）。</li>
+</ul>
+</li>
+<li>SendMavArm(self, isArm=1)<ul>
+<li>作用：发送组件 ARM/DISARM（在 UDPMode&gt;1.5 时通过 COMMAND_LONG，否则通过 UDP 简单数据）。</li>
+<li>风险/注意：强烈影响安全。调用前应确认 remote 或测试标志。</li>
+</ul>
+</li>
+<li>SendQgcCmdLong(self, command, param1..param7)<ul>
+<li>作用：把 COMMAND_LONG 广播到 QGC（ip:18570，target_system=255），用于 QGroundControl。</li>
+<li>使用场景：调试/记录。</li>
+</ul>
+</li>
+<li>SendHILCtrlMsg(self, ctrls=[0]*16, idx=0, flags=1)<ul>
+<li>作用：向飞控发送 HIL_ACTUATOR_CONTROLS 消息（用以写入自定义 uORB rfly_ctrl），不同 idx 选择 mode（1/101/201）。</li>
+<li>副作用：在仿真中可用于直接控制 actuators；若 flags 或 checksum 用法与仿真端约定一致，可携带特殊命令（例如触发 sim crash）。</li>
+<li>风险/注意：HIL 消息会被飞控视为实际执行器输入，误用会导致不可预期动作。建议在仿真环境严格隔离该接口。</li>
+</ul>
+</li>
+<li>SendHILCtrlMsg1(self)<ul>
+<li>作用：发送 debug_vect 示例消息（仅示例/测试）。</li>
+<li>注意：仅用于 debug。</li>
+</ul>
+</li>
+<li>SendRcOverride(self, ch1..ch8)<ul>
+<li>作用：发送 RC_CHANNELS_OVERRIDE（用以覆盖遥控器输出）。</li>
+<li>风险/注意：覆盖 RC 会直接控制飞行器；需保证频道范围 1000-2000。生产使用时需确认安全约束。</li>
+</ul>
+</li>
+<li>sendMavManualCtrl(self, x,y,z,r)<ul>
+<li>作用：发送 MANUAL_CONTROL，通常用于地面站或 GCS 模拟手操。</li>
+<li>风险/注意：如果 isInPointMode 或 UDPMode&lt;1.5 时会 return（不会发送）。</li>
+</ul>
+</li>
+<li>SendVisionPosition / SendHILGps<ul>
+<li>SendVisionPosition：发送 vision_position_estimate 消息（一种本地位置估计，可用于视觉定位补丁）。时间戳以 startTime 为基准。</li>
+<li>SendHILGps：发送 hil_gps_send，构造 GPS 仿真信号（将浮点值转为 int 格式: degE7 / mm / cm/s 等）。</li>
+<li>风险/注意：GPS 模拟需要正确格式化数值；注意 alt 单位（mm vs m）和 cog/yaw 的单位换算。</li>
+</ul>
+</li>
+</ol>
+<h2 id="四：数据接收与状态更新（飞控-真值状态机）"><a href="#四：数据接收与状态更新（飞控-真值状态机）" class="headerlink" title="四：数据接收与状态更新（飞控/真值状态机）"></a>四：数据接收与状态更新（飞控/真值状态机）</h2><p>飞控控制逻辑依赖这些接收函数来更新内部状态（uavPosNED/uavVelNED/uavAngEular/isArmed 等）。它们关键决定控制回路的观测输入。</p>
+<ol>
+<li>getMavMsg(self)<ul>
+<li>作用：主 MAVLink 接收循环（t1），在 UDPMode&gt;1.5 时通过 pymavlink the_connection.recv_match(blocking=True) 接收；在 UDP 模式下则从 udp_socketUDP 读取自定义包并解析。</li>
+<li>行为：<ul>
+<li>对多个 MAVLink 消息类型（ATTITUDE, LOCAL_POSITION_NED, GLOBAL_POSITION_INT, HEARTBEAT, HIL_ACTUATOR_CONTROLS, STATUSTEXT, ATTITUDE_TARGET 等）做解析并更新对应 self.* 状态。</li>
+<li>对接收到的某些消息会 setMsgDict 并触发 hasMsgEvent / netEvent。</li>
+</ul>
+</li>
+<li>频率：根据 MAVLink 通信速率，通常 50~400Hz 取决于飞控配置。</li>
+<li>风险/注意：<ul>
+<li>使用 blocking recv_match，如果线程需可中断，应考虑 timeout 或在另一线程关闭 connection。</li>
+<li>Bare except 在 UDPMode 分支抑制详细错误（建议打印 traceback）。</li>
+<li>对 HEARTBEAT 的处理：使用 msg.custom_mode==0 来避免 QGC 干扰，但这里可能忽略合法情况；ARM 状态计算使用 base_mode &amp; MAV_MODE_FLAG_SAFETY_ARMED，合适。</li>
+</ul>
+</li>
+<li>建议：把对关键消息的解析封装成函数（parse_attitude, parse_local_pos 等），引入锁保护共享写入，并添加日志。</li>
+</ul>
+</li>
+<li>getTrueDataMsg(self)<ul>
+<li>作用：循环接收来自 CopterSim / 模拟器的“真值”UDP 包（端口: self.port+1+10000），支持多种自定义消息格式（长度 112/152/168/192/264/32/12 等），并更新 true* 系列变量（truePosNED/trueAngEular/trueVelNED/trueMotorRPMS 等）。</li>
+<li>行为：<ul>
+<li>通过 GetUDPRedisBuf 获取 buf，然后根据长度进行 struct.unpack 并赋值。</li>
+<li>在特定格式下还会 set flags（isVehicleCrash、hasTrueDataRec、out3Ddata.updateUdp）。</li>
+</ul>
+</li>
+<li>风险/注意：<ul>
+<li>严重依赖于 buf 长度与数据结构的一致性；若收到半包或长度错位会抛异常。</li>
+<li>使用大量魔法常数（checksum 的值 123456789/1234567891/1234567897…），解析脆弱。</li>
+<li>缺少详细异常信息记录，遇错会把 stopFlagTrueData 设为 True 并退出循环。</li>
+<li>建议：在解析前检查 buf 长度常量并在异常处打印 traceback；将消息定义集中为常量并写解析函数；处理接收超时与重连策略。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>getPX4DataMsg(self)<ul>
+<li>作用：监听 udp_socketPX4（self.port+1+20000）获取 PX4ExtMsg（结构 iid8f 长度 48），解析写入 self.px4ext 并标记 px4extTrue。</li>
+<li>风险/注意：同样缺少异常详细处理；若 UDP socket 无法绑定或数据损坏应有重试策略。</li>
+</ul>
+</li>
+<li>GetUDPRedisBuf(self, sock)<ul>
+<li>作用：封装从 Redis pubsub 获取 raw bytes 或 socket.recvfrom 的统一接口。</li>
+<li>风险/注意：在非 Redis 模式下直接 sock.recvfrom 会阻塞；建议使用 socket.settimeout 与返回 None 时循环检查 stopFlag。</li>
+</ul>
+</li>
+<li>setMsgDict / netForwardData / hasMsgEvent / trueMsgEvent<ul>
+<li>作用：内部事件通告机制（事件触发/记录哪些消息已收到，供外部等待/同步）。</li>
+<li>风险/注意：hasMsgDict 是共享 dict，多个线程读写时没有锁，可能出现并发问题。建议使用锁或线程安全结构。</li>
+</ul>
+</li>
+</ol>
+<h2 id="五：仿真点质量模型（用于无真实飞控时的替代控制）"><a href="#五：仿真点质量模型（用于无真实飞控时的替代控制）" class="headerlink" title="五：仿真点质量模型（用于无真实飞控时的替代控制）"></a>五：仿真点质量模型（用于无真实飞控时的替代控制）</h2><ol>
+<li>initPointMassModel / PointMassModelLoop / EndPointMassModel<ul>
+<li>作用：在没有连接真实 Pixhawk 时，本地以简单点质量动力学模拟无人机运动并向 UE4/3D 仿真发送状态（sendUE4PosNew）。</li>
+<li>行为：<ul>
+<li>PointMassModelLoop 以 100Hz 循环，根据 self.EnList（pos or vel mode）计算 velOff -&gt; velE -&gt; 更新 uavVelNED、uavPosNED、uavAngEular 等；同时会对发送频率做车辆数限制。</li>
+</ul>
+</li>
+<li>风险/注意：<ul>
+<li>模型使用非常简化的动力学（一阶低通滤波与饱和）——仅适合视觉仿真，不可用于控制器验证。</li>
+<li>算法中对 coordinate_frame 为 BODY_NED 做了坐标变换，但变换计算可能有符号/轴定义错误（需和仿真/飞控的坐标约定一致）。</li>
+<li>sendUE4PosNew 打包结构需与 UE4 端保持完全一致。</li>
+</ul>
+</li>
+<li>建议：将模型与真实飞控解耦并提供参数（惯性、时间常数、最大加速度）来更真实模拟飞行响应；为 PointMassModelLoop 添加停止/异常保护与日志。</li>
+</ul>
+</li>
+</ol>
+<h2 id="六：辅助与工具类"><a href="#六：辅助与工具类" class="headerlink" title="六：辅助与工具类"></a>六：辅助与工具类</h2><ol>
+<li>PosTypeMask / AttTypeMask<ul>
+<li>作用：以面向对象方式构造 type_mask，然后调用 mask() 得到 int 掩码。</li>
+<li>风险/注意：默认 enVel/enYawRate True 等逻辑合理，但 mask 生成应加注释/测试验证以确保位位置与 mavlink 文档匹配。</li>
+</ul>
+</li>
+<li>fillList(self, data, inLen, fill=0)<ul>
+<li>作用：安全填充或裁剪向量到指定长度（兼容 numpy）。</li>
+<li>风险/注意：如果 data 不是 list 或 ndarray，会把它包装成 [data] + fills —— 这在某些调用场合可能隐藏错误输入。建议在输入验证中抛出异常或警告。</li>
+</ul>
+</li>
+<li>yawSat(self, yaw)<ul>
+<li>作用：将 yaw 饱和到 [-pi, pi]，实现用递归的循环方式。</li>
+<li>建议：用 while 循环替换递归以避免微小风险。</li>
+</ul>
+</li>
+</ol>
+<h2 id="七：安全、竞态和可靠性总结（针对飞控部分）"><a href="#七：安全、竞态和可靠性总结（针对飞控部分）" class="headerlink" title="七：安全、竞态和可靠性总结（针对飞控部分）"></a>七：安全、竞态和可靠性总结（针对飞控部分）</h2><ul>
+<li>竞态条件：大量共享状态被多个线程并发读写（uavPosNED/uavVelNED/hasMsgDict等），但缺锁，建议关键变量在写入时加锁或用原子快照。</li>
+<li>阻塞行为：recvfrom/blocking recv_match 直接阻塞线程且 join 时容易阻塞整个停止流程。建议为 socket 设置 timeout 并在循环中检测 stopFlag，或者使用 select。</li>
+<li>错误处理：广泛存在 bare except，隐藏异常堆栈，导致难以调试。替换为 Exception 捕获并打印 traceback。</li>
+<li>危险操作：SendMavSetParam、SendMavArm、SendHILCtrlMsg、SendRcOverride、SendMavCmdLong 等会直接改变或覆盖飞控行为，生产/真机运行前应加确认以及沙箱开关。</li>
+<li>参数与单位：多个接口对单位依赖强（degrees vs radians, mm vs m, degE7），必须在接口文档中明确并在函数内做统一转换与校验。</li>
+</ul>
+<h2 id="八：优先改进建议（针对飞控功能）"><a href="#八：优先改进建议（针对飞控功能）" class="headerlink" title="八：优先改进建议（针对飞控功能）"></a>八：优先改进建议（针对飞控功能）</h2><ol>
+<li>修复明显逻辑 bug（例如 home 坐标的 abs 比较错误） 优先级：高。</li>
+<li>把所有控制接口的可变默认参数改为 None 并在内部初始化；并在接口中做参数校验（NaN 检测、越界报警） 优先级：高。</li>
+<li>为 getMavMsg/getTrueDataMsg/getPX4DataMsg 添加更健壮的接收/超时/重试逻辑与详细异常记录（traceback + message length + hex dump） 优先级：高。</li>
+<li>在关键共享变量读写处添加 Lock（或在解析时写入临时结构，读取时做深拷贝）以避免竞态。 优先级：中高。</li>
+<li>把 offMode/UDPMode/ctrlMode 的 magic 值集中为 Enum 并在发送路径中用明确判断 优先级：中。</li>
+<li>把 fifo 改为基于 bytearray 的实现（若继续用 MAVLink 的 MAVLink(self.f)），并写单元测试。 优先级：中。</li>
+<li>为所有会影响真实飞行的命令（ARM, PARAM_SET, HIL 控制）加入“确认/锁”或环境检查（仅在仿真允许） 优先级：高（安全）。</li>
+</ol>
+</article>
+<div class="article-footer">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+
+</div>
+
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/10/29/yolo%E8%A7%86%E8%A7%89%E4%BC%BA%E6%9C%8D/">yolo视觉伺服</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/10/28/Blog-%E8%B8%A9%E5%9D%91%E6%8C%87%E5%8D%97/">Blog 踩坑指南</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><center>
+<span>
+© 2025
+<a style="font-weight: bold;  auto;" target="_blank" rel="noopener" href="https://github.com/Gravity-Zero-o">Gravitykole</a>
+使用 <a style="font-weight: bold;  auto;" target="_blank" rel="noopener" href="https://github.com/FelicxFoster/hexo-theme-stellar">Stellar</a>
+创建
+</span>
+<br>
+<!--不蒜子计数器-->
+<script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--添加一个访问量-->
+<span>总访问 <span id="busuanzi_value_site_pv" style="font-weight: bold;">113701</span> 次 | 本页访问 <span id="busuanzi_value_page_pv" style="font-weight: bold;">326</span> 次</span>
+</br>
+<span id="runtime_span"></span>
+
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function() {
+    var runtime_span = document.getElementById('runtime_span');
+
+    function show_runtime() {
+      // 调用定时器
+      setTimeout(show_runtime, 1000);
+
+      var seconds = 1000;
+      var minutes = seconds * 60;
+      var hours = minutes * 60;
+      var days = hours * 24;
+      var years = days * 365;
+
+      var today = new Date();
+      var todayYear = today.getFullYear();
+      var todayMonth = today.getMonth();
+      var todayDate = today.getDate();
+      var todayHour = today.getHours();
+      var todayMinute = today.getMinutes();
+      var todaySecond = today.getSeconds();
+
+      var t1 = Date.UTC(2018, 9, 12, 0, 0, 0); // UTC时间，月份从0开始
+      var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+      var diff = t2 - t1;
+
+      var diffYears = Math.floor(diff / years);
+      var diffDays = Math.floor((diff / days) - diffYears * 365);
+      var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+      var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+      var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+
+      // 更新显示时间的span元素内容
+      runtime_span.innerHTML = "🦉营业：" + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒🦉";
+    }
+
+    show_runtime(); // 初次调用函数以启动定时器
+  });
+</script>
+</center>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#PX4%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-text">PX4代码分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AB%98%E5%B1%82%E7%BB%93%E6%9E%84%E6%A6%82%E8%A7%88"><span class="toc-text">高层结构概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E6%A8%A1%E5%9D%97-%E6%88%90%E5%91%98%E8%AF%B4%E6%98%8E%EF%BC%88%E7%AE%80%E6%B4%81%EF%BC%89"><span class="toc-text">关键模块 &#x2F; 成员说明（简洁）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%EF%BC%9AOffboard-%E4%BD%8D%E7%BD%AE-%E9%80%9F%E5%BA%A6-%E5%A7%BF%E6%80%81%E6%8E%A7%E5%88%B6%E7%9B%B8%E5%85%B3%EF%BC%88%E4%B8%BB%E6%8E%A7%E6%8E%A5%E5%8F%A3%EF%BC%89"><span class="toc-text">一：Offboard &#x2F; 位置&#x2F;速度&#x2F;姿态控制相关（主控接口）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%EF%BC%9A%E9%AB%98%E5%B1%82%E6%8E%A7%E5%88%B6%E6%A8%A1%E5%BC%8F%E5%B0%81%E8%A3%85%EF%BC%88%E5%8F%8B%E5%A5%BD%E7%9A%84-API%EF%BC%89"><span class="toc-text">二：高层控制模式封装（友好的 API）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%EF%BC%9A%E4%BD%8E%E7%BA%A7-MAVLink-%E5%91%BD%E4%BB%A4-%E5%8F%82%E6%95%B0%E5%86%99%E5%85%A5"><span class="toc-text">三：低级 MAVLink &#x2F; 命令 &#x2F; 参数写入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%EF%BC%9A%E6%95%B0%E6%8D%AE%E6%8E%A5%E6%94%B6%E4%B8%8E%E7%8A%B6%E6%80%81%E6%9B%B4%E6%96%B0%EF%BC%88%E9%A3%9E%E6%8E%A7-%E7%9C%9F%E5%80%BC%E7%8A%B6%E6%80%81%E6%9C%BA%EF%BC%89"><span class="toc-text">四：数据接收与状态更新（飞控&#x2F;真值状态机）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%EF%BC%9A%E4%BB%BF%E7%9C%9F%E7%82%B9%E8%B4%A8%E9%87%8F%E6%A8%A1%E5%9E%8B%EF%BC%88%E7%94%A8%E4%BA%8E%E6%97%A0%E7%9C%9F%E5%AE%9E%E9%A3%9E%E6%8E%A7%E6%97%B6%E7%9A%84%E6%9B%BF%E4%BB%A3%E6%8E%A7%E5%88%B6%EF%BC%89"><span class="toc-text">五：仿真点质量模型（用于无真实飞控时的替代控制）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%EF%BC%9A%E8%BE%85%E5%8A%A9%E4%B8%8E%E5%B7%A5%E5%85%B7%E7%B1%BB"><span class="toc-text">六：辅助与工具类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%EF%BC%9A%E5%AE%89%E5%85%A8%E3%80%81%E7%AB%9E%E6%80%81%E5%92%8C%E5%8F%AF%E9%9D%A0%E6%80%A7%E6%80%BB%E7%BB%93%EF%BC%88%E9%92%88%E5%AF%B9%E9%A3%9E%E6%8E%A7%E9%83%A8%E5%88%86%EF%BC%89"><span class="toc-text">七：安全、竞态和可靠性总结（针对飞控部分）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%EF%BC%9A%E4%BC%98%E5%85%88%E6%94%B9%E8%BF%9B%E5%BB%BA%E8%AE%AE%EF%BC%88%E9%92%88%E5%AF%B9%E9%A3%9E%E6%8E%A7%E5%8A%9F%E8%83%BD%EF%BC%89"><span class="toc-text">八：优先改进建议（针对飞控功能）</span></a></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+
+
+<script type="text/javascript">
+  window.canonical = {"originalHost":null,"officialHosts":["localhost"],"encoded":""};
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":[],"codeblock":true,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+    loading: `https://api.iconify.design/eos-icons:three-dots-loading.svg?color=%231cd0fd`,
+  };
+  const deps = {
+    jquery: `https://gcore.jsdelivr.net/npm/jquery@3.7/dist/jquery.min.js`,
+    marked: `https://gcore.jsdelivr.net/npm/marked@13.0/lib/marked.umd.min.js`,
+    lazyload: `/%5Bobject%20Object%5D`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      const maxRetry = 3;
+      let retryCount = 0;
+
+      return new Promise((resolve, reject) => {
+        const load = () => {
+          utils.onLoading?.(el);
+
+          let timedOut = false;
+          const timeout = setTimeout(() => {
+            timedOut = true;
+            console.warn('[request] 超时:', url);
+
+            if (++retryCount >= maxRetry) {
+              utils.onLoadFailure?.(el);
+              onFailure?.();
+              reject('请求超时');
+            } else {
+              setTimeout(load, 1000);
+            }
+          }, 5000);
+
+          fetch(url).then(resp => {
+            if (timedOut) return;
+            clearTimeout(timeout);
+
+            if (!resp.ok) throw new Error('响应失败');
+            return resp;
+          }).then(data => {
+            if (timedOut) return;
+            utils.onLoadSuccess?.(el);
+            callback(data);
+            resolve(data);
+          }).catch(err => {
+            clearTimeout(timeout);
+            console.warn('[request] 错误:', err);
+
+            if (++retryCount >= maxRetry) {
+              utils.onLoadFailure?.(el);
+              onFailure?.();
+              reject(err);
+            } else {
+              setTimeout(load, 1000);
+            }
+          });
+        };
+
+        load();
+      });
+    },
+    requestWithoutLoading: (url, options = {}, maxRetry = 2, timeout = 5000) => {
+      return new Promise((resolve, reject) => {
+        let retryCount = 0;
+
+        const tryRequest = () => {
+          let timedOut = false;
+          const timer = setTimeout(() => {
+            timedOut = true;
+            if (++retryCount > maxRetry) reject('timeout');
+            else tryRequest();
+          }, timeout);
+
+          fetch(url, options)
+            .then(resp => {
+              clearTimeout(timer);
+              if (!resp.ok) throw new Error('bad response');
+              resolve(resp);
+            })
+            .catch(err => {
+              clearTimeout(timer);
+              if (++retryCount > maxRetry) reject(err);
+              else setTimeout(tryRequest, 500);
+            });
+        };
+
+        tryRequest();
+      });
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+<script async src="https://gcore.jsdelivr.net/npm/vanilla-lazyload@19.1/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+    callback_loaded: (el) => {
+      el.classList.add('loaded');
+      const wrapper = el.closest('.lazy-box');
+      const icon = wrapper?.querySelector('.lazy-icon');
+      if (icon) icon.remove();
+    }
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+
+  window.wrapLazyloadImages = (container) => {
+    if (typeof container === 'string') {
+      container = document.querySelector(container);
+    }
+    if (!container) return;
+    
+    const images = container.querySelectorAll('img');
+    images.forEach((img) => {
+      if (img.classList.contains('lazy')) return;
+
+      const src = img.getAttribute('src');
+      if (!src) return;
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'lazy-box';
+
+      const newImg = img.cloneNode();
+      newImg.removeAttribute('src');
+      newImg.setAttribute('data-src', src);
+      newImg.classList.add('lazy');
+
+      const icon = document.createElement('div');
+      icon.className = 'lazy-icon';
+      if (def.loading) {
+        icon.style.backgroundImage = `url("${def.loading}")`;
+      }
+
+      wrapper.appendChild(newImg);
+      wrapper.appendChild(icon);
+
+      img.replaceWith(wrapper);
+    });
+
+    // 通知 LazyLoad 更新
+    if (window.lazyLoadInstance?.update) {
+      window.lazyLoadInstance.update();
+    }
+  }
+  
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.33.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    // applyThemeToGiscus(theme)
+  }
+
+  // FIXME: 这会导致无法使用 preferred_color_scheme 以外的主题
+  const applyThemeToGiscus = (theme) => {
+    // theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"rating":{"js":"/js/services/rating.js","api":"https://star-vote.xaox.cc/api/rating"},"vote":{"js":"/js/services/vote.js","api":"https://star-vote.xaox.cc/api/vote"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"},"contributors":{"edit_this_page":{"_posts/":null,"wiki/stellar/":"https://github.com/xaoxuu/hexo-theme-stellar-docs/blob/main/"},"js":"/js/services/contributors.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://gcore.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://gcore.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://gcore.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error), .with-fancybox .atk-content img:not([atk-emoticon])';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const memos = document.getElementsByClassName('ds-memos');
+    if (memos != undefined && memos.length > 0) {
+      needFancybox = true;
+    }
+    const fancybox = document.getElementsByClassName('with-fancybox');
+    if (fancybox != undefined && fancybox.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+
+<script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+  MathJax.Hub.Config({
+    tex2jax: {
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+  });
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+<script type="text/javascript" src="/js/custom.js?1"></script><script src="/js/custom.js?1"></script>
+</div></body></html>
